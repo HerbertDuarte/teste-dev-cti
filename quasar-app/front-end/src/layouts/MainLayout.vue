@@ -1,7 +1,3 @@
-<script setup>
-  import '../index.css'
-</script>
-
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="">
@@ -75,6 +71,36 @@ const linksList = [
     caption: 'dashboard',
     icon: 'dashboard',
     link: '/dashboard'
+  },
+  {
+    title: 'Edit',
+    caption: 'edit',
+    icon: 'edit',
+    link: '/edit'
+  },
+  {
+    title: 'delete',
+    caption: 'delete',
+    icon: 'delete',
+    link: '/delete'
+  },
+  {
+    title: 'register',
+    caption: 'register',
+    icon: 'acount',
+    link: '/register'
+  },
+  {
+    title: 'visualizer',
+    caption: 'visualizer',
+    icon: 'visualizer',
+    link: '/visualizer'
+  },
+  {
+    title: 'modules',
+    caption: 'modules',
+    icon: 'modules',
+    link: '/modules'
   },
 ]
 

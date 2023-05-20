@@ -4,6 +4,6 @@ import '../index.css'
 
 <template>
   <main >
-    <h1 class="text-4xl text-slate-700 py-4">This is an about page</h1>
+    <h1 class="text-4xl text-slate-700 py-4">Exclua um aluno</h1>
   </main>
 </template>
