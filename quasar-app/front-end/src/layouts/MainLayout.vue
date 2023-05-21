@@ -49,22 +49,10 @@ import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
   {
-    title: 'Home',
-    caption: 'Tela inicial',
-    icon: 'home',
-    link: '/'
-  },
-  {
     title: 'Entrar',
     caption: 'Faça o login com sua conta',
     icon: 'login',
     link: '/login'
-  },
-  {
-    title: 'Sobre',
-    caption: 'Saiba mais',
-    icon: 'quiz',
-    link: '/about'
   },
   {
     title: 'Dashboard',

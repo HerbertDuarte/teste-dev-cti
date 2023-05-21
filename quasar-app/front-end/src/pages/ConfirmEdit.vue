@@ -1,11 +1,11 @@
 <script setup>
-import '../index.css'
-import { RouterLink } from 'vue-router';
+  import '../index.css'
+  import { RouterLink } from 'vue-router';
 </script>
 
 <template>
   <main>
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1>
+    <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{students[$route.params.id].name}}</span></h1>
     <form v-on:submit="onSubmit" class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded ">
       <label for="user">Nome</label>
       <input placeholder="Digite o nome do aluno" v-model="name_value" required class="w-full bg-slate-200 p-2 rounded" type="text" name="user" id="user">
@@ -14,7 +14,7 @@ import { RouterLink } from 'vue-router';
       <label for="date">Data de nascimento</label>
       <input v-model="date_value" required class="w-full bg-slate-200 p-2 rounded" type="date" name="date" id="date">
       <div class="space-x-2">
-        <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Cadastrar">
+        <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Atualizar">
         <RouterLink class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" to="/dashboard">
           Cancelar
         </RouterLink>
@@ -22,3 +22,31 @@ import { RouterLink } from 'vue-router';
     </form>
   </main>
 </template>
+
+<script>
+
+  import { students } from 'src/Students';
+
+  export default {
+    data () {
+      return {
+        students,
+        name_value: '',
+        date: '',
+        cpf_value: '',
+      }
+    },
+    methods: {
+    setValues() {
+      const id = this.$route.params.id
+      this.name_value = this.students[id].name
+      this.cpf_value = this.students[id].cpf
+      this.date_value = this.students[id].date
+    }
+    },
+    mounted() {
+      this.setValues();
+    }
+  }
+
+</script>
