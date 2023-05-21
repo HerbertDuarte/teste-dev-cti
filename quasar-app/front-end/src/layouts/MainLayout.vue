@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Gerenciador de dados escolar
+          Gestor escolar
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -71,36 +71,6 @@ const linksList = [
     caption: 'dashboard',
     icon: 'dashboard',
     link: '/dashboard'
-  },
-  {
-    title: 'Edit',
-    caption: 'edit',
-    icon: 'edit',
-    link: '/edit'
-  },
-  {
-    title: 'delete',
-    caption: 'delete',
-    icon: 'delete',
-    link: '/delete'
-  },
-  {
-    title: 'register',
-    caption: 'register',
-    icon: 'acount',
-    link: '/register'
-  },
-  {
-    title: 'visualizer',
-    caption: 'visualizer',
-    icon: 'visualizer',
-    link: '/visualizer'
-  },
-  {
-    title: 'modules',
-    caption: 'modules',
-    icon: 'modules',
-    link: '/modules'
   },
 ]
 
