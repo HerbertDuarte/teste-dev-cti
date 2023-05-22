@@ -21,3 +21,10 @@ a:hover{
   opacity: 0.8;
   transition: all .4s;
 }
+input{
+  transition: all .4s;
+}
+
+input:focus{
+  outline: 0;
+}

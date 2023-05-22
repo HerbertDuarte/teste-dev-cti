@@ -37,7 +37,13 @@ import { RouterLink } from 'vue-router';
             <hr>
             <p class=" xs:px-3"><span class="font-semibold">Módulo 3 : </span> {{ (students[single].score.module3).toFixed(1) }}</p>
             <hr>
-            <p class=" xs:px-3"><span class="font-semibold">Média : </span> {{ (students[single].media()).toFixed(1) }}</p>
+            <p class=" xs:px-3"><span class="font-semibold">Média : </span> {{
+              (
+                (students[single].score.module1).toFixed(1) +
+                (students[single].score.module2).toFixed(1) +
+                (students[single].score.module3).toFixed(1)
+              ) / 3
+            }}</p>
             <hr>
         </div>
         <div class="w-full flex flex-col gap-1 justify-between xs:w-auto">

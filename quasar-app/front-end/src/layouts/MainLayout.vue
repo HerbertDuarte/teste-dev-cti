@@ -55,7 +55,7 @@ const linksList = [
     link: '/login'
   },
   {
-    title: 'Dashboard',
+    title: 'Painel de Controle',
     caption: 'dashboard',
     icon: 'dashboard',
     link: '/dashboard'
