@@ -21,6 +21,7 @@ const routes = [
       { path: '/dashboard', component: () => import('pages/Dashboard.vue') }
     ]
   },
+  
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
