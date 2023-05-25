@@ -21,8 +21,11 @@
       <input min="0" max="10" v-model="score_value.module3 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module3" id="module3">
       <div class="space-x-2">
       <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Atualizar">
-        <RouterLink class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" to="/edit">
-          Cancelar
+        <RouterLink v-if="!$route.params.from" class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" to="/edit">
+          {{textButton}}
+        </RouterLink>
+        <RouterLink v-if="$route.params.from" class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" :to="'/modules/view/' + $route.params.from">
+          {{textButton}}
         </RouterLink>
       </div>
     </form>
@@ -48,20 +51,20 @@ import axios from 'axios';
         cpf_value: '',
         score_value : {},
         formError : '',
-        formSuccess : ''
+        formSuccess : '',
+        textButton : 'Cancelar'
       }
     },
     methods: {
 
       async fetchData (){
 
-      const url = 'http://localhost:9001/students/list'
+      const url = 'http://localhost:9001/students/list/' + this.$route.params.id
 
       const data = await fetch(url)
       const response = await data.json()
 
-        const filter = response.filter(item => item.id == this.$route.params.id)
-        this.student = filter[0]
+        this.student = response
 
         this.name_value = this.student.name
         this.cpf_value = this.student.cpf
@@ -104,6 +107,8 @@ import axios from 'axios';
           this.formError = error.message
           this.formSuccess = ''
         });
+
+        this.textButton = 'Voltar'
       }
       },
     mounted() {

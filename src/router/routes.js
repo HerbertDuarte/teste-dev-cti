@@ -21,12 +21,13 @@ const routes = [
       { path: '/dashboard', component: () => import('pages/Dashboard.vue') }
     ]
   },
-  
+
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/modules', component: () => import('pages/Modules.vue') }
+      { path: '/modules', component: () => import('pages/Modules.vue') },
+      { path: '/modules/view/:id', component: () => import('pages/ViewModule.vue') }
     ]
   },
   {
@@ -34,7 +35,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '/edit', component: () => import('pages/Edit.vue') },
-      { path: '/edit/confirm/:id', component: () => import('pages/ConfirmEdit.vue') },
+      { path: '/edit/confirm/:id/:from?', component: () => import('pages/ConfirmEdit.vue') },
     ]
   },
   {

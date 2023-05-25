@@ -1,3 +1,7 @@
+<script setup>
+import '../index.css'
+</script>
+
 <template>
   <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
     <div>

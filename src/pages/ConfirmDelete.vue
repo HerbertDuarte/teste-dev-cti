@@ -1,6 +1,6 @@
 <script setup>
 import '../index.css'
-import { RouterLink, useRouter  } from 'vue-router';
+import { RouterLink  } from 'vue-router';
 </script>
 
 <template>
@@ -44,13 +44,12 @@ import { RouterLink, useRouter  } from 'vue-router';
 
       async fetchData (){
 
-        const url = 'http://localhost:9001/students/list'
+        const url = 'http://localhost:9001/students/list/' + this.$route.params.id
 
         const data = await fetch(url)
         const response = await data.json()
 
-        const filter = response.filter(item => item.id == this.$route.params.id)
-        this.student = filter[0]
+        this.student = response
 
       },
       handleClick(){
