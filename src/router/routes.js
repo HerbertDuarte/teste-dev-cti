@@ -47,6 +47,13 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
+      { path: "/search/", component: () => import("pages/SearchPage.vue") },
+    ],
+  },
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
       { path: "/visualizer", component: () => import("pages/Visualizer.vue") },
       {
         path: "/visualizer/:id",

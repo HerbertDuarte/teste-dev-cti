@@ -6,8 +6,6 @@ import DataList from 'src/components/DataList.vue'
 
 <template>
   <main >
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Exclua um aluno</h1>
-    <SearchBar/>
     <DataList method="delete"/>
   </main>
 </template>

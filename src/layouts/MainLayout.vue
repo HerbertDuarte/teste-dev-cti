@@ -55,12 +55,6 @@ const linksList = [
     link: '/dashboard'
   },
   {
-    title: 'Editar',
-    caption: 'Edite um registro',
-    icon: 'edit',
-    link: '/edit'
-  },
-  {
     title: 'Cadastrar',
     caption: 'Registre um aluno',
     icon: 'storage',
@@ -71,6 +65,12 @@ const linksList = [
     caption: 'Veja os registro dos alunos',
     icon: 'visibility',
     link: '/visualizer'
+  },
+  {
+    title: 'Editar',
+    caption: 'Edite um registro',
+    icon: 'edit',
+    link: '/edit'
   },
   {
     title: 'Deletar',

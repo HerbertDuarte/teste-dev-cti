@@ -10,17 +10,9 @@ import { RouterLink } from 'vue-router';
       <label for="user">Nome</label>
       <input placeholder="Digite o nome do aluno" v-model="name_value" required class="w-full bg-slate-200 p-2 rounded" type="text" name="user" id="user">
       <label for="cpf">CPF</label>
-      <input  placeholder="Digite o CPF do aluno" v-model="cpf_value" required class="w-full bg-slate-200 p-2 rounded" type="number" name="cpf" id="cpf">
+      <input  placeholder="Digite o CPF do aluno" v-model="cpf_value" required  pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" class="w-full bg-slate-200 p-2 rounded" type="text" name="cpf" id="cpf">
       <label for="date">Data de nascimento</label>
       <input  v-model="date_value" required class="w-full bg-slate-200 p-2 rounded" type="date" name="date" id="date">
-
-      <!-- scores -->
-      <!-- <label for="module1">Nota - módulo1</label>
-      <input min="0" max="10" v-model="score_value.score1 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module1" id="module1">
-      <label for="module2">Nota - módulo2</label>
-      <input min="0" max="10" v-model="score_value.score2 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module2" id="module2">
-      <label for="module3">Nota - módulo3</label>
-      <input min="0" max="10" v-model="score_value.score3 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module3" id="module3"> -->
 
       <div class="space-x-2">
         <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Cadastrar">
@@ -62,7 +54,7 @@ export default {
 
       this.student = {
         name : this.name_value,
-        cpf : this.cpf_value.toString(),
+        cpf : this.cpf_value.replace(/[.\-]/g, ""),
         date : new Date(this.date_value),
       }
 
@@ -70,7 +62,7 @@ export default {
 
       // validations --start
 
-      if(this.cpf_value.toString().length !== 11){
+      if(this.cpf_value.replace(/[.\-]/g, "").length !== 11){
         this.formError = 'Digite um CPF válido'
         return
       }
@@ -79,7 +71,7 @@ export default {
         axios.post(url, this.student)
         .then(response => {
           console.log(response.data)
-          this.formSuccess = 'Aluno registrado com sucesso'
+          this.formSuccess = 'Aluno registrado com sucesso.'
           this.formError = ''
 
           this.name_value =''
@@ -87,7 +79,7 @@ export default {
           this.cpf_value = ''
         })
         .catch(error => {
-          this.formError = error.message
+          this.formError = error.response.data.message
           this.formSuccess = ''
         });
       }
