@@ -52,7 +52,7 @@ const linksList = [
     title: 'Dashboard',
     caption: 'Painel de Controle',
     icon: 'dashboard',
-    link: '/dashboard'
+    link: '/'
   },
   {
     title: 'Cadastrar',

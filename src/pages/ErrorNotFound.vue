@@ -3,27 +3,12 @@ import '../index.css'
 </script>
 
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">
-        404
-      </div>
-
-      <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
-      </div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
-    </div>
-  </div>
+  <main>
+    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Ops! Nada aqui</h1>
+    <RouterLink to="/" class="bg-blue-100 border border-blue-500 text-blue-600 text-xl px-3 py-2 rounded inline-block w-full sxs:w-auto hover:bg-blue-500 hover:text-white hover:shadow-lg hover:shadow-blue-500/40">
+      Voltar
+    </RouterLink>
+  </main>
 </template>
 
 <script>

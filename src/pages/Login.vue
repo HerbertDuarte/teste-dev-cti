@@ -53,7 +53,6 @@ export default {
         }
         try {
           const response = await axios.post(url, user)
-          console.log(response.data)
           if(response.data.id){
             localStorage.setItem('auth', 'true')
             localStorage.setItem('user', JSON.stringify(response.data))
