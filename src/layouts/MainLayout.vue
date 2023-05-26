@@ -28,7 +28,6 @@
         >
           Navegação
         </q-item-label>
-
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -48,17 +47,48 @@ import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
+
   {
-    title: 'Entrar',
-    caption: 'Faça o login com sua conta',
-    icon: 'login',
-    link: '/login'
-  },
-  {
-    title: 'Painel de Controle',
-    caption: 'dashboard',
+    title: 'Dashboard',
+    caption: 'Painel de Controle',
     icon: 'dashboard',
     link: '/dashboard'
+  },
+  {
+    title: 'Editar',
+    caption: 'Edite um registro',
+    icon: 'edit',
+    link: '/edit'
+  },
+  {
+    title: 'Cadastrar',
+    caption: 'Registre um aluno',
+    icon: 'storage',
+    link: '/register'
+  },
+  {
+    title: 'Visualizar',
+    caption: 'Veja os registro dos alunos',
+    icon: 'visibility',
+    link: '/visualizer'
+  },
+  {
+    title: 'Deletar',
+    caption: 'Apague o registro de um aluno',
+    icon: 'delete',
+    link: '/delete'
+  },
+  {
+    title: 'Gerir Módulos',
+    caption: 'Visualize as nota por módulos',
+    icon: 'topic',
+    link: '/modules'
+  },
+  {
+    title: 'Sair',
+    caption: 'Sair da sua conta',
+    icon: 'login',
+    link: '/exit'
   },
 ]
 
@@ -68,7 +98,6 @@ export default defineComponent({
   components: {
     EssentialLink
   },
-
   setup () {
     const leftDrawerOpen = ref(false)
 
