@@ -12,7 +12,10 @@
       <input autocomplete="off" v-model="user_value" required class="w-full bg-slate-200 p-2 rounded" type="text" name="user" id="user">
       <label for="password">Senha</label>
       <input v-model="password_value" required class="w-full bg-slate-200 p-2 rounded" type="password" name="password" id="password">
-      <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer" type="submit" value="Entrar">
+      <q-btn type="submit" color="primary">
+        Entrar
+      </q-btn>
+      <!-- <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer" > -->
     </form>
     <div v-if="error" class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
       Erro: {{ error }}
