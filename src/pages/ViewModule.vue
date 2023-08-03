@@ -5,10 +5,11 @@ import '../index.css'
 
 <template>
   <main class="p-4">
-
     <Loading v-if="!data"/>
     <div class="border m-2 w-full mx-auto max-w-[700px] rounded" v-if="data">
-      <h1 class="sm:text-2xl text-xl p-2 bg-slate-600 text-white/80">Tabela de notas - Módulo {{ $route.params.id }}</h1>
+      <h1 class="sm:text-2xl text-xl p-2 bg-slate-600 text-white/80">
+        Tabela de notas - Módulo {{ $route.params.id }}
+      </h1>
       <q-table
         :rows="data"
         :columns="columns"

@@ -15,6 +15,10 @@ const routes = [
         path: "/modules/view/:id",
         component: () => import("pages/ViewModule.vue"),
       },
+      {
+        path: "/modules/create",
+        component: () => import("pages/CreateModule.vue"),
+      },
     ],
   },
   {

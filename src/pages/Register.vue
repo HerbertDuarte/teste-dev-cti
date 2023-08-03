@@ -85,11 +85,11 @@ export default {
           this.name_value =''
           this.date_value = ''
           this.cpf_value = ''
-        })
-        .catch(error => {
+        }).catch(error => {
           this.formError = error.response.data.message
           this.formSuccess = ''
         });
+
       }
   }
 }

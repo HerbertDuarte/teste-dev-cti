@@ -79,9 +79,15 @@ const linksList = [
     link: '/delete'
   },
   {
+    title: 'Criar Módulo',
+    caption: 'Crie módulos e organize-os',
+    icon: 'queue',
+    link: '/modules/create'
+  },
+  {
     title: 'Gerir Módulos',
     caption: 'Visualize as nota por módulos',
-    icon: 'topic',
+    icon: 'library_books',
     link: '/modules'
   },
   {
