@@ -6,14 +6,22 @@ import { RouterLink } from 'vue-router';
 <template>
   <main class="p-5">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Gerenciador de módulos</h1>
-      <RouterLink class="border-2 border-blue-500/80 bg-blue-50 text-blue-500/80 rounded-[7px] p-4 m-2 inline-block cursor-pointer text-2xl hover:bg-blue-500/80 hover:text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300 sm:w-52 text-center w-full" to="/modules/view/1">
-        Módulo 1
-      </RouterLink>
-      <RouterLink class="border-2 border-blue-500/80 bg-blue-50 text-blue-500/80 rounded-[7px] p-4 m-2 inline-block cursor-pointer text-2xl hover:bg-blue-500/80 hover:text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300 sm:w-52 text-center w-full" to="/modules/view/2">
-        Módulo 2
-      </RouterLink>
-      <RouterLink class="border-2 border-blue-500/80 bg-blue-50 text-blue-500/80 rounded-[7px] p-4 m-2 inline-block cursor-pointer text-2xl hover:bg-blue-500/80 hover:text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300 sm:w-52 text-center w-full" to="/modules/view/3">
-        Módulo 3
-      </RouterLink>
+      <div class="space-y-3 flex flex-col w-full max-w-md">
+        <q-btn color="primary" class="text-xl rounded-lg">
+          <RouterLink to="/modules/view/1">
+            Módulo 1
+          </RouterLink>
+        </q-btn>
+        <q-btn color="primary" class="text-xl rounded-lg">
+          <RouterLink to="/modules/view/2">
+            Módulo 2
+          </RouterLink>
+        </q-btn>
+        <q-btn color="primary" class="text-xl rounded-lg">
+          <RouterLink to="/modules/view/3">
+            Módulo 3
+          </RouterLink>
+        </q-btn>
+      </div>
   </main>
 </template>

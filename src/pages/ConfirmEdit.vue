@@ -7,25 +7,25 @@
   <main v-if="student">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{ student.name }}</span></h1>
     <form v-on:submit="handleSubmit" class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded ">
-      <label for="user">Nome</label>
-      <input placeholder="Digite o nome do aluno" v-model="name_value" required class="w-full bg-slate-200 p-2 rounded" type="text" name="user" id="user">
-      <label for="cpf">CPF</label>
-      <input  placeholder="Digite o CPF do aluno" v-model="cpf_value" required class="w-full bg-slate-200 p-2 rounded" type="number" name="cpf" id="cpf">
-      <label for="date">Data de nascimento</label>
-      <input  v-model="date_value" required class="w-full bg-slate-200 p-2 rounded" type="date" name="date" id="date">
-      <label for="module1">Nota - módulo1</label>
-      <input min="0" max="10" v-model="score_value.module1 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module1" id="module1">
-      <label for="module2">Nota - módulo2</label>
-      <input min="0" max="10" v-model="score_value.module2 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module2" id="module2">
-      <label for="module3">Nota - módulo3</label>
-      <input min="0" max="10" v-model="score_value.module3 " required class="w-full bg-slate-200 p-2 rounded" type="number" step="0.1" name="module3" id="module3">
+      <q-input class="min-w-full" required v-model="name_value"  type='text' label="Nome" />
+      <q-input class="min-w-full" required v-model="cpf_value"  type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
+      <q-input class="min-w-full" required v-model="date_value"  type='date' label="Data de nascimento" />
+      <q-input class="min-w-full" required v-model="score_value.module1"  type='text' label="Nota - módulo 1" />
+      <q-input class="min-w-full" required v-model="score_value.module2"  type='text' label="Nota - módulo 2" />
+      <q-input class="min-w-full" required v-model="score_value.module3"  type='text' label="Nota - módulo 3" />
       <div class="space-x-2">
-      <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Atualizar">
-        <RouterLink v-if="!$route.params.from" class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" to="/edit">
-          {{textButton}}
+      <q-btn color="primary" type="submit">
+        Atualizar
+      </q-btn>
+        <RouterLink v-if="!$route.params.from"  to="/edit">
+          <q-btn color="negative">
+            {{textButton}}
+          </q-btn>
         </RouterLink>
-        <RouterLink v-if="$route.params.from" class="bg-red-400 text-white rounded-[7px] px-4 py-[10px] cursor-pointer hover:shadow-lg hover:shadow-red-400/40 transition-all duration-300" :to="'/modules/view/' + $route.params.from">
-          {{textButton}}
+        <RouterLink v-if="$route.params.from"  :to="'/modules/view/' + $route.params.from">
+          <q-btn color="negative">
+            {{textButton}}
+          </q-btn>
         </RouterLink>
       </div>
     </form>
@@ -59,7 +59,7 @@ import axios from 'axios';
 
       async fetchData (){
 
-      const url = 'http://localhost:9001/students/list/' + this.$route.params.id
+      const url = 'http://localhost:3000/students/list/' + this.$route.params.id
 
       const data = await fetch(url)
       const response = await data.json()
@@ -77,7 +77,7 @@ import axios from 'axios';
 
         e.preventDefault()
 
-        const url = 'http://localhost:9001/students/update/' + this.$route.params.id
+        const url = 'http://localhost:3000/students/update/' + this.$route.params.id
 
         this.student = {
         name : this.name_value,

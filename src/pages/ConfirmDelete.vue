@@ -44,7 +44,7 @@ import { RouterLink  } from 'vue-router';
 
       async fetchData (){
 
-        const url = 'http://localhost:9001/students/list/' + this.$route.params.id
+        const url = 'http://localhost:3000/students/list/' + this.$route.params.id
 
         const data = await fetch(url)
         const response = await data.json()
@@ -54,7 +54,7 @@ import { RouterLink  } from 'vue-router';
       },
       handleClick(){
 
-        const url = 'http://localhost:9001/students/delete/' + this.$route.params.id
+        const url = 'http://localhost:3000/students/delete/' + this.$route.params.id
 
         axios.delete(url)
         .then(() => {

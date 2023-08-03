@@ -8,11 +8,11 @@ import '../index.css'
   <main class="sm:p-4 p-2">
     <!-- search bar -->
     <form class="flex flex-row justify-center items-start gap-3 p-4 w-full max-w-[600px] mx-auto">
-      <input required placeholder="Pesquise usando o nome" type="text" name="query" id="query" v-model="input_value" class="flex-1 l bg-slate-200 p-2 rounded">
-      <input type="submit" value='Pesquisar' class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40">
+      <q-input class="flex-1 px-2" dense="dense" required placeholder="Pesquise usando o nome" type="text" name="query" id="query" v-model="query" />
+      <q-btn color="primary" type="submit">Pesquisar</q-btn>
     </form>
     <!-- search bar -->
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4 px-3">
+    <h1 class="sm:text-3xl text-2xl text-slate-700 py-4 px-3">
       Resultados de pesquisa para :
       <span class="font-semibold">{{ this.$route.query.query }}</span>
     </h1>
@@ -20,26 +20,34 @@ import '../index.css'
       Erro: {{ error }}
     </div>
       <section class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
-      <div class="flex flex-col xs:flex-row xs:items-center gap-3 justify-between p-3 border m-2 w-full rounded" v-if="students" v-for="student in students">
-        <div>
-          <p class="max-w-[290px]"><span class="font-semibold">Nome :</span> {{ student.name }}</p>
-          <p><span class="font-semibold">Data de nascimento: </span>({{ (student.date).substring(0,10) }})</p>
-          <p><span class="font-semibold">CPF :</span> {{ student.cpf }}</p>
-          <p class="font-semibold text-teal-600" v-if="student.media >= 5">Aprovado(a)</p>
+        <q-card class="my-card bg-white text-black w-full my-3 mx-4" v-if="students" v-for="student in students">
+        <q-card-section>
+          <div class="text-h6"> {{ student.name }}</div>
+          <p class="font-semibold text-green-600" v-if="student.media >= 5">Aprovado(a)</p>
           <p class="font-semibold text-red-600" v-if="student.media < 5">Reprovado(a)</p>
           <p class="font-semibold text-purple-800" v-if="isNaN(student.media)">Sem notas</p>
-        </div>
-        <div class="flex flex-col gap-2 justify-center">
-          <RouterLink :to="`/edit/confirm/${student.id }`" class="bg-blue-100 border border-blue-500 text-blue-600 p-2 rounded inline-block w-full text-center xs:w-auto hover:bg-blue-500 hover:text-white hover:shadow-lg hover:shadow-blue-500/40">
-            Editar
-          </RouterLink>
-          <RouterLink :to="`/delete/confirm/${student.id }`" class="bg-red-100 border border-red-500 text-red-600 p-2 rounded inline-block w-full text-center xs:w-auto hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-500/40">
-            Excluir
-          </RouterLink>
-          <RouterLink :to="`/visualizer/${student.id }`" class="bg-teal-700/10 border border-teal-500 text-teal-600 p-2 rounded inline-block w-full text-center xs:w-auto hover:bg-teal-600 hover:text-white hover:shadow-lg hover:shadow-teal-700/40">
-            Ver mais
-          </RouterLink>
-        </div>
+        </q-card-section>
+
+        <q-card-section>
+          <p class="max-w-[290px]"><span class="font-semibold">Nome : </span>{{ student.name }}</p>
+          <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR") }}</p>
+          <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4") }}</p>
+        </q-card-section>
+
+        <q-card-actions class="space-x-2">
+          <RouterLink :to="`/visualizer/${student.id}`" >
+          <q-btn color="positive">Ver mais</q-btn>
+        </RouterLink>
+        <RouterLink :to="`/edit/confirm/${student.id}`" >
+          <q-btn color="primary">Editar</q-btn>
+        </RouterLink>
+        <RouterLink :to="`/delete/confirm/${student.id}`">
+          <q-btn color="negative">Excluir</q-btn>
+        </RouterLink>
+        </q-card-actions>
+      </q-card>
+      <div class="flex flex-col xs:flex-row xs:items-center gap-3 justify-between p-3 border m-2 w-full rounded" v-if="students && students.length == 0">
+        <p>Nada encontrado!</p>
       </div>
     </section>
   </main>
@@ -65,7 +73,7 @@ import '../index.css'
     ],
     methods : {
       async fetchData() {
-        const url = `http://localhost:9001/students/find?name=${this.$route.query.query}`;
+        const url = `http://localhost:3000/students/find?name=${this.$route.query.query}`;
 
         try {
           const response = await axios.get(url);

@@ -4,8 +4,8 @@
 
 <template>
   <form v-on:submit="$event => handleSubmit($event)" class="flex flex-row justify-center items-start gap-3 p-4 w-full max-w-[600px] mx-auto">
-    <input required placeholder="Pesquise usando o nome" type="text" name="search" id="search" v-model="query" class="flex-1 l bg-slate-200 p-2 rounded">
-    <input type="submit" value='Pesquisar' class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40">
+    <q-input class="flex-1 px-2" dense="dense" required placeholder="Pesquise usando o nome" type="text" name="search" id="search" v-model="query" />
+    <q-btn color="primary" type="submit">Pesquisar</q-btn>
   </form>
 </template>
 

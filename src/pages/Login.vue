@@ -8,14 +8,12 @@
   <h1 class="sm:text-4xl text-3xl text-center py-4 text-slate-700">Olá seja bem vindo ao <span class="text-blue-500 font-semibold">Gestor Escolar</span></h1>
   <form v-on:submit="handleSubmit" class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded">
     <h1 class="sm:text-3xl text-2xl w-full bg-blue-50 text-center py-2 text-blue-900/60">Entre na sua conta</h1>
-      <label for="user">Usuário</label>
-      <input autocomplete="off" v-model="user_value" required class="w-full bg-slate-200 p-2 rounded" type="text" name="user" id="user">
-      <label for="password">Senha</label>
-      <input v-model="password_value" required class="w-full bg-slate-200 p-2 rounded" type="password" name="password" id="password">
+    <q-input class="min-w-full" type="text" v-model="user_value" label="Usuário" />
+    <q-input class="min-w-full" type="password" v-model="password_value" required label="Senha"/>
       <q-btn type="submit" color="primary">
         Entrar
       </q-btn>
-      <!-- <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer" > -->
+      <!-- <input  type="submit"  value="login" class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer" > -->
     </form>
     <div v-if="error" class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
       Erro: {{ error }}
@@ -47,7 +45,7 @@ export default {
     methods : {
       async handleSubmit(e){
         e.preventDefault()
-        const url = 'http://localhost:9001/auth/login'
+        const url = 'http://localhost:3000/auth/login'
         this.loading = true
 
         const user = {
