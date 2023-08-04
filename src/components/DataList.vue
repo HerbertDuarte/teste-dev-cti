@@ -12,12 +12,6 @@ import SearchBar from 'src/components/SearchBar.vue';
     <SearchBar />
 
       <q-card class="my-card bg-white text-black w-full my-3 mx-4" v-if="students" v-for="student in students">
-        <q-card-section>
-          <div class="text-h6"> {{ student.name }}</div>
-          <p class="font-semibold text-green-600" v-if="student.media >= 5">Aprovado(a)</p>
-          <p class="font-semibold text-red-600" v-if="student.media < 5">Reprovado(a)</p>
-          <p class="font-semibold text-purple-800" v-if="isNaN(student.media)">Sem notas</p>
-        </q-card-section>
 
         <q-card-section>
           <p class="max-w-[290px]"><span class="font-semibold">Nome : </span>{{ student.name }}</p>
@@ -72,13 +66,7 @@ export default {
         const data = await fetch(url)
         response = await data.json()
         this.fetchError = ''
-        this.students = response.map(student => {
-          if (Object.keys(student).length !== 0) {
-            const media = Number((((student.score.module1) + (student.score.module2) + (student.score.module3)) / 3).toFixed(1))
-            student.media = media
-            return student
-          }
-        })
+        this.students = response
       } catch (error) {
         this.fetchError = 'Houve um erro inesperado! Tente novamente mais tarde!'
       }

@@ -11,41 +11,6 @@ import '../index.css'
         <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4") }}</p>
         <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
       </div>
-      <div>
-        <p class="font-semibold text-xl text-center bg-slate-400 text-white px-3 mb-1">Notas</p>
-        <p v-if="student.score.module1"><span class="font-semibold">Módulo 1 : </span> {{
-          (student.score.module1).toFixed(1) }}</p>
-        <p v-if="!student.score.module1">
-          <span class="font-semibold">Módulo 1 : </span> Sem nota
-        </p>
-        <hr>
-        <p v-if="student.score.module2"><span class="font-semibold">Módulo 2 : </span> {{
-          (student.score.module2).toFixed(1) }}</p>
-        <p v-if="!student.score.module1">
-          <span class="font-semibold">Módulo 2 : </span> Sem nota
-        </p>
-        <hr>
-        <p v-if="student.score.module3"><span class="font-semibold">Módulo 3 : </span> {{
-          (student.score.module3).toFixed(1) }}</p>
-        <p v-if="!student.score.module1">
-          <span class="font-semibold">Módulo 3 : </span>Sem nota
-        </p>
-
-        <hr v-if="media !== NaN">
-        <p v-if="media !== NaN" class="flex justify-between"><span>
-            <span>
-              <span class="font-semibold">
-                Média : </span> {{ media }}</span>
-          </span>
-          <span class="font-bold text-teal-600" v-if="situation == 'Aprovado(a)'">
-            {{ situation }}
-          </span>
-          <span class="font-bold text-red-600" v-if="situation == 'Reprovado(a)'">
-            {{ situation }}
-          </span>
-        </p>
-        <hr>
-      </div>
       <div class="w-full flex flex-row gap-1 justify-between xs:w-auto">
         <q-btn class="w-full" color="primary">
           <RouterLink :to="`/edit/confirm/${student.id}`">
@@ -77,9 +42,9 @@ export default {
   name: 'DataList',
   data() {
     return {
-      media: null,
+      // media: null,
       student: null,
-      situation: null,
+      // situation: null,
       formError: null
     }
   },
@@ -98,21 +63,21 @@ export default {
         this.student = response
         this.formError = ''
 
-        if (response.score != {}) {
-          const media = (((response.score.module1) + (response.score.module2) + (response.score.module3)) / 3).toFixed(1)
+        // if (response.score != {}) {
+        //   const media = (((response.score.module1) + (response.score.module2) + (response.score.module3)) / 3).toFixed(1)
 
-          if (media >= 5) {
-            this.situation = 'Aprovado(a)'
-            this.media = media
-          }
-          else if (media < 5) {
-            this.situation = 'Reprovado(a)'
-            this.media = media
-          } else {
-            this.media = 'Sem média'
-          }
+        //   if (media >= 5) {
+        //     this.situation = 'Aprovado(a)'
+        //     this.media = media
+        //   }
+        //   else if (media < 5) {
+        //     this.situation = 'Reprovado(a)'
+        //     this.media = media
+        //   } else {
+        //     this.media = 'Sem média'
+        //   }
 
-        }
+        // }
 
       } catch (err) {
         this.formError = 'Ops! Houver um erro inesperado. Tente novamente mais tarde! ' + err.message
