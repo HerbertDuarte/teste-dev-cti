@@ -21,7 +21,7 @@ import SearchBar from 'src/components/SearchBar.vue';
 
         <q-card-actions>
           <RouterLink :to="`/visualizer/${student.id}`" v-if="method == 'visualizer'">
-          <q-btn color="positive">Ver mais</q-btn>
+          <q-btn color="primary">Ver mais</q-btn>
         </RouterLink>
         <RouterLink :to="`/edit/confirm/${student.id}`" v-if="method == 'edit'">
           <q-btn color="primary">Editar</q-btn>

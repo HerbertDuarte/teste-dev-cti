@@ -23,9 +23,9 @@ import '../index.css'
         <q-card class="my-card bg-white text-black w-full my-3 mx-4" v-if="students" v-for="student in students">
         <q-card-section>
           <div class="text-h6"> {{ student.name }}</div>
-          <p class="font-semibold text-green-600" v-if="student.media >= 5">Aprovado(a)</p>
+          <!-- <p class="font-semibold text-green-600" v-if="student.media >= 5">Aprovado(a)</p>
           <p class="font-semibold text-red-600" v-if="student.media < 5">Reprovado(a)</p>
-          <p class="font-semibold text-purple-800" v-if="isNaN(student.media)">Sem notas</p>
+          <p class="font-semibold text-purple-800" v-if="isNaN(student.media)">Sem notas</p> -->
         </q-card-section>
 
         <q-card-section>
@@ -77,11 +77,8 @@ import '../index.css'
 
         try {
           const response = await axios.get(url);
-          this.students = response.data.map(student => {
-            const media = Number((((student.score.module1) + (student.score.module2) + (student.score.module3)) / 3).toFixed(1));
-            student.media = media;
-            return student;
-          });
+          // console.log(response.data)
+          this.students = response.data
           this.error = '';
         } catch (error) {
           this.error = 'Nenhum usuário encontrado! ' + error.message;

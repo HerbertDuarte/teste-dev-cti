@@ -12,19 +12,19 @@ import '../index.css'
         <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
       </div>
       <div class="w-full flex flex-row gap-1 justify-between xs:w-auto">
-        <q-btn class="w-full" color="primary">
+        <q-btn class="flex-1" color="secondary">
+          <RouterLink to="/visualizer/">
+            Voltar
+          </RouterLink>
+        </q-btn>
+        <q-btn class="flex-1" color="primary">
           <RouterLink :to="`/edit/confirm/${student.id}`">
             Editar
           </RouterLink>
         </q-btn>
-        <q-btn class="w-full" color="negative">
+        <q-btn class="flex-1" color="negative">
           <RouterLink :to="`/delete/confirm/${student.id}`">
             Excluir
-          </RouterLink>
-        </q-btn>
-        <q-btn class="w-full" color="positive">
-          <RouterLink to="/visualizer/">
-            Voltar
           </RouterLink>
         </q-btn>
       </div>

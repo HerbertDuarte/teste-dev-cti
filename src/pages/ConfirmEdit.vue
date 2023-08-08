@@ -10,9 +10,9 @@
       <q-input class="min-w-full" required v-model="name_value"  type='text' label="Nome" />
       <q-input class="min-w-full" required v-model="cpf_value"  type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
       <q-input class="min-w-full" required v-model="date_value"  type='date' label="Data de nascimento" />
-      <q-input class="min-w-full" required v-model="score_value.module1"  type='text' label="Nota - módulo 1" />
+      <!-- <q-input class="min-w-full" required v-model="score_value.module1"  type='text' label="Nota - módulo 1" />
       <q-input class="min-w-full" required v-model="score_value.module2"  type='text' label="Nota - módulo 2" />
-      <q-input class="min-w-full" required v-model="score_value.module3"  type='text' label="Nota - módulo 3" />
+      <q-input class="min-w-full" required v-model="score_value.module3"  type='text' label="Nota - módulo 3" /> -->
       <div class="space-x-2">
       <q-btn color="primary" type="submit">
         Atualizar
@@ -49,7 +49,7 @@ import axios from 'axios';
         name_value: '',
         date_value: '',
         cpf_value: '',
-        score_value : {},
+        // score_value : {},
         formError : '',
         formSuccess : '',
         textButton : 'Cancelar'
@@ -69,7 +69,7 @@ import axios from 'axios';
         this.name_value = this.student.name
         this.cpf_value = this.student.cpf
         this.date_value = this.student.date.substring(0,10)
-        this.score_value = this.student.score
+        // this.score_value = this.student.score
       },
 
 
@@ -83,7 +83,7 @@ import axios from 'axios';
         name : this.name_value,
         cpf : this.cpf_value.toString(),
         date : new Date(this.date_value),
-        score : this.score_value,
+        // score : this.score_value,
       }
 
       console.log(this.student)

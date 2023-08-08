@@ -59,7 +59,7 @@ export default {
 
   methods: {
     async fetchAPi() {
-      const url = 'http://localhost:3000/modulo/list'
+      const url = 'http://localhost:3000/modules/list'
 
       const response = await fetch(url)
       const data = await response.json()
