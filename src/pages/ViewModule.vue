@@ -21,9 +21,6 @@ import '../index.css'
           </q-td>
         </template>
       </q-table>
-      <p class="text-green-500 text-xl" v-if="addStudentsSuccess">
-        {{ addStudentsSuccess }}
-      </p>
       <p class="text-red-500 text-xl" v-if="addStudentsError">
         {{ addStudentsError }}
       </p>
@@ -33,13 +30,17 @@ import '../index.css'
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
         Tabela de alunos - {{ data.name }}
       </h1>
-      <q-table :rows="dataStudentsModule" :columns="columns" row-key="name">
+      <q-table :rows="dataStudentsModule" :columns="columns" row-key="name"
+        no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:body-cell-actions="props">
           <q-td class="flex justify-end gap-2">
-            <q-btn @click="addStudent(props.row.id)" color="primary" size="sm">
+            <q-btn
+              :to="'/visualizer/'+ props.row.id"
+              color="primary"
+              size="sm">
               <q-icon name="visibility" />
             </q-btn>
-            <q-btn @click="addStudent(props.row.id)" color="negative" size="sm">
+            <q-btn @click="removeStudent(props.row.id)" color="negative" size="sm">
               <q-icon name="delete" />
             </q-btn>
           </q-td>
@@ -54,6 +55,8 @@ import '../index.css'
   </main>
 </template>
 <script >
+
+import axios from 'axios';
 
 export default {
   data() {
@@ -117,47 +120,57 @@ export default {
     },
 
     async addStudent(studentId) {
-      // const singleStudent = await axios.get('http://localhost:3000/students/list/' + studentId)
-      // console.log(singleStudent)
 
-      // const newData = this.data
-      // console.log(newData)
+      const url = 'http://localhost:3000/modules/register/student/'
 
-      // if(!newData.id_student){
-      //   console.log('if')
-      //   newData.id_student = [studentId]
-      // }else{
-      //   console.log('else')
-      //   newData.id_student = [...newData.id_student ,studentId]
-      // }
+      const body = {
+        id_module: this.$route.params.id,
+        id_student: studentId
+      }
 
-      // console.log(newData)
-      // const url = 'http://localhost:3000/modulo/register/student/' + this.$route.params.id
-      // console.log(url)
-      // axios.post(url, studentId)
-      // .then(()=>{
-      //   this.addStudentsSuccess = 'Aluno adicionado com sucesso!'
-      // })
-      // .catch(err =>{
-      //   console.log(err)
-      //   this.addStudentsError = 'Erro ao adicionar o aluno. \n' + err.message
-      // })
+      try {
+        await axios.post(url, body)
+        this.$router.go()
+      } catch (error) {
+        this.addStudentsError = 'Erro ao adicionar o aluno. \nErro : ' + error
+      }
+
     },
+    async removeStudent(studentId) {
 
+      const url = 'http://localhost:3000/modules/delete/student/'
+
+      const body = {
+        id_module: this.$route.params.id,
+        id_student: studentId
+      }
+
+      try {
+        await axios.post(url, body)
+        this.$router.go()
+      } catch (error) {
+        this.addStudentsError = 'Erro ao remover o aluno. \nErro : ' + error
+      }
+
+    },
+    // redirect(id){
+    //   const rota = 'visualizer/'+ id
+    //   this.$router.push(rota)
+    // },
     listStudentsWithOutModules(listaCompleta, listaReduzida) {
       if (listaReduzida === null || listaReduzida.length === 0) {
         return listaCompleta;
-    }
+      }
 
-    const idsReduzidos = new Set();
-    for (const aluno of listaReduzida) {
+      const idsReduzidos = new Set();
+      for (const aluno of listaReduzida) {
         if (aluno !== null) {
-            idsReduzidos.add(aluno.id);
+          idsReduzidos.add(aluno.id);
         }
-    }
+      }
 
-    const alunosNaoReduzidos = listaCompleta.filter(aluno => !idsReduzidos.has(aluno.id));
-    return alunosNaoReduzidos;
+      const alunosNaoReduzidos = listaCompleta.filter(aluno => !idsReduzidos.has(aluno.id));
+      return alunosNaoReduzidos;
     }
   },
   mounted() {

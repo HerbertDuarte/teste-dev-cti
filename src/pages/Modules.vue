@@ -1,26 +1,29 @@
 <script setup>
 import '../index.css'
-import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <main class="p-5">
+  <main class="p-">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Gerenciador de módulos</h1>
     <div class="space-y-3 flex flex-col w-full max-w-md">
       <div class="q-pa-md" v-if="data">
-
-        <q-table :rows="data" :columns="columns" row-key="name">
+        <q-table :rows="data" :columns="columns" row-key="name" flat bordered>
           <template v-slot:body-cell-actions="scope">
             <q-td class="flex justify-end">
-              <q-btn color="primary" size="sm">
-                <RouterLink :to="'/modules/view/' + scope.row.id">
+                <q-btn id="btn_name" :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
                   detalhes
-                </RouterLink>
-              </q-btn>
+                </q-btn>
+                <q-btn id="btn_icon" :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
+                  <q-icon name="visibility"/>
+                </q-btn>
             </q-td>
           </template>
         </q-table>
-
+        <div class="flex justify-center mt-5">
+        <q-btn to="/modules/create" color="primary">
+          Criar módulo
+        </q-btn>
+      </div>
       </div>
     </div>
   </main>
@@ -39,13 +42,6 @@ export default {
           label: 'Nome',
           align: 'left',
         },
-        // {
-        //   name: 'score',
-        //   required: true,
-        //   field:'score',
-        //   label: 'Nota',
-        //   align: 'center',
-        // },
         {
           name: 'actions',
           required: true,
@@ -74,3 +70,20 @@ export default {
 }
 
 </script>
+
+
+<style scoped>
+
+#btn_icon{
+  display: none;
+}
+
+@media (max-width: 380px) {
+  #btn_name{
+    display: none;
+  }
+  #btn_icon{
+    display: flex;
+  }
+}
+</style>

@@ -4,28 +4,36 @@ import '../index.css'
 
 <template>
   <main class="sm:p-4 p-2">
-    <div class="flex flex-col gap-3 justify-between p-3 border m-2 w-full mx-auto max-w-[700px] rounded" v-if="student">
+
+    <div class="flex flex-col gap-3 justify-between border m-2 w-full mx-auto max-w-[700px] rounded" v-if="student">
       <div>
-        <p><span class="font-semibold">Nome : </span>{{ student.name }}</p>
-        <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR") }}</p>
-        <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4") }}</p>
-        <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
+        <div class="p-3">
+          <p><span class="font-semibold">Nome : </span>{{ student.name }}</p>
+          <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR")
+          }}</p>
+          <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/,
+            "$1.$2.$3-$4") }}</p>
+          <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
+        </div>
+        <div v-if="studentModules.length > 0">
+          <p class="bg-gray-300 text-[#22487b] text-center text-bold p-2 m-2">Módulos</p>
+          <div v-for="module in studentModules" class="px-3">
+            <a href="#" class="text-bold">{{ module.module.name }} : </a>
+            <span>Aprovado</span>
+          </div>
+        </div>
       </div>
-      <div class="w-full flex flex-row gap-1 justify-between xs:w-auto">
-        <q-btn class="flex-1" color="secondary">
-          <RouterLink to="/visualizer/">
-            Voltar
-          </RouterLink>
+
+
+      <div class="w-full flex flex-row gap-1 justify-between xs:w-auto p-3">
+        <q-btn @click="$router.back" class="flex-1" color="secondary">
+          Voltar
         </q-btn>
-        <q-btn class="flex-1" color="primary">
-          <RouterLink :to="`/edit/confirm/${student.id}`">
-            Editar
-          </RouterLink>
+        <q-btn :to="`/edit/confirm/${student.id}`" class="flex-1" color="primary">
+          Editar
         </q-btn>
-        <q-btn class="flex-1" color="negative">
-          <RouterLink :to="`/delete/confirm/${student.id}`">
-            Excluir
-          </RouterLink>
+        <q-btn :to="`/delete/confirm/${student.id}`" class="flex-1" color="negative">
+          Excluir
         </q-btn>
       </div>
     </div>
@@ -43,6 +51,7 @@ export default {
   data() {
     return {
       // media: null,
+      studentModules: [],
       student: null,
       // situation: null,
       formError: null
@@ -60,25 +69,10 @@ export default {
       try {
         const data = await fetch(url)
         const response = await data.json()
+        console.log(response.StudentModule)
         this.student = response
+        this.studentModules = response.StudentModule
         this.formError = ''
-
-        // if (response.score != {}) {
-        //   const media = (((response.score.module1) + (response.score.module2) + (response.score.module3)) / 3).toFixed(1)
-
-        //   if (media >= 5) {
-        //     this.situation = 'Aprovado(a)'
-        //     this.media = media
-        //   }
-        //   else if (media < 5) {
-        //     this.situation = 'Reprovado(a)'
-        //     this.media = media
-        //   } else {
-        //     this.media = 'Sem média'
-        //   }
-
-        // }
-
       } catch (err) {
         this.formError = 'Ops! Houver um erro inesperado. Tente novamente mais tarde! ' + err.message
       }

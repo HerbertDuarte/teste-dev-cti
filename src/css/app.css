@@ -1,6 +1,6 @@
 /* app global css */
 body::-webkit-scrollbar {
-  width: 12px;               /* width of the entire scrollbar */
+  width: 7px;           /* width of the entire scrollbar */
 }
 
 body::-webkit-scrollbar-track {

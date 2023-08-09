@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header bordered class="">
+    <q-header bordered>
       <q-toolbar>
         <q-btn
           flat
@@ -17,7 +17,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
+    <q-drawer class="bg-cyan-50"
       v-model="leftDrawerOpen"
       show-if-above
       bordered

@@ -10,11 +10,9 @@ import { RouterLink  } from 'vue-router';
         <q-btn color="negative" v-on:click="handleClick">
           Excluir
         </q-btn>
-        <RouterLink to='/delete' >
-          <q-btn color="secondary">
-            Cancelar
-          </q-btn>
-        </RouterLink>
+        <q-btn @click="$router.back" color="secondary">
+          Cancelar
+        </q-btn>
       </div>
       <div v-if="formSuccess && !formError" class="max-w-[600px] w-full flex justify-center ">
         <div class="bg-green-500 text-white/80 border-4 border-green-600/60 p-2 m-3 rounded w-[90%]">

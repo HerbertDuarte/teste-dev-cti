@@ -73,10 +73,6 @@ const routes = [
         path: "/delete/confirm/:id",
         component: () => import("pages/ConfirmDelete.vue"),
       },
-      {
-        path: "/delete/success",
-        component: () => import("pages/SuccessDelete.vue"),
-      },
     ],
   },
   {

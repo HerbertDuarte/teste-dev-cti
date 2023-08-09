@@ -10,6 +10,8 @@ import { defineComponent } from 'vue'
 import { store } from './store';
 import { provide } from 'vue';
 import Login from './pages/Login.vue';
+import { Screen } from 'quasar'
+Screen.setSizes({ sm: 350, md: 500, lg: 1000, xl: 2000 })
 
 export default defineComponent({
     name: "App",
