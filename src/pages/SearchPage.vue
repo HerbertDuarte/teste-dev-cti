@@ -47,7 +47,10 @@ import '../index.css'
         </q-card-actions>
       </q-card>
       <div class="flex flex-col xs:flex-row xs:items-center gap-3 justify-between p-3 border m-2 w-full rounded" v-if="students && students.length == 0">
-        <p>Nada encontrado!</p>
+        <p>Nenhum cadastro encontrado!</p>
+          <q-btn to="/register" color="primary">
+            Cadastrar
+          </q-btn>
       </div>
     </section>
   </main>

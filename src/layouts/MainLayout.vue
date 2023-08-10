@@ -61,34 +61,16 @@ const linksList = [
     link: '/register'
   },
   {
-    title: 'Visualizar',
+    title: 'Alunos',
     caption: 'Veja os registro dos alunos',
-    icon: 'visibility',
+    icon: 'group',
     link: '/visualizer'
   },
   {
-    title: 'Editar',
-    caption: 'Edite um registro',
-    icon: 'edit',
-    link: '/edit'
-  },
-  {
-    title: 'Deletar',
-    caption: 'Apague o registro de um aluno',
-    icon: 'delete',
-    link: '/delete'
-  },
-  {
-    title: 'Criar Módulo',
-    caption: 'Crie módulos e organize-os',
+    title: 'Módulos',
+    caption: 'Gerencie e registre módulos',
     icon: 'queue',
-    link: '/modules/create'
-  },
-  {
-    title: 'Gerir Módulos',
-    caption: 'Visualize as nota por módulos',
-    icon: 'library_books',
-    link: '/modules'
+    link: '/modules/'
   },
   {
     title: 'Sair',

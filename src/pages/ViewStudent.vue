@@ -17,8 +17,8 @@ import '../index.css'
         </div>
         <div v-if="studentModules.length > 0">
           <p class="bg-gray-300 text-[#22487b] text-center text-bold p-2 m-2">Módulos</p>
-          <div v-for="module in studentModules" class="px-3">
-            <a href="#" class="text-bold">{{ module.module.name }} : </a>
+          <div v-for="module in studentModules" class="px-3" >
+            <RouterLink :to="`/modules/show/${module.id}`" class="text-bold">{{ module.module.name }} : </RouterLink>
             <span>Aprovado</span>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default {
       try {
         const data = await fetch(url)
         const response = await data.json()
-        console.log(response.StudentModule)
+        console.log(response)
         this.student = response
         this.studentModules = response.StudentModule
         this.formError = ''

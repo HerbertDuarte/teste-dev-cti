@@ -1,6 +1,5 @@
 <script setup>
 import '../index.css'
-import { RouterLink } from 'vue-router';
 </script>
 
 <template>
@@ -15,10 +14,8 @@ import { RouterLink } from 'vue-router';
         <q-btn type="submit" color="primary">
           Cadastrar
         </q-btn>
-        <q-btn color="negative">
-          <RouterLink to="/">
-            Cancelar
-          </RouterLink>
+        <q-btn  @click="$router.back()" color="negative">
+          Cancelar
         </q-btn>
       </div>
     </form>

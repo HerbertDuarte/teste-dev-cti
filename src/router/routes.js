@@ -19,6 +19,10 @@ const routes = [
         path: "/modules/create",
         component: () => import("pages/CreateModule.vue"),
       },
+      {
+        path: "/modules/show/:id",
+        component: () => import("pages/ShowScore.vue"),
+      },
     ],
   },
   {

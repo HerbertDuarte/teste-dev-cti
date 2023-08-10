@@ -17,6 +17,10 @@
     <div v-if="formSuccess" class="bg-teal-400 text-white border-4 border-teal-500/60 p-2 m-3 rounded w-[90%]  max-w-[300px]">
      {{ formSuccess }}
     </div>
+
+    <q-btn @click="$router.back" color="primary">
+      Voltar
+    </q-btn>
   </main>
 </template>
 

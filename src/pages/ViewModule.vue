@@ -10,7 +10,7 @@ import '../index.css'
     <Loading v-if="!dataStudents" />
     <div class="w-full max-w-[700px]" v-if="dataStudents">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Alunos não registrados no módulo {{ data.name }}
+        Alunos não registrados no módulo {{ dataModule.name }}
       </h1>
       <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name">
         <template v-slot:body-cell-actions="props">
@@ -25,17 +25,17 @@ import '../index.css'
         {{ addStudentsError }}
       </p>
     </div>
-    <Loading v-if="!data" />
+    <Loading v-if="!dataStudentsModule" />
     <div class="border m-2 w-full mx-auto max-w-[700px] rounded" v-if="dataStudentsModule">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Tabela de alunos - {{ data.name }}
+        Tabela de alunos - {{ dataStudentsModule.name }}
       </h1>
       <q-table :rows="dataStudentsModule" :columns="columns" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:body-cell-actions="props">
-          <q-td class="flex justify-end gap-2">
+          <q-td class="text-right space-x-2">
             <q-btn
-              :to="'/visualizer/'+ props.row.id"
+              :to="'/modules/show/'+ props.row.idConnection"
               color="primary"
               size="sm">
               <q-icon name="visibility" />
@@ -64,9 +64,9 @@ export default {
       loadingStudents: true,
       dataStudentsModule: [],
       dataStudents: [],
+      dataModule: [],
       addStudentsError: '',
       addStudentsSuccess: '',
-      data: [],
       formError: '',
       textButton: 'Cancelar',
       loading: true,
@@ -105,7 +105,13 @@ export default {
 
       this.data = response
       const arrayFilted = response.StudentModule.filter((e) => e.student !== null)
-      this.dataStudentsModule = arrayFilted.map((e) => e.student)
+      const newArray = arrayFilted.map((e) => e.student)
+      this.dataStudentsModule = newArray.map((element, index)=>{
+        return {
+          ...element,
+          idConnection : arrayFilted[index].id
+        }
+      })
       this.loading = false
     },
     async fetchDataStudentes() {

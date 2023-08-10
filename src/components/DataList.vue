@@ -7,9 +7,7 @@ import SearchBar from 'src/components/SearchBar.vue';
 <template>
   <Loading v-if="loading" />
   <section  v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
-    <h1 v-if="method == 'visualizer'" class="sm:text-4xl text-3xl text-slate-700 py-4">Pesquise por alunos</h1>
-    <h1 v-if="method == 'edit'" class="sm:text-4xl text-3xl text-slate-700 py-4">Edite o cadastro de um aluno</h1>
-    <h1 v-if="method == 'delete'" class="sm:text-4xl text-3xl text-slate-700 py-4">Delete o cadastro de um aluno</h1>
+    <h1 v-if="method == 'visualizer'" class="sm:text-4xl text-3xl text-slate-700 py-4">Painel de alunos</h1>
     <SearchBar />
     <div class="w-full q-pa-md">
       <q-table
@@ -17,15 +15,24 @@ import SearchBar from 'src/components/SearchBar.vue';
         :columns="columns"
         row-key="name">
         <template v-slot:body-cell-actions="props">
-          <q-td class="flex justify-end gap-2">
-            <q-btn :to="`/visualizer/${props.row.id}`" v-if="method == 'visualizer'"  color="primary" size="sm">
+          <q-td class="text-right space-x-2">
+            <q-btn :to="`/visualizer/${props.row.id}`" color="secondary" size="sm">
               <q-icon name="visibility" />
+              <q-tooltip>
+                visualizar
+              </q-tooltip>
             </q-btn>
-            <q-btn :to="`/delete/confirm/${props.row.id}`" v-if="method == 'delete'" color="negative" size="sm">
+            <q-btn :to="`/delete/confirm/${props.row.id}`" color="negative" size="sm">
               <q-icon name="delete" />
+              <q-tooltip>
+                deletar
+              </q-tooltip>
             </q-btn>
-            <q-btn :to="`/edit/confirm/${props.row.id}`" v-if="method == 'edit'" color="primary" size="sm">
+            <q-btn :to="`/edit/confirm/${props.row.id}`"  color="primary" size="sm">
               <q-icon name="edit" />
+              <q-tooltip>
+                editar
+              </q-tooltip>
             </q-btn>
           </q-td>
         </template>
@@ -74,7 +81,6 @@ export default {
     }
   },
   props: [
-    'method',
     'single',
   ],
   methods: {

@@ -21,7 +21,7 @@ import '../index.css'
         </q-table>
         <div class="flex justify-center mt-5">
         <q-btn to="/modules/create" color="primary">
-          Criar módulo
+          Cadastrar um módulo
         </q-btn>
       </div>
       </div>
