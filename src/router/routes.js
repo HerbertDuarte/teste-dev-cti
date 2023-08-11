@@ -23,15 +23,18 @@ const routes = [
         path: "/modules/show/:id",
         component: () => import("pages/ShowScore.vue"),
       },
+      {
+        path : "/modules/edit/score/:id",
+        component : () => import("pages/EditScore.vue")
+      }
     ],
   },
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "/edit", component: () => import("pages/Edit.vue") },
       {
-        path: "/edit/confirm/:id/:from?",
+        path: "/edit/confirm/:id",
         component: () => import("pages/ConfirmEdit.vue"),
       },
     ],
@@ -72,7 +75,6 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "/delete", component: () => import("pages/Delete.vue") },
       {
         path: "/delete/confirm/:id",
         component: () => import("pages/ConfirmDelete.vue"),

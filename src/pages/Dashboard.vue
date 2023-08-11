@@ -10,15 +10,11 @@ import { RouterLink } from 'vue-router';
 
     <section class="flex gap-3 w-full max-w-[750px]">
 
-      <RouterLink class="flex-1 inline-block bg-orange-8 p-4 pr-24 pb-20 rounded" to="/visualizer">
+      <RouterLink class="flex-1 inline-block bg-orange-6 p-4 pr-24 pb-20 rounded shadow-md" to="/visualizer">
         <p class="text-white font-medium text-xl">Alunos</p>
       </RouterLink>
 
-      <RouterLink class="flex-1 inline-block bg-cyan-8 p-4 pr-24 pb-20 rounded" to="register">
-        <p class="text-white font-medium text-xl">Cadastrar Aluno</p>
-      </RouterLink>
-
-      <RouterLink class="flex-1 inline-block bg-teal-8 p-4 pr-24 pb-20 rounded" to="modules">
+      <RouterLink class="flex-1 inline-block bg-cyan-9 p-4 pr-24 pb-20 rounded shadow-md" to="modules">
         <p class="text-white font-medium text-xl">Módulos</p>
       </RouterLink>
 

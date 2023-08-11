@@ -5,7 +5,7 @@ import DataList from 'src/components/DataList.vue'
 
 <template>
   <main >
-    <DataList method="visualizer"/>
+    <DataList/>
   </main>
 </template>
 

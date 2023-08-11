@@ -55,12 +55,6 @@ const linksList = [
     link: '/'
   },
   {
-    title: 'Cadastrar',
-    caption: 'Registre um aluno',
-    icon: 'storage',
-    link: '/register'
-  },
-  {
     title: 'Alunos',
     caption: 'Veja os registro dos alunos',
     icon: 'group',
@@ -69,7 +63,7 @@ const linksList = [
   {
     title: 'Módulos',
     caption: 'Gerencie e registre módulos',
-    icon: 'queue',
+    icon: 'folder',
     link: '/modules/'
   },
   {

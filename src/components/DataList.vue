@@ -1,5 +1,4 @@
 <script setup>
-import { RouterLink } from 'vue-router';
 import Loading from './Loading.vue';
 import SearchBar from 'src/components/SearchBar.vue';
 </script>
@@ -7,13 +6,22 @@ import SearchBar from 'src/components/SearchBar.vue';
 <template>
   <Loading v-if="loading" />
   <section  v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
-    <h1 v-if="method == 'visualizer'" class="sm:text-4xl text-3xl text-slate-700 py-4">Painel de alunos</h1>
+    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Painel de alunos</h1>
     <SearchBar />
     <div class="w-full q-pa-md">
       <q-table
         :rows="students"
         :columns="columns"
         row-key="name">
+
+        <template v-slot:top="props">
+          <div class="w-full flex justify-between">
+            <p class="text-xl">Alunos</p>
+            <q-btn to="/register" color="primary">
+              Cadastrar
+            </q-btn>
+          </div>
+        </template>
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
             <q-btn :to="`/visualizer/${props.row.id}`" color="secondary" size="sm">
@@ -22,16 +30,16 @@ import SearchBar from 'src/components/SearchBar.vue';
                 visualizar
               </q-tooltip>
             </q-btn>
-            <q-btn :to="`/delete/confirm/${props.row.id}`" color="negative" size="sm">
-              <q-icon name="delete" />
-              <q-tooltip>
-                deletar
-              </q-tooltip>
-            </q-btn>
             <q-btn :to="`/edit/confirm/${props.row.id}`"  color="primary" size="sm">
               <q-icon name="edit" />
               <q-tooltip>
                 editar
+              </q-tooltip>
+            </q-btn>
+            <q-btn :to="`/delete/confirm/${props.row.id}`" color="negative" size="sm">
+              <q-icon name="delete" />
+              <q-tooltip>
+                deletar
               </q-tooltip>
             </q-btn>
           </q-td>
@@ -62,6 +70,7 @@ export default {
           field: 'name',
           label: 'Nome',
           align: 'left',
+          sortable: true
         },
         {
           name: 'cpf',

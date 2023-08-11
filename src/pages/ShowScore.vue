@@ -1,12 +1,18 @@
 <template>
   <main class="p-3">
-    <h1 class="text-bold text-2xl text-zinc-800 pb-4">{{ module.name }}</h1>
-    <q-card bordered class="rounded-lg overflow-hidden w-full max-w-lg">
+    <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
       <p class="text-lg text-center text-bold text-zinc-50 p-2 bg-[#22487b]">Pontuações</p>
       <div class="p-3 pb-0">
         <div class="flex justify-between items-start">
-          <div>
-            <p class="text-lg"><span class="text-bold">ALuno : </span>{{ student.name }}</p>
+          <div class="flex-1">
+            <p class="text-lg">
+              <span class="text-bold">Aluno : </span>
+              {{ student.name }}
+            </p>
+            <p class="text-lg">
+              <span class="text-bold">Módulo : </span>
+              {{ module.name }}
+            </p>
             <p class="text-lg">
               <span class="text-bold">Media : </span>
               <span v-if="data.media >= 5" class="font-medium text-green-800">{{ Number(data.media).toFixed(1) }}</span>
@@ -24,35 +30,37 @@
             </p>
           </div>
 
-          <q-circular-progress
-          v-if="data.media >=5"
-            show-value
-            reverse
-            :value="data.media"
-            size="60px"
-            :thickness="0.3"
-            color="grey-4"
-            track-color="green-8"
-            class="q-ma-md"
-          >
-          <span class="font-extrabold text-green-800">{{Number(data.media).toFixed(1)}}</span>
-        </q-circular-progress>
-          <q-circular-progress
-          v-if="data.media < 5"
-            show-value
-            reverse
-            :value="data.media"
-            size="60px"
-            :thickness="0.3"
-            color="grey-4"
-            track-color="red-9"
-            class="q-ma-md"
-          >
-          <span class="font-extrabold text-red-800">{{Number(data.media).toFixed(1)}}</span>
-        </q-circular-progress>
+          <div :class="{'hidden' : isMobile}">
+            <q-circular-progress
+            v-if="data.media >=5"
+              show-value
+              reverse
+              :value="data.media"
+              size="50px"
+              :thickness="0.3"
+              color="green-3"
+              track-color="green-8"
+              class="q-ma-md"
+            >
+              <span class="font-extrabold text-green-800">{{Number(data.media).toFixed(1)}}</span>
+            </q-circular-progress>
+            <q-circular-progress
+            v-if="data.media < 5"
+              show-value
+              reverse
+              :value="data.media"
+              size="50px"
+              :thickness="0.3"
+              color="grey-4"
+              track-color="red-9"
+              class="q-ma-md"
+            >
+              <span class="font-extrabold text-red-800">{{Number(data.media).toFixed(1)}}</span>
+            </q-circular-progress>
+          </div>
         </div>
         <hr class="my-3">
-        <div :class="{'w-full p-3 flex justify-between gap-2': true, 'flex-col justify-center items-center': isMobile}">
+        <div :class="{'w-full flex justify-center': true, 'flex-col justify-center items-center': isMobile}">
           <div class="flex flex-col justify-center items-center" v-for="score, index in data.score">
             <p class="text-center font-medium text-zinc-800">{{ index + 1}}° unidade</p>
             <q-circular-progress
@@ -62,7 +70,7 @@
             size="80px"
             :thickness="0.25"
             :color="score >= 5 ? 'primary' : 'orange-9'"
-            track-color="grey-4"
+            :track-color="score >= 5 ? 'blue-2' : 'orange-2'"
             class="q-ma-md"
           >
             <span v-if="score >= 5" class="text-bold text-[#22487b]">{{ score.toFixed(1) }}</span>
@@ -71,8 +79,11 @@
             </div>
         </div>
       </div>
-      <div class="text-right m-3">
-        <q-btn color="primary">
+      <div class="text-right m-3 space-x-2">
+        <q-btn @click="$router.back" color="secondary">
+          Voltar
+        </q-btn>
+        <q-btn :to="'/modules/edit/score/' + connectionId" color="primary">
           Editar
         </q-btn>
       </div>
@@ -118,7 +129,7 @@ export default defineComponent({
     },
 
     isMobile(){
-      return this.screenW < 345
+      return this.screenW < 350
     }
   },
 
