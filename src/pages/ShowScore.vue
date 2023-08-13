@@ -1,6 +1,4 @@
 <template>
-  <main class="p-3">
-    <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
       <p class="text-lg text-center text-bold text-zinc-50 p-2 bg-[#22487b]">Pontuações</p>
       <div class="p-3 pb-0">
         <div class="flex justify-between items-start">
@@ -79,16 +77,6 @@
             </div>
         </div>
       </div>
-      <div class="text-right m-3 space-x-2">
-        <q-btn @click="$router.back" color="secondary">
-          Voltar
-        </q-btn>
-        <q-btn :to="'/modules/edit/score/' + connectionId" color="primary">
-          Editar
-        </q-btn>
-      </div>
-    </q-card>
-  </main>
 </template>
 
 <script>
@@ -100,11 +88,16 @@ export default defineComponent({
   name: 'ShowScore',
   data(){
     return {
-      connectionId : this.$route.params.id,
       data : [],
       student : {},
       module : {},
       quasar : useQuasar(),
+    }
+  },
+
+  props : {
+    connectionId : {
+      type: String
     }
   },
 
@@ -114,7 +107,6 @@ export default defineComponent({
 
       const url = 'http://localhost:3000/modules/score/' + this.connectionId
       const response = await axios.get(url)
-      console.log(response.data)
 
       this.data = response.data
       this.student = response.data.student

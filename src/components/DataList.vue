@@ -1,18 +1,16 @@
 <script setup>
 import Loading from './Loading.vue';
 import SearchBar from 'src/components/SearchBar.vue';
+import ViewStudent from 'src/pages/ViewStudent.vue';
 </script>
 
 <template>
   <Loading v-if="loading" />
-  <section  v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
+  <section v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Painel de alunos</h1>
     <SearchBar />
     <div class="w-full q-pa-md">
-      <q-table
-        :rows="students"
-        :columns="columns"
-        row-key="name">
+      <q-table :rows="students" :columns="columns" row-key="name">
 
         <template v-slot:top="props">
           <div class="w-full flex justify-between">
@@ -24,13 +22,13 @@ import SearchBar from 'src/components/SearchBar.vue';
         </template>
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
-            <q-btn :to="`/visualizer/${props.row.id}`" color="secondary" size="sm">
+            <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
               <q-icon name="visibility" />
               <q-tooltip>
                 visualizar
               </q-tooltip>
             </q-btn>
-            <q-btn :to="`/edit/confirm/${props.row.id}`"  color="primary" size="sm">
+            <q-btn :to="`/edit/confirm/${props.row.id}`" color="primary" size="sm">
               <q-icon name="edit" />
               <q-tooltip>
                 editar
@@ -43,6 +41,11 @@ import SearchBar from 'src/components/SearchBar.vue';
               </q-tooltip>
             </q-btn>
           </q-td>
+          <q-dialog v-model="viewStudentDialog">
+            <!-- <q-card> -->
+              <ViewStudent :idStudent="currentStudent.id" />
+            <!-- </q-card> -->
+          </q-dialog>
         </template>
       </q-table>
     </div>
@@ -63,6 +66,8 @@ export default {
       media: null,
       fetchError: '',
       loading: false,
+      viewStudentDialog: false,
+      currentStudent : undefined,
       columns: [
         {
           name: 'name',
@@ -90,7 +95,7 @@ export default {
     }
   },
   props: [
-    'single',
+    'id',
   ],
   methods: {
     async fetchData() {
@@ -108,6 +113,10 @@ export default {
         this.fetchError = 'Houve um erro inesperado! Tente novamente mais tarde!'
       }
       this.loading = false
+    },
+    openViewStudentDialog(student){
+      this.currentStudent = student
+      this.viewStudentDialog =true
     }
   },
   mounted() {

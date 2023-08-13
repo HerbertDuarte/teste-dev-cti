@@ -1,5 +1,6 @@
 <script setup>
 import Loading from 'src/components/Loading.vue';
+import ShowScore from './ShowScore.vue';
 import '../index.css'
 
 </script>
@@ -28,19 +29,19 @@ import '../index.css'
     <Loading v-if="!dataStudentsModule" />
     <div class="border m-2 w-full mx-auto max-w-[700px] rounded" v-if="dataStudentsModule">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Tabela de alunos - {{ dataStudentsModule.name }}
+        Tabela de alunos - {{ dataModule.name }}
       </h1>
       <q-table :rows="dataStudentsModule" :columns="columns" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
-            <q-btn
-              :to="'/modules/show/'+ props.row.idConnection"
-              color="primary"
-              size="sm">
+            <q-btn :to="'/visualizer/' + props.row.id" color="secondary" size="sm">
+              <q-icon name="person" />
+            </q-btn>
+            <q-btn @click="confirmEdit(props.row)" color="primary" size="sm">
               <q-icon name="visibility" />
             </q-btn>
-            <q-btn @click="removeStudent(props.row.id)" color="negative" size="sm">
+            <q-btn @click="confirmDelete(props.row)" color="negative" size="sm">
               <q-icon name="delete" />
             </q-btn>
           </q-td>
@@ -52,11 +53,42 @@ import '../index.css'
       class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
       {{ formError }}
     </div>
+    <q-dialog v-model="deleteDialog">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Confirmação de exclusão de registro</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Tem certeza que deseja excluir os registros de <b>{{ currentStudent.name }}</b> no módulo {{ dataModule.name }}?
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn label="Cancelar" color="primary" @click="closeDeleteDialog" />
+          <q-btn label="Excluir" color="negative" @click="removeStudent(currentStudent.id)" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog class="w-full" v-model="editDialog">
+      <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
+        <ShowScore :connectionId="currentStudent.idConnection" />
+        <q-card-actions class="flex justify-end p-3">
+        <q-btn @click="editDialog = false" color="secondary">
+          Voltar
+        </q-btn>
+        <q-btn :to="'/modules/edit/score/' + currentStudent.idConnection" color="primary">
+          Editar
+        </q-btn>
+      </q-card-actions>
+      </q-card>
+    </q-dialog>
   </main>
 </template>
 <script >
 
 import axios from 'axios';
+import ShowScore from './ShowScore.vue';
 
 export default {
   data() {
@@ -70,6 +102,9 @@ export default {
       formError: '',
       textButton: 'Cancelar',
       loading: true,
+      deleteDialog: false,
+      editDialog: false,
+      currentStudent: {},
       columns: [
         {
           name: 'name',
@@ -103,13 +138,13 @@ export default {
       const data = await fetch(url)
       const response = await data.json()
 
-      this.data = response
+      this.dataModule = response
       const arrayFilted = response.StudentModule.filter((e) => e.student !== null)
       const newArray = arrayFilted.map((e) => e.student)
-      this.dataStudentsModule = newArray.map((element, index)=>{
+      this.dataStudentsModule = newArray.map((element, index) => {
         return {
           ...element,
-          idConnection : arrayFilted[index].id
+          idConnection: arrayFilted[index].id
         }
       })
       this.loading = false
@@ -124,7 +159,6 @@ export default {
 
       this.loadingStudents = false
     },
-
     async addStudent(studentId) {
 
       const url = 'http://localhost:3000/modules/register/student/'
@@ -158,11 +192,9 @@ export default {
         this.addStudentsError = 'Erro ao remover o aluno. \nErro : ' + error
       }
 
+      this.currentStudent = {}
+
     },
-    // redirect(id){
-    //   const rota = 'visualizer/'+ id
-    //   this.$router.push(rota)
-    // },
     listStudentsWithOutModules(listaCompleta, listaReduzida) {
       if (listaReduzida === null || listaReduzida.length === 0) {
         return listaCompleta;
@@ -177,6 +209,22 @@ export default {
 
       const alunosNaoReduzidos = listaCompleta.filter(aluno => !idsReduzidos.has(aluno.id));
       return alunosNaoReduzidos;
+    },
+    confirmDelete(student) {
+      this.currentStudent = student
+      this.deleteDialog = true
+    },
+    closeDeleteDialog() {
+      this.currentStudent = {}
+      this.deleteDialog = false
+    },
+    confirmEdit(student) {
+      this.currentStudent = student
+      this.editDialog = true
+    },
+    closeEditDialog() {
+      this.currentStudent = {}
+      this.editDialog = false
     }
   },
   mounted() {

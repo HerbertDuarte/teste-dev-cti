@@ -21,7 +21,7 @@ import { RouterLink } from 'vue-router';
           Atualizar
         </q-btn>
 
-        <q-btn @click="$router.back" color="negative">
+        <q-btn @click="$router.back" color="secondary">
           Voltar
         </q-btn>
 

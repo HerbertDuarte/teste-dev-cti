@@ -20,10 +20,6 @@ const routes = [
         component: () => import("pages/CreateModule.vue"),
       },
       {
-        path: "/modules/show/:id",
-        component: () => import("pages/ShowScore.vue"),
-      },
-      {
         path : "/modules/edit/score/:id",
         component : () => import("pages/EditScore.vue")
       }
