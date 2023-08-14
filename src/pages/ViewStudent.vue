@@ -4,37 +4,35 @@ import ShowScore from './ShowScore.vue';
 </script>
 
 <template>
-  <q-card class="sm:p-4 p-2">
-    <div class="flex flex-col gap-3 justify-between border m-2 w-full mx-auto max-w-[700px] rounded" v-if="student">
+  <q-card>
+    <div class="flex flex-col gap-3 justify-between border w-full max-w-[700px] rounded" v-if="student">
       <div>
+        <p class="text-center text-lg bg-[#22487b] text-white p-2">{{ student.name }}</p>
         <div class="p-3">
-          <p><span class="font-semibold">Nome : </span>{{ student.name }}</p>
           <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR")
           }}</p>
           <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/,
             "$1.$2.$3-$4") }}</p>
           <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
         </div>
-        <div v-if="studentModules.length > 0">
+        <div>
           <p class="bg-gray-300 text-[#22487b] text-center text-bold p-2 m-2">Módulos</p>
-          <div v-for="e in studentModules" class="px-3">
-            <b @click="openScoreDialog(e)" class="cursor-pointer">
+          <div class="px-2" v-if="studentModules.length == 0">
+            <p>Nenhum módulo registrado!</p>
+            <RouterLink class="text-[#22487b] font-medium hover:underline" to="/modules" >
+              Ver módulos disponíveis
+            </RouterLink>
+          </div>
+          <div v-if="studentModules.length > 0" v-for="e in studentModules" class="px-3">
+            <b class=" cursor-pointer hover:underline" @click="openScoreDialog(e)">
               {{ e.module.name }} :
             </b>
-            <span>Aprovado</span>
+            <span v-if="e.media >= 5" class="text-green-800">Aprovado</span>
+            <span v-if="e.media < 5" class="text-red-700">Reprovado</span>
+            <span v-if="!e.media" class="text-violet-800">Irregular</span>
+
           </div>
         </div>
-      </div>
-      <div class="w-full flex flex-row gap-1 justify-between xs:w-auto p-3">
-        <q-btn @click="$router.back" class="flex-1" color="secondary">
-          Voltar
-        </q-btn>
-        <q-btn :to="`/edit/confirm/${student.id}`" class="flex-1" color="primary">
-          Editar
-        </q-btn>
-        <q-btn :to="`/delete/confirm/${student.id}`" class="flex-1" color="negative">
-          Excluir
-        </q-btn>
       </div>
     </div>
     <div v-if="formError"
@@ -85,10 +83,8 @@ export default {
   props: ['idStudent'],
   data() {
     return {
-      // media: null,
       studentModules: [],
       student: null,
-      // situation: null,
       formError: null,
       scoreDialog: false,
       currentModule: {},
@@ -104,8 +100,16 @@ export default {
         const data = await fetch(url)
         const response = await data.json()
         this.student = response
-        this.studentModules = response.StudentModule
-        // console.log(this.studentModules)
+        const hawStModule = response.StudentModule
+        this.studentModules = hawStModule.map(element => {
+          const sum = element.score.reduce((acumulador, nota) => acumulador + nota, 0);
+          const media = (sum / element.score.length.toFixed(1))
+          return {
+            ...element,
+            media
+          }
+        })
+        console.log(this.studentModules)
         this.formError = ''
       } catch (err) {
         this.formError = 'Ops! Houver um erro inesperado. Tente novamente mais tarde! ' + err.message

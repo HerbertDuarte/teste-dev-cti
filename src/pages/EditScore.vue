@@ -3,8 +3,8 @@
     <!-- <h1 v-if="data">Edite a pontuação do aluno(a) {{ data.student.name}} no módulo {{ data }}</h1> -->
     <q-card class="w-full max-w-xl rounded-lg overflow-hidden">
       <form>
-        <div class="bg-primary px-2 py-3 text-lg font-medium text-white">
-          Edite as notas
+        <div class="bg-primary px-2 py-3 text-lg text-white">
+          Edite as notas de <span class="font-bold">{{ student }}</span> no módulo <span class="font-bold">{{ module }}</span>
         </div>
         <div class="p-2 space-y-2">
           <div v-if="scores.length == 0">
@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       data: {},
+      student: undefined,
+      module : undefined,
       formError: '',
       formSuccess: '',
       scores: []
@@ -80,8 +82,10 @@ export default {
     async fetchData() {
       const url = 'http://localhost:3000/modules/student/list/' + this.$route.params.id
       const response = await axios.get(url)
-      console.log(response.data)
+      console.log(response.data.student)
       this.data = response.data
+      this.student = response.data.student.name
+      this.module = response.data.module.name
       this.scores = response.data.score
     },
 

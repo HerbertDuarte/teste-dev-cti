@@ -1,6 +1,7 @@
 <script setup>
 import Loading from 'src/components/Loading.vue';
 import ShowScore from './ShowScore.vue';
+import ViewStudent from './ViewStudent.vue';
 import '../index.css'
 
 </script>
@@ -16,7 +17,10 @@ import '../index.css'
       <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name">
         <template v-slot:body-cell-actions="props">
           <q-td class="flex justify-end gap-2">
-            <q-btn @click="addStudent(props.row.id)" color="secondary" size="sm">
+            <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
+              <q-icon name="person" />
+            </q-btn>
+            <q-btn @click="addStudent(props.row.id)" color="primary" size="sm">
               <q-icon name="add" />
             </q-btn>
           </q-td>
@@ -35,7 +39,7 @@ import '../index.css'
         no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
-            <q-btn :to="'/visualizer/' + props.row.id" color="secondary" size="sm">
+            <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
               <q-icon name="person" />
             </q-btn>
             <q-btn @click="confirmEdit(props.row)" color="primary" size="sm">
@@ -74,13 +78,23 @@ import '../index.css'
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <ShowScore :connectionId="currentStudent.idConnection" />
         <q-card-actions class="flex justify-end p-3">
-        <q-btn @click="editDialog = false" color="secondary">
-          Voltar
-        </q-btn>
-        <q-btn :to="'/modules/edit/score/' + currentStudent.idConnection" color="primary">
-          Editar
-        </q-btn>
-      </q-card-actions>
+          <q-btn @click="editDialog = false" color="secondary">
+            Voltar
+          </q-btn>
+          <q-btn :to="'/modules/edit/score/' + currentStudent.idConnection" color="primary">
+            Editar
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="viewStudentDialog">
+      <q-card>
+        <ViewStudent :idStudent="currentStudent.id" />
+        <q-card-actions class="flex justify-end">
+          <q-btn @click="closeViewStudentDialog" color="secondary">
+            Voltar
+          </q-btn>
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </main>
@@ -104,6 +118,7 @@ export default {
       loading: true,
       deleteDialog: false,
       editDialog: false,
+      viewStudentDialog: false,
       currentStudent: {},
       columns: [
         {
@@ -225,7 +240,16 @@ export default {
     closeEditDialog() {
       this.currentStudent = {}
       this.editDialog = false
-    }
+    },
+    openViewStudentDialog(student) {
+      // console.log(student)
+      this.currentStudent = student
+      this.viewStudentDialog = true
+    },
+    closeViewStudentDialog() {
+      this.currentStudent = null
+      this.viewStudentDialog = false
+    },
   },
   mounted() {
     this.fetchData()
