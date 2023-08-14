@@ -4,10 +4,10 @@ import ShowScore from './ShowScore.vue';
 </script>
 
 <template>
-  <q-card>
-    <div class="flex flex-col gap-3 justify-between border w-full max-w-[700px] rounded" v-if="student">
+  <q-card class="flex flex-col justify-between w-full max-w-[700px] overflow-hidden rounded-lg" v-if="student" >
+    <div >
       <div>
-        <p class="text-center text-lg bg-[#22487b] text-white p-2">{{ student.name }}</p>
+        <p class="text-center text-lg bg-[#22487b5d] text-[#22487b] py-2 px-5">{{ student.name }}</p>
         <div class="p-3">
           <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR")
           }}</p>
@@ -27,9 +27,9 @@ import ShowScore from './ShowScore.vue';
             <b class=" cursor-pointer hover:underline" @click="openScoreDialog(e)">
               {{ e.module.name }} :
             </b>
-            <span v-if="e.media >= 5" class="text-green-800">Aprovado</span>
-            <span v-if="e.media < 5" class="text-red-700">Reprovado</span>
-            <span v-if="!e.media" class="text-violet-800">Irregular</span>
+            <span v-if="e.media >= 5" class="font-medium text-green-900">Aprovado(a)</span>
+            <span v-if="e.media < 5" class="font-medium text-red-950">Reprovado(a)</span>
+            <span v-if="!e.media" class="font-medium text-violet-900">Irregular</span>
 
           </div>
         </div>
@@ -55,7 +55,7 @@ import ShowScore from './ShowScore.vue';
         </q-card-actions>
       </q-card>
       <q-dialog v-model="deleteDialog">
-        <q-card>
+        <q-card >
           <q-card-section>
             <div class="text-h6">Confirmação de exclusão de registro</div>
           </q-card-section>

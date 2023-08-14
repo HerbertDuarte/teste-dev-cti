@@ -1,13 +1,28 @@
 <script setup>
+import { ref } from 'vue';
 import '../index.css'
 </script>
 
 <template>
   <main class="p-">
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Gerenciador de módulos</h1>
+    <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Gerenciador de módulos</h1>
     <div class="space-y-3 flex flex-col w-full max-w-md">
       <div class="q-pa-md" v-if="data">
-        <q-table :rows="data" :columns="columns" row-key="name" flat bordered>
+        <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat bordered>
+          <template v-slot:top-left>
+          <div class="space-x-3">
+            <span class="text-zinc-600 text-lg">
+              Módulos
+            </span>
+          </div>
+        </template>
+        <template v-slot:top-right>
+          <q-input dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
           <template v-slot:body-cell-actions="scope">
             <q-td class="flex justify-end">
                 <q-btn id="btn_name" :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
@@ -34,6 +49,7 @@ export default {
   data() {
     return {
       data: undefined,
+      filter: ref(''),
       columns: [
         {
           name: 'name',

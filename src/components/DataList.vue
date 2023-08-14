@@ -1,6 +1,5 @@
 <script setup>
 import Loading from './Loading.vue';
-import SearchBar from 'src/components/SearchBar.vue';
 import ConfirmDelete from 'src/pages/ConfirmDelete.vue';
 import ViewStudent from 'src/pages/ViewStudent.vue';
 </script>
@@ -8,19 +7,24 @@ import ViewStudent from 'src/pages/ViewStudent.vue';
 <template>
   <Loading v-if="loading" />
   <section v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Painel de alunos</h1>
-    <SearchBar />
+    <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Painel de alunos</h1>
     <div class="w-full q-pa-md">
-      <q-table :rows="students" :columns="columns" row-key="name">
-
-        <template v-slot:top="props">
-          <div class="w-full flex justify-between">
-            <p class="text-xl">Alunos</p>
-            <q-btn to="/register" color="primary">
-              Cadastrar
-            </q-btn>
+      <q-table :filter="filter" :rows="students" :columns="columns" row-key="name">
+        <template v-slot:top-left>
+          <div class="space-x-3">
+            <span class="text-zinc-600 text-lg">
+              Alunos
+            </span>
           </div>
         </template>
+        <template v-slot:top-right>
+          <q-input dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
             <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
@@ -81,6 +85,11 @@ import ViewStudent from 'src/pages/ViewStudent.vue';
           </q-dialog>
         </template>
       </q-table>
+      <div class="flex justify-end pt-2 gap-2">
+        <q-btn to="/register" color="primary">
+          Novo aluno
+        </q-btn>
+      </div>
     </div>
     <div v-if="fetchError"
       class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-2 rounded w-full  max-w-[600px]">
@@ -91,6 +100,7 @@ import ViewStudent from 'src/pages/ViewStudent.vue';
 
 <script>
 import axios from 'axios'
+import { ref } from 'vue';
 export default {
   name: 'DataList',
   data() {
@@ -104,6 +114,7 @@ export default {
       currentStudent: undefined,
       deleteFormError: null,
       deleteFormSuccess: null,
+      filter : ref(''),
       columns: [
         {
           name: 'name',
@@ -166,7 +177,7 @@ export default {
       this.currentStudent = null
       this.deleteStudentDialog = false
 
-      if(this.deleteFormSuccess){
+      if (this.deleteFormSuccess) {
         this.deleteFormSuccess = null
         this.$router.go()
       }

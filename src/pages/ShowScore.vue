@@ -13,18 +13,18 @@
             </p>
             <p class="text-lg">
               <span class="text-bold">Media : </span>
-              <span v-if="data.media >= 5" class="font-medium text-green-800">{{ Number(data.media).toFixed(1) }}</span>
-              <span v-if="data.media <5" class="font-medium text-red-700">{{ Number(data.media).toFixed(1) }}</span>
-              <span v-if="!data.media" class="font-medium text-purple-800">Sem média</span>
+              <span v-if="data.media >= 5" class="font-medium text-green-900">{{ Number(data.media).toFixed(1) }}</span>
+              <span v-if="data.media <5" class="font-medium text-red-950">{{ Number(data.media).toFixed(1) }}</span>
+              <span v-if="!data.media" class="font-medium text-purple-900">Sem média</span>
             </p>
             <p v-if="data.media >= 5" class="text-lg font-medium">
-              <span class="font-bold">Status : </span><span class="text-green-800">Aprovado</span>
+              <span class="font-bold">Status : </span><span class="text-green-800">Aprovado(a)</span>
             </p>
             <p v-if="data.media < 5" class="text-lg font-medium">
-              <span class="font-bold">Status : </span><span class="text-red-700">Reprovado</span>
+              <span class="font-bold">Status : </span><span class="text-red-950">Reprovado(a)</span>
             </p>
             <p v-if="!data.media" class="text-lg font-medium">
-              <span class="font-bold">Status : </span><span class="text-purple-800">Irregular</span>
+              <span class="font-bold">Status : </span><span class="text-purple-900">Irregular</span>
             </p>
           </div>
 
@@ -40,7 +40,7 @@
               track-color="green-8"
               class="q-ma-md"
             >
-              <span class="font-extrabold text-green-800">{{Number(data.media).toFixed(1)}}</span>
+              <span class="font-extrabold text-lime-900">{{Number(data.media).toFixed(1)}}</span>
             </q-circular-progress>
             <q-circular-progress
             v-if="data.media < 5"
@@ -53,7 +53,7 @@
               track-color="red-9"
               class="q-ma-md"
             >
-              <span class="font-extrabold text-red-800">{{Number(data.media).toFixed(1)}}</span>
+              <span class="font-extrabold text-red-950">{{Number(data.media).toFixed(1)}}</span>
             </q-circular-progress>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default defineComponent({
 
       const url = 'http://localhost:3000/modules/score/' + this.connectionId
       const response = await axios.get(url)
-
+      console.log(response)
       this.data = response.data
       this.student = response.data.student
       this.module = response.data.module

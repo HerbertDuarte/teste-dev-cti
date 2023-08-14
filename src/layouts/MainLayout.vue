@@ -14,7 +14,7 @@
         <q-toolbar-title>
           Gestor escolar
         </q-toolbar-title>
-        <q-toolbar-title class="text-[18px]" v-if="user">
+        <q-toolbar-title class="text-[18px] bem-vindo" v-if="user">
           Bem vindo <b>{{ user.displayName }}</b>
         </q-toolbar-title>
       </q-toolbar>
@@ -40,18 +40,19 @@
       </q-list>
     </q-drawer>
     <q-page-container class="max-h-screen">
-      <router-view />
+      <router-view/>
     </q-page-container>
-    <q-footer elevate>
-      <q-toolbar>
-        <q-toolbar-title class="flex justify-center items-center">
-          <p class="text-[16px]">Site desenvolvido pelo <b>CTI PMVC</b></p>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer>
   </q-layout>
 </template>
+<style scoped>
 
+@media (max-width: 500px) {
+  .bem-vindo{
+    display: none;
+  }
+}
+
+</style>
 <script>
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'

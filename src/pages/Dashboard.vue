@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router';
 <template>
   <main class="justify-start items-center p-3">
 
-    <h1 class="sm:text-4xl text-3xl text-left w-full mx-auto max-w-3xl text-slate-700 py-6">Painel de Controle</h1>
+    <h1 class="sm:text-3xl text-2xl text-left w-full mx-auto max-w-3xl text-slate-700 py-6">Painel de Controle</h1>
 
     <section class="flex gap-3 w-full max-w-[750px]">
 

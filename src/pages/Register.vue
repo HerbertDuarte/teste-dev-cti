@@ -14,7 +14,7 @@ import '../index.css'
         <q-btn type="submit" color="primary">
           Cadastrar
         </q-btn>
-        <q-btn  @click="$router.back()" color="negative">
+        <q-btn  @click="$router.back()" color="secondary">
           Cancelar
         </q-btn>
       </div>

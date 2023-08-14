@@ -14,7 +14,7 @@ input[type=number] {
 
 main
 {
-  min-height: 90vh;
+  min-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   justify-content: center;
