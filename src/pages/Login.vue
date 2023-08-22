@@ -1,3 +1,4 @@
+
 <template>
   <main v-if="auth == 'false' || !auth" v-show="!loading">
     <h1 class="sm:text-4xl text-3xl text-center py-4 text-slate-700">Olá seja bem vindo ao <span
@@ -25,9 +26,9 @@
   </main>
 </template>
 <script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
 import '../index.css'
 import Loading from 'src/components/Loading.vue';
-import SpanMsg from 'src/components/SpanMsg.vue';
 import { useTokenStore } from 'src/stores/token';
 import { ref, watch } from 'vue';
 import axios from 'axios';

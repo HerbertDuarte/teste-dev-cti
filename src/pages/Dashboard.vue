@@ -1,7 +1,6 @@
 <script setup>
 import '../index.css'
 import { RouterLink } from 'vue-router';
-import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>

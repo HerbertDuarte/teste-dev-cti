@@ -1,3 +1,7 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
+
 <template>
   <main class="p-4">
     <!-- <h1 v-if="data">Edite a pontuação do aluno(a) {{ data.student.name}} no módulo {{ data }}</h1> -->
@@ -48,7 +52,6 @@
 </template>
 <script>
 import verifyToken from 'src/boot/VerifyToken';
-import SpanMsg from 'src/components/SpanMsg.vue';
 export default {
   data() {
     return {

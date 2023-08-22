@@ -1,3 +1,6 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
 <template>
   <main class="p-4">
 
@@ -123,7 +126,6 @@
 import Loading from 'src/components/Loading.vue';
 import ShowScore from './ShowScore.vue';
 import ViewStudent from './ViewStudent.vue';
-import SpanMsg from 'src/components/SpanMsg.vue';
 import '../index.css'
 
 import verifyToken from 'src/boot/VerifyToken';

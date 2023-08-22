@@ -1,3 +1,7 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
+
 <template>
   <main class="p-6">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-3">
@@ -21,7 +25,6 @@
 </template>
 
 <script>
-import SpanMsg from 'src/components/SpanMsg.vue';
 import verifyToken from 'src/boot/VerifyToken';
 export default {
   data() {

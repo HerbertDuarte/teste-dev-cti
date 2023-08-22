@@ -1,3 +1,6 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
 <template>
   <SpanMsg v-if="fetchError" :error="fetchError"/>
     <q-card-section class="space-y-3 p-3" v-if="student">

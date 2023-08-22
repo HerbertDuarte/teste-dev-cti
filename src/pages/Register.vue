@@ -1,3 +1,6 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
 <template>
   <main>
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1>
@@ -17,15 +20,14 @@
         </q-btn>
       </div>
     </form>
-
+    {{ formError }}
+    {{ formSuccess }}
     <SpanMsg v-if="formError" :error="formError" />
     <SpanMsg v-if="formSuccess" :succes="formSuccess" />
   </main>
 </template>
 
 <script>
-import '../index.css'
-import SpanMsg from 'src/components/SpanMsg.vue';
 import verifyToken from 'src/boot/VerifyToken';
 
 export default {
@@ -62,7 +64,7 @@ export default {
       // validations --end
 
       try {
-        const res = await verifyToken({
+        await verifyToken({
           method : 'post',
           data : this.student,
           url
@@ -75,7 +77,8 @@ export default {
         this.date_value = ''
         this.cpf_value = ''
       } catch (error) {
-        this.formError = 'Houve um erro inesperado ao registrar o aluno. Tente novamente mais tarde!'
+        console.log(error)
+        this.formError = error.response.data.message.toString()
         this.formSuccess = ''
       }
     }

@@ -1,3 +1,7 @@
+<script setup>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
+
 <template>
   <main v-if="student">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{ student.name
@@ -25,8 +29,6 @@
 </template>
 
 <script>
-import '../index.css'
-import SpanMsg from 'src/components/SpanMsg.vue';
 import verifyToken from 'src/boot/VerifyToken';
 
 export default {
