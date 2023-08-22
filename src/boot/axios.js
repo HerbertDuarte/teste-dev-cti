@@ -1,7 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a
@@ -10,6 +9,14 @@ import axios from 'axios'
 // for each client)
 const api = axios.create({ baseURL: 'http://localhost:3000' })
 
+api.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem('access_token')
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api

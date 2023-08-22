@@ -9,12 +9,11 @@ import Login from './pages/Login.vue';
 import { Screen } from 'quasar'
 import { storeToRefs } from 'pinia';
 import { useTokenStore } from './stores/token';
-import { useRouter } from 'vue-router';
 Screen.setSizes({ sm: 350, md: 500, lg: 1000, xl: 2000 })
 
 const tokenRef = ref(undefined)
 const auth = ref(undefined)
-const router = useRouter()
+
 
 onMounted(() => {
 
@@ -25,8 +24,6 @@ onMounted(() => {
     setToken(sessionStorage.getItem('access_token'))
     auth.value = sessionStorage.getItem('access_token')
   }
-
-  router.push({path: '/'})
 })
 
 </script>

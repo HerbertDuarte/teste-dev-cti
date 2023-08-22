@@ -6,7 +6,9 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>
-  <Loading v-if="loading" />
+  <main v-if="loading">
+    <Loading />
+  </main>
   <section v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Painel de alunos</h1>
     <div class="w-full q-pa-md">
@@ -55,13 +57,13 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <q-dialog v-model="deleteStudentDialog">
             <q-card>
               <ConfirmDelete :id="currentStudent.id" />
-              <SpanMsg v-if="formError" :error="formError"/>
-           <SpanMsg v-if="formSuccess" :succes="formSuccess"/>
+              <SpanMsg v-if="formError" :error="formError" />
+              <SpanMsg v-if="formSuccess" :succes="formSuccess" />
               <div v-if="deleteFormSuccess && !deleteFormError" class="max-w-[600px] w-full flex justify-center ">
-                <SpanMsg :succes="formSuccess"/>
+                <SpanMsg :succes="formSuccess" />
               </div>
-              <div v-if="!deleteFormSuccess && deleteFormError"  class="max-w-[600px] w-full flex justify-center ">
-                <SpanMsg :error="deleteFormError"/>
+              <div v-if="!deleteFormSuccess && deleteFormError" class="max-w-[600px] w-full flex justify-center ">
+                <SpanMsg :error="deleteFormError" />
               </div>
               <q-card-actions v-if="!deleteFormSuccess" class="flex justify-start p-3">
                 <q-btn @click="closedeleteStudentDialog" color="secondary">
@@ -86,13 +88,14 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         </q-btn>
       </div>
     </div>
-    <SpanMsg :error="fetchError"/>
+    <SpanMsg :error="fetchError" />
   </section>
 </template>
 
 <script>
-import { api } from 'src/boot/axios';
 import { ref } from 'vue';
+import verifyToken from 'src/boot/VerifyToken';
+
 export default {
   name: 'Visualizer',
   data() {
@@ -106,7 +109,7 @@ export default {
       currentStudent: undefined,
       deleteFormError: null,
       deleteFormSuccess: null,
-      filter : ref(''),
+      filter: ref(''),
       columns: [
         {
           name: 'name',
@@ -143,7 +146,10 @@ export default {
       this.loading = true
 
       try {
-        const response = await api.get(url)
+        const response = await verifyToken({
+          method : 'get',
+          url
+        })
         this.fetchError = ''
         this.students = response.data
       } catch (error) {
@@ -169,14 +175,17 @@ export default {
 
       if (this.deleteFormSuccess) {
         this.deleteFormSuccess = null
-        this.$router.go()
+        location.reload()
       }
     },
     deleteStudent() {
 
       const url = 'students/delete/' + this.currentStudent.id
 
-      api.delete(url)
+      verifyToken({
+          method : 'delete',
+          url
+        })
         .then(() => {
           this.deleteFormSuccess = 'Registro excluído com sucesso. Clique em voltar para recarregar a página!'
         })

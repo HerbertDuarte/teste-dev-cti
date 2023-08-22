@@ -19,11 +19,12 @@ import { RouterLink } from 'vue-router'
 import { useRouter } from 'vue-router';
 const router = useRouter()
 
-
 function handleClick() {
+  console.log('exit')
   sessionStorage.removeItem('access_token')
-  router.go()
-
+  // muda o path para "/" e recarrega a página para concluir o logout
+  router.push({path:"/"}).
+  then(()=> location.reload())
 }
 
 </script>

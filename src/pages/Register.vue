@@ -1,8 +1,3 @@
-<script setup>
-import '../index.css'
-import SpanMsg from 'src/components/SpanMsg.vue';
-</script>
-
 <template>
   <main>
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1>
@@ -29,8 +24,9 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </template>
 
 <script>
-
-import { api } from 'src/boot/axios';
+import '../index.css'
+import SpanMsg from 'src/components/SpanMsg.vue';
+import verifyToken from 'src/boot/VerifyToken';
 
 export default {
   data() {
@@ -66,7 +62,11 @@ export default {
       // validations --end
 
       try {
-        const res = await api.post(url, this.student)
+        const res = await verifyToken({
+          method : 'post',
+          data : this.student,
+          url
+        })
         console.log('response: ' + res)
         this.formSuccess = 'Aluno registrado com sucesso.'
         this.formError = ''

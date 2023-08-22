@@ -1,8 +1,3 @@
-<script setup>
-import '../index.css'
-import SpanMsg from 'src/components/SpanMsg.vue';
-</script>
-
 <template>
   <main v-if="student">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{ student.name
@@ -13,9 +8,6 @@ import SpanMsg from 'src/components/SpanMsg.vue';
       <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
         label="CPF" />
       <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
-      <!-- <q-input class="min-w-full" required v-model="score_value.module1"  type='text' label="Nota - módulo 1" />
-      <q-input class="min-w-full" required v-model="score_value.module2"  type='text' label="Nota - módulo 2" />
-      <q-input class="min-w-full" required v-model="score_value.module3"  type='text' label="Nota - módulo 3" /> -->
       <div class="space-x-2">
         <q-btn color="primary" type="submit">
           Atualizar
@@ -33,9 +25,9 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </template>
 
 <script>
-
-import axios from 'axios';
-import { api } from 'src/boot/axios';
+import '../index.css'
+import SpanMsg from 'src/components/SpanMsg.vue';
+import verifyToken from 'src/boot/VerifyToken';
 
 export default {
   data() {
@@ -55,7 +47,10 @@ export default {
 
       const url = 'students/list/' + this.$route.params.id
 
-      const response = await api.get(url)
+      const response = await verifyToken({
+          method : 'get',
+          url
+        })
 
       this.student = response.data
 
@@ -88,7 +83,11 @@ export default {
       // validations --end
 
 
-      api.put(url, this.student)
+      await verifyToken({
+          method : 'put',
+          data : this.student,
+          url
+        })
         .then(response => {
           this.formSuccess = 'Registro atualizado com sucesso'
           this.formError = ''

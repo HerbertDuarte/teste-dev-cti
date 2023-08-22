@@ -12,7 +12,9 @@
         Entrar
       </q-btn>
     </form>
-    <SpanMsg v-if="error" :error="error" />
+    <div class="w-full flex justify-center items-center px-2">
+      <SpanMsg v-if="error" :error="error" />
+    </div>
   </main>
 
   <main v-if="loading">
@@ -27,9 +29,8 @@ import '../index.css'
 import Loading from 'src/components/Loading.vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
 import { useTokenStore } from 'src/stores/token';
-import { storeToRefs } from 'pinia';
-import { api } from 'src/boot/axios';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
+import axios from 'axios';
 
 const inputUser = ref('')
 const inputPassword = ref('')
@@ -49,19 +50,30 @@ async function handleSubmit(e) {
   e.preventDefault()
   loading.value = true
   error.value = ''
+
+  const url = 'http://localhost:3000/auth/login'
+
   const user = {
     username: inputUser.value,
     password: inputPassword.value
   }
 
   try {
-    const res = await api.post('auth/login', user)
-
+    const res = await axios({
+      method: 'post',
+      url,
+      data: user,
+      headers: {
+        Authorization : undefined
+      }
+    })
     loading.value = false
     setToken(res.data.access_token)
     reloadPage()
-  } catch (err) {
 
+    console.log(res)
+  } catch (err) {
+    console.log(err)
     loading.value = false
     if(err.response.data.message) error.value = err.response.data.message
 

@@ -49,7 +49,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </template>
 
 <script>
-import { api } from 'src/boot/axios';
+import verifyToken from 'src/boot/VerifyToken';
 
 export default {
   data() {
@@ -81,7 +81,10 @@ export default {
       const url = 'modules/list'
 
       try {
-        const response = await api.get(url)
+        const response = await verifyToken({
+          method : 'get',
+          url
+        })
         this.data = response.data
         this.fetchError = ''
 

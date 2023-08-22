@@ -47,7 +47,7 @@
   </main>
 </template>
 <script>
-import { api } from 'src/boot/axios'
+import verifyToken from 'src/boot/VerifyToken';
 import SpanMsg from 'src/components/SpanMsg.vue';
 export default {
   data() {
@@ -101,7 +101,11 @@ export default {
         }
 
         try {
-          const res = await api.put(url, body)
+          const res = await verifyToken({
+          method : 'put',
+          data: body,
+          url
+        })
           this.formSuccess = res.data
           this.formSuccess = 'Pontuação atualizada com sucesso!'
         } catch (error) {
@@ -112,7 +116,10 @@ export default {
 
     async fetchData() {
       const url = 'modules/student/list/' + this.$route.params.id
-      const response = await api.get(url)
+      const response = await verifyToken({
+          method : 'get',
+          url
+        })
       this.data = response.data
       this.student = response.data.student.name
       this.module = response.data.module.name

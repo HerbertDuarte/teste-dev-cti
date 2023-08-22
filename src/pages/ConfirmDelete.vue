@@ -1,7 +1,3 @@
-<script setup>
-import '../index.css'
-</script>
-
 <template>
   <SpanMsg v-if="fetchError" :error="fetchError"/>
     <q-card-section class="space-y-3 p-3" v-if="student">
@@ -16,7 +12,7 @@ import '../index.css'
 </template>
 
 <script>
-import { api } from 'src/boot/axios';
+import verifyToken from 'src/boot/VerifyToken';
 
 export default {
   props: ['id'],
@@ -30,9 +26,13 @@ export default {
 
     async fetchData() {
 
+      const url = 'students/list/' + this.id
 
       try {
-        const response = await api.get('students/list/' + this.id)
+        const response = await verifyToken({
+          method : 'get',
+          url
+        })
         this.student = response.data
         this.fetchError = ''
       } catch (error) {

@@ -1,12 +1,3 @@
-<script setup>
-import Loading from 'src/components/Loading.vue';
-import ShowScore from './ShowScore.vue';
-import ViewStudent from './ViewStudent.vue';
-import SpanMsg from 'src/components/SpanMsg.vue';
-import '../index.css'
-
-</script>
-
 <template>
   <main class="p-4">
 
@@ -85,7 +76,7 @@ import '../index.css'
       </q-table>
     </div>
 
-    <SpanMsg v-if="formError" :error="formError"/>
+    <SpanMsg v-if="formError" :error="formError" />
     <q-dialog v-model="deleteDialog">
       <q-card>
         <q-card-section>
@@ -98,7 +89,7 @@ import '../index.css'
 
         <q-card-actions align="right">
           <q-btn label="Cancelar" color="primary" @click="closeDeleteDialog" />
-          <q-btn label="Excluir" color="negative" @click="removeStudent(currentStudent.id)" />
+          <q-btn label="Remover" color="negative" @click="removeStudent(currentStudent.id)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -129,8 +120,13 @@ import '../index.css'
   </main>
 </template>
 <script >
+import Loading from 'src/components/Loading.vue';
+import ShowScore from './ShowScore.vue';
+import ViewStudent from './ViewStudent.vue';
+import SpanMsg from 'src/components/SpanMsg.vue';
+import '../index.css'
 
-import { api } from 'src/boot/axios';
+import verifyToken from 'src/boot/VerifyToken';
 import ShowScore from './ShowScore.vue';
 import { ref } from 'vue';
 
@@ -205,7 +201,10 @@ export default {
     async fetchData() {
       const url = 'modules/list/' + this.$route.params.id
 
-      const response = await api.get(url)
+      const response = await verifyToken({
+          method : 'get',
+          url
+        })
       // console.log(response.data)
       this.dataModule = response.data[0].module
       const arrayFilted = response.data.filter((e) => e.student !== null)
@@ -216,7 +215,7 @@ export default {
           ...element.student,
           idConnection: arrayFilted[index].id,
           status: element.media ? element.media >= 5 ? 'Aprovado(a)' : 'Reprovado(a)' : 'Irregular',
-          media : element.media
+          media: element.media
         }
       })
 
@@ -227,7 +226,10 @@ export default {
     async fetchDataStudentes() {
       const url = 'students/list/'
 
-      const response = await api.get(url)
+      const response = await verifyToken({
+          method : 'get',
+          url
+        })
 
       this.dataStudents = response.data
 
@@ -243,8 +245,11 @@ export default {
       }
 
       try {
-        await api.post(url, body)
-        this.$router.go()
+        await verifyToken({
+          method : 'post',
+          body
+        })
+        location.reload()
       } catch (error) {
         this.addStudentsError = 'Erro ao adicionar o aluno. Erro : ' + error
       }
@@ -261,8 +266,11 @@ export default {
       this.closeDeleteDialog()
 
       try {
-        await api.post(url, body)
-        this.$router.go()
+        await verifyToken({
+          method : 'post',
+          url
+        })
+        location.reload()
       } catch (error) {
         this.addStudentsError = 'Erro ao remover o aluno. \nErro : ' + error
       }

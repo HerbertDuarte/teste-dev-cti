@@ -1,7 +1,3 @@
-<script>
-import SpanMsg from 'src/components/SpanMsg.vue';
-</script>
-
 <template>
   <main class="p-6">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-3">
@@ -25,8 +21,8 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </template>
 
 <script>
-import { api } from 'src/boot/axios';
-
+import SpanMsg from 'src/components/SpanMsg.vue';
+import verifyToken from 'src/boot/VerifyToken';
 export default {
   data() {
     return{
@@ -37,12 +33,16 @@ export default {
   },
 
   methods : {
-    async handleSubmit(e){
+    handleSubmit(e){
       console.log('submit')
       e.preventDefault()
       const newModule = {name : this.module_name}
       const url = 'modules/create'
-      await api.post(url, newModule).
+      verifyToken({
+          method : 'post',
+          data : newModule,
+          url
+        }).
         then(response =>{
           console.log(response.data)
           this.formSuccess = 'Módulo criado com sucesso'

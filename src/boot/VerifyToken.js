@@ -1,22 +1,27 @@
+import { storeToRefs } from "pinia";
 import { api } from "./axios";
-import { useTokenStore } from 'src/stores/token'
-import { mapActions, storeToRefs } from 'pinia'
+import { useTokenStore } from "src/stores/token";
 
-const tokenStore = useTokenStore()
+const store = useTokenStore()
+const {setToken} = store
 
-const {token} = storeToRefs(tokenStore)
-
-const {setToken} = mapActions(tokenStore, ['setToken'])
+const {token} = storeToRefs(store)
 
 export default async function verifyToken(config) {
   try {
-    const oldToken = token;
-    const response = await api.post('/refresh/token', { oldToken });
+    const oldToken = {"oldToken" : token.value};
+    const response = await api.post('/refresh/token',  oldToken );
     const newAccessToken = response.data.access_token;
+    console.log(response.data.access_token)
     sessionStorage.setItem('access_token', newAccessToken)
     setToken(newAccessToken)
 
-    return api(config);
+    return api({
+      ...config,
+      headers : {
+        'Authorization': `Bearer ${newAccessToken}`
+      }
+      });
   } catch (error) {
     console.log('axios error : ' + error)
     throw error;

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { api } from 'src/boot/axios';
+import verifyToken from 'src/boot/VerifyToken';
 import { useQuasar } from 'quasar';
 import { defineComponent } from 'vue';
 
@@ -80,7 +80,10 @@ export default defineComponent({
     async fetchData() {
 
       const url = 'modules/score/' + this.connectionId
-      const response = await api.get(url)
+      const response = await verifyToken({
+          method : 'get',
+          url
+        })
       // console.log(response.data)
       this.data = response.data
       this.student = response.data.student
