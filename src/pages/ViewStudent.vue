@@ -1,13 +1,14 @@
 <script setup>
 import '../index.css'
 import ShowScore from './ShowScore.vue';
+import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>
   <q-card class="flex flex-col justify-between w-full max-w-[700px] overflow-hidden rounded-lg" v-if="student" >
     <div >
       <div>
-        <p class="text-center text-lg bg-[#22487b5d] text-[#22487b] py-2 px-5">{{ student.name }}</p>
+        <p class="text-center text-lg bg-[#22487b5d] font-medium text-[#22487b] py-2 px-5">{{ student.name }}</p>
         <div class="p-3">
           <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR")
           }}</p>
@@ -16,7 +17,7 @@ import ShowScore from './ShowScore.vue';
           <p><span class="font-semibold">ID :</span> {{ student.id }}</p>
         </div>
         <div>
-          <p class="bg-gray-300 text-[#22487b] text-center text-bold p-2 m-2">Módulos</p>
+          <p class="bg-gray-300 text-[#22487b] text-center p-2 m-2">Módulos</p>
           <div class="px-2" v-if="studentModules.length == 0">
             <p>Nenhum módulo registrado!</p>
             <RouterLink class="text-[#22487b] font-medium hover:underline" to="/modules" >
@@ -35,10 +36,7 @@ import ShowScore from './ShowScore.vue';
         </div>
       </div>
     </div>
-    <div v-if="formError"
-      class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
-      Erro: {{ formError }}
-    </div>
+    <SpanMsg v-if="formError" :error="formError"/>
     <q-dialog class="w-full" v-model="scoreDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <ShowScore :connectionId="currentModule.id" />
@@ -54,6 +52,8 @@ import ShowScore from './ShowScore.vue';
           </q-btn>
         </q-card-actions>
       </q-card>
+
+      <!-- DELETE DIALOG -->
       <q-dialog v-model="deleteDialog">
         <q-card >
           <q-card-section>
@@ -65,7 +65,7 @@ import ShowScore from './ShowScore.vue';
             }}?
           </q-card-section>
 
-          <q-card-actions align="right">
+          <q-card-actions class="p-3">
             <q-btn label="Cancelar" color="secondary" @click="closeDeleteDialog" />
             <q-btn label="Excluir" color="negative" @click="removeStudent" />
           </q-card-actions>
@@ -77,7 +77,8 @@ import ShowScore from './ShowScore.vue';
 </template>
 
 <script>
-import axios from 'axios'
+
+import { api } from 'src/boot/axios';
 export default {
   name: 'DataList',
   props: ['idStudent'],
@@ -94,13 +95,12 @@ export default {
   methods: {
     async fetchData() {
 
-      const url = 'http://localhost:3000/students/list/' + this.idStudent
+      const url = 'students/list/' + this.idStudent
 
       try {
-        const data = await fetch(url)
-        const response = await data.json()
-        this.student = response
-        const hawStModule = response.StudentModule
+        const response = await api.get(url)
+        this.student = response.data
+        const hawStModule = response.data.StudentModule
         this.studentModules = hawStModule.map(element => {
           const sum = element.score.reduce((acumulador, nota) => acumulador + nota, 0);
           const media = (sum / element.score.length.toFixed(1))
@@ -109,7 +109,7 @@ export default {
             media
           }
         })
-        console.log(this.studentModules)
+
         this.formError = ''
       } catch (err) {
         this.formError = 'Ops! Houver um erro inesperado. Tente novamente mais tarde! ' + err.message
@@ -117,7 +117,7 @@ export default {
     },
     async removeStudent() {
 
-      const url = 'http://localhost:3000/modules/delete/student/'
+      const url = 'modules/delete/student/'
 
       const body = {
         id_module: this.currentModule.module.id,
@@ -125,7 +125,7 @@ export default {
       }
 
       try {
-        await axios.post(url, body)
+        await api.post(url, body)
         this.$router.go()
       } catch (error) {
         this.formError = 'Erro ao remover o aluno. \nErro : ' + error

@@ -1,103 +1,96 @@
-<script setup>
-  import '../index.css'
-  import Loading from 'src/components/Loading.vue';
-</script>
-
 <template>
-  <main v-if="auth == 'false' || !auth " v-show="!loading" >
-  <h1 class="sm:text-4xl text-3xl text-center py-4 text-slate-700">Olá seja bem vindo ao <span class="text-[#22487b] font-semibold">Gestor Escolar</span></h1>
-  <form v-on:submit="handleSubmit" class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded">
-    <h1 class="sm:text-3xl text-2xl w-full bg-blue-50 text-center py-2 text-blue-900/60">Entre na sua conta</h1>
-    <q-input class="min-w-full" type="text" v-model="user_value" label="Usuário" />
-    <q-input class="min-w-full" type="password" v-model="password_value" required label="Senha"/>
-      <q-btn type="submit" color="primary">
+  <main v-if="auth == 'false' || !auth" v-show="!loading">
+    <h1 class="sm:text-4xl text-3xl text-center py-4 text-slate-700">Olá seja bem vindo ao <span
+        class="text-[#22487b] font-semibold">Gestor Escolar</span></h1>
+    <form v-on:submit="handleSubmit"
+      class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded">
+      <h1 class="sm:text-3xl text-2xl w-full bg-blue-50 text-center py-2 text-blue-900/60">Entre na sua conta</h1>
+      <q-input class="min-w-full" type="text" v-model="inputUser" label="Usuário" id="user" />
+      <q-input class="min-w-full" type="password" v-model="inputPassword" required aria-label="Senha" label="Senha"
+        id="password" />
+      <q-btn tabindex="2" type="submit" color="primary">
         Entrar
       </q-btn>
-      <!-- <input  type="submit"  value="login" class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer" > -->
     </form>
-    <div v-if="error" class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
-      Erro: {{ error }}
-    </div>
+    <SpanMsg v-if="error" :error="error" />
   </main>
+
   <main v-if="loading">
-    <Loading/>
+    <Loading />
   </main>
-  <main v-if="auth == 'true' && user && user.id" >
-    <Loading/>
+  <main v-if="auth == 'true' && user && user.id">
+    <Loading />
   </main>
 </template>
+<script setup>
+import '../index.css'
+import Loading from 'src/components/Loading.vue';
+import SpanMsg from 'src/components/SpanMsg.vue';
+import { useTokenStore } from 'src/stores/token';
+import { storeToRefs } from 'pinia';
+import { api } from 'src/boot/axios';
+import { onMounted, ref, watch } from 'vue';
 
-<script>
-import { inject } from 'vue';
-import axios from 'axios';
+const inputUser = ref('')
+const inputPassword = ref('')
+const error = ref('')
+const auth = ref(null)
+const loading = ref(false)
 
-export default {
-    data (){
-      return{
-        user_value : '',
-        password_value: '',
-        error: '',
-        auth : null,
-        user : null,
-        loading : false
-      }
-    },
-    methods : {
-      async handleSubmit(e){
-        e.preventDefault()
-        const url = 'http://localhost:3000/auth/login'
-        this.loading = true
+const store = useTokenStore()
+const {setToken} = store
 
-        const user = {
-          user :this.user_value,
-          password : this.password_value
-        }
-        try {
-          const response = await axios.post(url, user)
-          if(response.data.id){
-            localStorage.setItem('auth', 'true')
-            localStorage.setItem('user', JSON.stringify(response.data))
-            this.auth = 'true'
-            this.user = response.data
-            this.error = ''
-            this.navigateToRoute()
-            this.reloadPage()
-          }else{
-            localStorage.setItem('auth', 'false')
-            localStorage.setItem('user', 'null')
-            this.error = 'Usuário ou senha incorretos, tente novamente!'
-            this.auth = 'false'
-          }
+function reloadPage() {
+  location.reload();
+}
 
-        } catch (error) {
-          localStorage.setItem('auth', 'false')
-          localStorage.setItem('user', 'null')
-          this.auth = 'false'
-          if(error.response.data.message == 'Unauthorized'){
-            this.error = 'Usuário ou senha incorretos, tente novamente!'
-          }else{
-            this.error = 'Houve um erro inesperado, tente novamente mais tarde!'
-          }
-        }
-        this.loading = false
-      },
-      reloadPage() {
-        location.reload();
-      },
-      navigateToRoute() {
-      this.$router.push('/')
-      }
-    },
-    mounted(){
-      const store = inject('store')
-      this.auth = store.auth
-      const storeUser = store.user
-      if(storeUser !== 'null' && JSON.parse(storeUser)){
-        const user = JSON.parse(storeUser)
-        this.user = user
-      }
+async function handleSubmit(e) {
 
-      this.navigateToRoute()
-    }
+  e.preventDefault()
+  loading.value = true
+  error.value = ''
+  const user = {
+    username: inputUser.value,
+    password: inputPassword.value
   }
+
+  try {
+    const res = await api.post('auth/login', user)
+
+    loading.value = false
+    setToken(res.data.access_token)
+    reloadPage()
+  } catch (err) {
+
+    loading.value = false
+    if(err.response.data.message) error.value = err.response.data.message
+
+  }
+
+  watch(inputUser, () =>{
+    error.value = ''
+  })
+  watch(inputPassword, () =>{
+    error.value = ''
+  })
+}
 </script>
+
+  // methods: {
+
+  //   cleanError() {
+  //     this.error = ''
+  //   },
+  //   reloadPage() {
+  //     location.reload();
+  //   },
+  //   navigateToRoute() {
+  //     this.$router.push('/')
+  //   }
+  // },
+  // watch: {
+  //   user_value(nv, ov) {
+  //     this.error = ''
+  //   }
+  // }
+

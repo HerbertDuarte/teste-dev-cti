@@ -1,12 +1,16 @@
 <script setup>
 import { ref } from 'vue';
 import '../index.css'
+import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>
+
   <main class="p-">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Gerenciador de módulos</h1>
     <div class="space-y-3 flex flex-col w-full max-w-md">
+
+      <SpanMsg v-if="fetchError" :error="fetchError"/>
       <div class="q-pa-md" v-if="data">
         <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat bordered>
           <template v-slot:top-left>
@@ -45,11 +49,14 @@ import '../index.css'
 </template>
 
 <script>
+import { api } from 'src/boot/axios';
+
 export default {
   data() {
     return {
       data: undefined,
       filter: ref(''),
+      fetchError: '',
       columns: [
         {
           name: 'name',
@@ -71,12 +78,17 @@ export default {
 
   methods: {
     async fetchAPi() {
-      const url = 'http://localhost:3000/modules/list'
+      const url = 'modules/list'
 
-      const response = await fetch(url)
-      const data = await response.json()
+      try {
+        const response = await api.get(url)
+        this.data = response.data
+        this.fetchError = ''
 
-      this.data = data
+      } catch (error) {
+        this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
+      }
+
     }
   },
 

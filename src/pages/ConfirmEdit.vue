@@ -1,6 +1,6 @@
 <script setup>
 import '../index.css'
-import { RouterLink } from 'vue-router';
+import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>
@@ -27,20 +27,15 @@ import { RouterLink } from 'vue-router';
 
       </div>
     </form>
-    <div v-if="formError"
-      class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
-      Erro: {{ formError }}
-    </div>
-    <div v-if="formSuccess"
-      class="bg-teal-400 text-white border-4 border-teal-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
-      {{ formSuccess }}
-    </div>
+    <SpanMsg v-if="formError" :error="formError"/>
+    <SpanMsg v-if="formSuccess" :success="formSuccess"/>
   </main>
 </template>
 
 <script>
 
 import axios from 'axios';
+import { api } from 'src/boot/axios';
 
 export default {
   data() {
@@ -58,12 +53,11 @@ export default {
 
     async fetchData() {
 
-      const url = 'http://localhost:3000/students/list/' + this.$route.params.id
+      const url = 'students/list/' + this.$route.params.id
 
-      const data = await fetch(url)
-      const response = await data.json()
+      const response = await api.get(url)
 
-      this.student = response
+      this.student = response.data
 
       this.name_value = this.student.name
       this.cpf_value = this.student.cpf
@@ -76,7 +70,7 @@ export default {
 
       e.preventDefault()
 
-      const url = 'http://localhost:3000/students/update/' + this.$route.params.id
+      const url = 'students/update/' + this.$route.params.id
 
       this.student = {
         name: this.name_value,
@@ -84,8 +78,6 @@ export default {
         date: new Date(this.date_value),
         // score : this.score_value,
       }
-
-      console.log(this.student)
 
       // validations --start
 
@@ -96,9 +88,8 @@ export default {
       // validations --end
 
 
-      axios.put(url, this.student)
+      api.put(url, this.student)
         .then(response => {
-          console.log(response.data)
           this.formSuccess = 'Registro atualizado com sucesso'
           this.formError = ''
         })

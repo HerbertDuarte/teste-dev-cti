@@ -2,6 +2,7 @@
 import Loading from 'src/components/Loading.vue';
 import ShowScore from './ShowScore.vue';
 import ViewStudent from './ViewStudent.vue';
+import SpanMsg from 'src/components/SpanMsg.vue';
 import '../index.css'
 
 </script>
@@ -38,7 +39,7 @@ import '../index.css'
           </q-td>
         </template>
       </q-table>
-      <p class="text-red-500 text-xl" v-if="addStudentsError">
+      <p class="text-red-500 text-lg" v-if="addStudentsError">
         {{ addStudentsError }}
       </p>
     </div>
@@ -67,7 +68,7 @@ import '../index.css'
               <q-icon name="person" />
             </q-btn>
             <q-btn @click="confirmEdit(props.row)" color="primary" size="sm">
-              <q-icon name="visibility" />
+              <q-icon name="format_list_numbered" />
             </q-btn>
             <q-btn @click="confirmDelete(props.row)" color="negative" size="sm">
               <q-icon name="delete" />
@@ -84,10 +85,7 @@ import '../index.css'
       </q-table>
     </div>
 
-    <div v-if="formError"
-      class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[600px]">
-      {{ formError }}
-    </div>
+    <SpanMsg v-if="formError" :error="formError"/>
     <q-dialog v-model="deleteDialog">
       <q-card>
         <q-card-section>
@@ -132,7 +130,7 @@ import '../index.css'
 </template>
 <script >
 
-import axios from 'axios';
+import { api } from 'src/boot/axios';
 import ShowScore from './ShowScore.vue';
 import { ref } from 'vue';
 
@@ -205,13 +203,12 @@ export default {
   methods: {
 
     async fetchData() {
-      const url = 'http://localhost:3000/modules/list/' + this.$route.params.id
+      const url = 'modules/list/' + this.$route.params.id
 
-      const data = await fetch(url)
-      const response = await data.json()
-      // console.log(response)
-      this.dataModule = response
-      const arrayFilted = response.filter((e) => e.student !== null)
+      const response = await api.get(url)
+      // console.log(response.data)
+      this.dataModule = response.data[0].module
+      const arrayFilted = response.data.filter((e) => e.student !== null)
       // const newArray = arrayFilted.map((e) => e.student)
       this.dataStudentsModule = arrayFilted.map((element, index) => {
 
@@ -226,19 +223,19 @@ export default {
       // console.log(this.dataStudentsModule)
       this.loading = false
     },
+
     async fetchDataStudentes() {
-      const url = 'http://localhost:3000/students/list/'
+      const url = 'students/list/'
 
-      const data = await fetch(url)
-      const response = await data.json()
+      const response = await api.get(url)
 
-      this.dataStudents = response
+      this.dataStudents = response.data
 
       this.loadingStudents = false
     },
     async addStudent(studentId) {
 
-      const url = 'http://localhost:3000/modules/register/student/'
+      const url = 'modules/register/student/'
 
       const body = {
         id_module: this.$route.params.id,
@@ -246,30 +243,29 @@ export default {
       }
 
       try {
-        await axios.post(url, body)
+        await api.post(url, body)
         this.$router.go()
       } catch (error) {
-        this.addStudentsError = 'Erro ao adicionar o aluno. \nErro : ' + error
+        this.addStudentsError = 'Erro ao adicionar o aluno. Erro : ' + error
       }
 
     },
     async removeStudent(studentId) {
 
-      const url = 'http://localhost:3000/modules/delete/student/'
+      const url = 'modules/delete/student/'
 
       const body = {
         id_module: this.$route.params.id,
         id_student: studentId
       }
+      this.closeDeleteDialog()
 
       try {
-        await axios.post(url, body)
+        await api.post(url, body)
         this.$router.go()
       } catch (error) {
         this.addStudentsError = 'Erro ao remover o aluno. \nErro : ' + error
       }
-
-      this.currentStudent = {}
 
     },
     listStudentsWithOutModules(listaCompleta, listaReduzida) {

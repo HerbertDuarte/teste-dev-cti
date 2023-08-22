@@ -14,9 +14,9 @@
         <q-toolbar-title>
           Gestor escolar
         </q-toolbar-title>
-        <q-toolbar-title class="text-[18px] bem-vindo" v-if="user">
+        <!-- <q-toolbar-title class="text-[18px] bem-vindo" v-if="user">
           Bem vindo <b>{{ user.displayName }}</b>
-        </q-toolbar-title>
+        </q-toolbar-title> -->
       </q-toolbar>
 
     </q-header>
@@ -54,9 +54,9 @@
 
 </style>
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref} from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-import { store } from 'src/store'
+// import { store } from 'src/store'
 
 const linksList = [
 
@@ -90,12 +90,8 @@ export default defineComponent({
   name: 'MainLayout',
   data(){
     return{
-      user : undefined
-    }
-  },
 
-  components: {
-    EssentialLink
+    }
   },
   setup () {
     const leftDrawerOpen = ref(false)
@@ -108,8 +104,10 @@ export default defineComponent({
       }
     }
   },
-  mounted(){
-    this.user = JSON.parse(store.user)
-  }
+
+  components: {
+    EssentialLink
+  },
+
 })
 </script>

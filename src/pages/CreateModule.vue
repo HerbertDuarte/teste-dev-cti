@@ -1,3 +1,7 @@
+<script>
+import SpanMsg from 'src/components/SpanMsg.vue';
+</script>
+
 <template>
   <main class="p-6">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-3">
@@ -11,12 +15,8 @@
       </q-btn>
     </form>
 
-    <div v-if="formError" class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 m-3 rounded w-[90%]  max-w-[300px]">
-      Erro: {{ formError }}
-    </div>
-    <div v-if="formSuccess" class="bg-teal-400 text-white border-4 border-teal-500/60 p-2 m-3 rounded w-[90%]  max-w-[300px]">
-     {{ formSuccess }}
-    </div>
+    <SpanMsg v-if="formError" :error="formError"/>
+    <SpanMsg v-if="formSuccess" :success="formSuccess"/>
 
     <q-btn @click="$router.back" color="primary">
       Voltar
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { api } from 'src/boot/axios';
 
 export default {
   data() {
@@ -41,10 +41,10 @@ export default {
       console.log('submit')
       e.preventDefault()
       const newModule = {name : this.module_name}
-      const url = 'http://localhost:3000/modules/create'
-      await axios.post(url, newModule).
+      const url = 'modules/create'
+      await api.post(url, newModule).
         then(response =>{
-          console.log(response)
+          console.log(response.data)
           this.formSuccess = 'Módulo criado com sucesso'
           this.module_name = ''
           this.formError = ''

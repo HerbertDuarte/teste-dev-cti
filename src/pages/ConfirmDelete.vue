@@ -1,38 +1,44 @@
 <script setup>
 import '../index.css'
-import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-    <div v-if="!formSuccess" class="space-x-2 py-3 text-center">
-      <h1 v-if="student" class="sm:text-3xl text-2xl text-slate-700 max-w-[600px]">Tem certeza que deseja excluir o
+  <SpanMsg v-if="fetchError" :error="fetchError"/>
+    <q-card-section class="space-y-3 p-3" v-if="student">
+      <p class="text-lg font-medium text-zinc-900">
+        Confirmação de exlusão de registro global de registro
+      </p>
+      <p v-if="student" class="text-slate-900 max-w-[600px] text-start">Tem certeza que deseja excluir o
         cadastro de <span class="font-bold">{{ student.name }}</span>?
-      </h1>
-    </div>
+      </p>
+    </q-card-section>
 
 </template>
 
 <script>
-import axios from 'axios';
+import { api } from 'src/boot/axios';
 
 export default {
   props: ['id'],
   data() {
     return {
       student: null,
-      formError: '',
-      formSuccess: ''
+      fetchError: ''
     }
   },
   methods: {
 
     async fetchData() {
 
-      const url = 'http://localhost:3000/students/list/' + this.id
 
-      const response = await axios.get(url)
+      try {
+        const response = await api.get('students/list/' + this.id)
+        this.student = response.data
+        this.fetchError = ''
+      } catch (error) {
+        this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
+      }
 
-      this.student = response.data
 
     },
 

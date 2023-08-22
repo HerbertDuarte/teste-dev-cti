@@ -1,4 +1,4 @@
-# Quasar App (front-end)
+# Quasar App (quasar-project)
 
 A Quasar Project
 
@@ -13,15 +13,6 @@ npm install
 ```bash
 quasar dev
 ```
-
-
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
 
 
 ### Build the app for production

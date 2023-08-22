@@ -4,14 +4,21 @@
     <q-card class="w-full max-w-xl rounded-lg overflow-hidden">
       <form>
         <div class="bg-primary px-2 py-3 text-lg text-white">
-          Edite as notas de <span class="font-bold">{{ student }}</span> no módulo <span class="font-bold">{{ module }}</span>
+          Edite as notas de <span class="font-bold">{{ student }}</span> no módulo <span class="font-bold">{{ module
+          }}</span>
         </div>
         <div class="p-2 space-y-2">
           <div v-if="scores.length == 0">
             Adicione a primeira nota para esse(a) aluno(a)
           </div>
           <div v-for="(score, index) in scores">
-            <q-input resize="no" class="px-1" v-model="scores[index]" :label="(index + 1) + '° unidade'" type="number">
+            <q-input :rules="[
+              val => Number(val) <= 10 || 'O valor máximo da nota é 10.',
+              val => val.length <= 3 || 'Defina um nota com no máximo 1 casa decimal.',
+              val => val.length > 0 || 'Preencha a nota ou delete esse campo.',
+              val => Number(val) >= 0 || 'O valor mínimo da nota é 0.',
+            ]" id="numero" step="0.1" resize="no" class="px-1" v-model="scores[index]"
+              :label="(index + 1) + '° unidade'" type="number">
               <q-btn flat color="negative" @click="removeFloat(index)">
                 <q-icon size="xs" name="delete" />
               </q-btn>
@@ -26,7 +33,7 @@
             <q-btn @click="$router.back" color="secondary">
               Voltar
             </q-btn>
-            <q-btn @click="updateData" color="primary">
+            <q-btn :disable="validateFailed" @click="updateData" color="primary">
               Salvar
             </q-btn>
           </div>
@@ -34,55 +41,78 @@
       </form>
     </q-card>
     <div class="w-full flex justify-center max-w-xl my-2">
-      <div v-if="formError" class="bg-red-400 text-white/80 border-4 border-red-500/60 p-2 rounded w-full">
-        Erro: {{ formError }}
-      </div>
-      <div v-if="formSuccess" class="bg-teal-400 text-white border-4 border-teal-500/60 p-2 rounded w-full">
-       {{ formSuccess }}
-      </div>
+      <SpanMsg v-if="formError" :error="formError" />
+      <SpanMsg v-if="formSuccess" :succes="formSuccess" />
     </div>
   </main>
 </template>
 <script>
-import axios from 'axios'
+import { api } from 'src/boot/axios'
+import SpanMsg from 'src/components/SpanMsg.vue';
 export default {
   data() {
     return {
       data: {},
       student: undefined,
-      module : undefined,
+      module: undefined,
       formError: '',
       formSuccess: '',
-      scores: []
+      scores: [],
+      validateFailed: false,
     }
   },
+
+  watch: {
+
+    scores: {
+      handler(vl) {
+        this.formSuccess = ''
+        vl.map((score) => {
+          if (Number(score) > 10 || Number(score) < 0 || score.length == 0 || score.length > 3) {
+            this.validateFailed = true
+          }
+          else if(Number(score) === 10){
+            this.validateFailed = false
+          }
+          else{
+            this.validateFailed = false
+          }
+        })
+
+        return vl.map(e => Number(e).toFixed(1))
+      },
+      deep: true
+    }
+  },
+
   methods: {
 
     async updateData(e) {
       e.preventDefault()
-      const url = 'http://localhost:3000/modules/update/score/' + this.$route.params.id
 
-      const {id_student, id_module} = this.data
-      const newScores = this.scores.map(e=> Number(e))
-      const body = {
-        id_student,
-        id_module,
-        score : [...newScores]
-      }
+        const url = 'modules/update/score/' + this.$route.params.id
 
-      try {
-        const res = await axios.put(url, body)
-        this.formSuccess = res.data
-        this.formSuccess = 'Pontuação atualizada com sucesso!'
-      } catch (error) {
-        this.formError = 'Erro ao atualizar a pontuação do aluno\n' + error.message
-      }
-    },
+        const { id_student, id_module } = this.data
+        const newScores = this.scores.map(e => Number(e))
+        const body = {
+          id_student,
+          id_module,
+          score: [...newScores]
+        }
+
+        try {
+          const res = await api.put(url, body)
+          this.formSuccess = res.data
+          this.formSuccess = 'Pontuação atualizada com sucesso!'
+        } catch (error) {
+          this.formError = 'Erro ao atualizar a pontuação do aluno\n' + error.message
+        }
+      },
+
 
     async fetchData() {
-      const url = 'http://localhost:3000/modules/student/list/' + this.$route.params.id
-      const response = await axios.get(url)
-      console.log(response.data.student)
+      const url = 'modules/student/list/' + this.$route.params.id
+      const response = await api.get(url)
       this.data = response.data
       this.student = response.data.student.name
       this.module = response.data.module.name
@@ -90,7 +120,7 @@ export default {
     },
 
     addFloat() {
-      this.scores.push(0.0);
+      this.scores.push('');
     },
     removeFloat(index) {
       this.scores.splice(index, 1);
