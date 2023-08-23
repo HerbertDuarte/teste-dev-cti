@@ -45,11 +45,11 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <q-dialog v-model="viewStudentDialog">
             <q-card>
               <ViewStudent :idStudent="currentStudent.id" />
-              <q-card-actions class="flex justify-end">
+              <!-- <q-card-actions class="flex justify-end">
                 <q-btn @click="closeViewStudentDialog" color="secondary">
                   Voltar
                 </q-btn>
-              </q-card-actions>
+              </q-card-actions> -->
             </q-card>
           </q-dialog>
 
@@ -65,7 +65,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
               <div v-if="!deleteFormSuccess && deleteFormError" class="max-w-[600px] w-full flex justify-center ">
                 <SpanMsg :error="deleteFormError" />
               </div>
-              <q-card-actions v-if="!deleteFormSuccess" class="flex justify-start p-3">
+              <!-- <q-card-actions v-if="!deleteFormSuccess" class="flex justify-start p-3">
                 <q-btn @click="closedeleteStudentDialog" color="secondary">
                   Cancelar
                 </q-btn>
@@ -77,7 +77,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
                 <q-btn @click="closedeleteStudentDialog" color="primary">
                   voltar
                 </q-btn>
-              </q-card-actions>
+              </q-card-actions> -->
             </q-card>
           </q-dialog>
         </template>
@@ -178,23 +178,7 @@ export default {
         location.reload()
       }
     },
-    deleteStudent() {
-
-      const url = 'students/delete/' + this.currentStudent.id
-
-      verifyToken({
-          method : 'delete',
-          url
-        })
-        .then(() => {
-          this.deleteFormSuccess = 'Registro excluído com sucesso. Clique em voltar para recarregar a página!'
-        })
-        .catch(error => {
-          this.deleteFormError = error.message
-        });
-
-      // this.$router.push('/delete/success')
-    }
+    
   },
   mounted() {
     this.fetchData()

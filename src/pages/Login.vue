@@ -1,6 +1,6 @@
 
 <template>
-  <main v-if="auth == 'false' || !auth" v-show="!loading">
+  <main v-if="!loading">
     <h1 class="sm:text-4xl text-3xl text-center py-4 text-slate-700">Olá seja bem vindo ao <span
         class="text-[#22487b] font-semibold">Gestor Escolar</span></h1>
     <form v-on:submit="handleSubmit"
@@ -21,26 +21,23 @@
   <main v-if="loading">
     <Loading />
   </main>
-  <main v-if="auth == 'true' && user && user.id">
-    <Loading />
-  </main>
 </template>
 <script setup>
 import SpanMsg from 'src/components/SpanMsg.vue';
 import '../index.css'
 import Loading from 'src/components/Loading.vue';
 import { useTokenStore } from 'src/stores/token';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const inputUser = ref('')
 const inputPassword = ref('')
 const error = ref('')
-const auth = ref(null)
 const loading = ref(false)
-
 const store = useTokenStore()
-const {setToken} = store
+const { setToken } = store
 
 function reloadPage() {
   location.reload();
@@ -64,29 +61,30 @@ async function handleSubmit(e) {
       method: 'post',
       url,
       data: user,
-      headers: {
-        Authorization : undefined
-      }
+      // headers: {
+      //   Authorization: undefined
+      // }
     })
-    loading.value = false
     setToken(res.data.access_token)
     reloadPage()
-
     console.log(res)
   } catch (err) {
     console.log(err)
     loading.value = false
-    if(err.response.data.message) error.value = err.response.data.message
+    if (err.response.data.message) error.value = err.response.data.message
 
   }
-
-  watch(inputUser, () =>{
-    error.value = ''
-  })
-  watch(inputPassword, () =>{
-    error.value = ''
-  })
 }
+onMounted(() => {
+  router.push({path : '/'})
+})
+
+watch(inputUser, () => {
+  error.value = ''
+})
+watch(inputPassword, () => {
+  error.value = ''
+})
 </script>
 
   // methods: {

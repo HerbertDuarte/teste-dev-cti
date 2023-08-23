@@ -1,6 +1,20 @@
+<script setup>
+import Loading from 'src/components/Loading.vue';
+</script>
+
 <template>
-  <p class="text-lg text-center text-bold text-zinc-50 p-2 bg-[#22487b]">Pontuações - {{ module.name }}</p>
-  <div class="p-3 pb-0">
+  <p class="text-lg text-center text-bold text-zinc-50 p-2 bg-[#22487b]">
+    <span v-if="!loading">
+      Pontuações - {{ module.name }}
+    </span>
+    <span v-if="loading">
+      Carregando...
+    </span>
+  </p>
+  <div v-if="loading" class="w-full flex justify-center items-center h-40">
+    <Loading />
+  </div>
+  <div v-if="!loading" class="p-3 pb-0">
     <div class="flex justify-between items-start">
       <div class="flex-1">
         <p class="text-lg">
@@ -50,7 +64,35 @@
         </q-circular-progress>
       </div>
     </div>
+    <div class="p-3 text-right space-x-2">
+      <q-btn :to="'/modules/edit/score/' + connectionId" color="primary">
+        Editar
+      </q-btn>
+      <q-btn @click="openDeleteDialog" color="negative">
+        Remover
+      </q-btn>
+    </div>
   </div>
+
+  <!-- DELETE DIALOG -->
+  <q-dialog v-model="deleteDialog">
+    <q-card>
+      <q-card-section>
+        <div class="text-h6">Confirmação de exclusão de registro</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        Tem certeza que deseja excluir os registros de <b>{{ student.name }}</b> no módulo {{
+          module.name
+        }}?
+      </q-card-section>
+
+      <q-card-actions class="p-3">
+        <q-btn label="Cancelar" color="secondary" @click="closeDeleteDialog" />
+        <q-btn label="Excluir" color="negative" @click="removeStudent" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -66,6 +108,8 @@ export default defineComponent({
       student: {},
       module: {},
       quasar: useQuasar(),
+      deleteDialog: false,
+      loading: false
     }
   },
 
@@ -78,17 +122,48 @@ export default defineComponent({
   methods: {
 
     async fetchData() {
-
+      this.loading = true
       const url = 'modules/score/' + this.connectionId
       const response = await verifyToken({
-          method : 'get',
-          url
-        })
+        method: 'get',
+        url
+      })
       // console.log(response.data)
       this.data = response.data
       this.student = response.data.student
       this.module = response.data.module
+      this.loading = false
+    },
+    async removeStudent() {
 
+      const url = 'modules/delete/student/'
+
+      const body = {
+        id_module: this.module.id,
+        id_student: this.student.id
+      }
+      this.closeDeleteDialog()
+
+      try {
+        await verifyToken({
+          method: 'post',
+          url,
+          data: body,
+        })
+        location.reload()
+      } catch (error) {
+        this.addStudentsError = 'Erro ao remover o aluno. \nErro : ' + error
+      }
+
+    },
+    openDeleteDialog() {
+
+      this.deleteDialog = true
+
+    },
+    closeDeleteDialog() {
+
+      this.deleteDialog = false
     }
 
   },

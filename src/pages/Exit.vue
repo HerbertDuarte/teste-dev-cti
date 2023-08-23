@@ -17,14 +17,14 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useRouter } from 'vue-router';
+import { useTokenStore } from 'src/stores/token';
 const router = useRouter()
+const store = useTokenStore()
+const {logout} = store
 
 function handleClick() {
   console.log('exit')
-  sessionStorage.removeItem('access_token')
-  // muda o path para "/" e recarrega a página para concluir o logout
-  router.push({path:"/"}).
-  then(()=> location.reload())
+  logout()
 }
 
 </script>

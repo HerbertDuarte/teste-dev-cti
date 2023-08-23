@@ -17,7 +17,6 @@ import { RouterLink } from 'vue-router';
       <RouterLink class="flex-1 inline-block bg-cyan-9 p-4 pr-24 pb-20 rounded shadow-md" to="modules">
         <p class="text-white font-medium text-xl">Módulos</p>
       </RouterLink>
-
     </section>
   </main>
 </template>

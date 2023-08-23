@@ -2,54 +2,73 @@
 import { ref } from 'vue';
 import '../index.css'
 import SpanMsg from 'src/components/SpanMsg.vue';
+import Loading from 'src/components/Loading.vue';
 </script>
 
 <template>
-
-  <main class="p-">
+  <main v-if="loading">
+    <Loading />
+  </main>
+  <main v-if="data && !loading" class="p-4">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Gerenciador de módulos</h1>
     <div class="space-y-3 flex flex-col w-full max-w-md">
 
-      <SpanMsg v-if="fetchError" :error="fetchError"/>
+      <SpanMsg v-if="fetchError" :error="fetchError" />
       <div class="q-pa-md" v-if="data">
         <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat bordered>
           <template v-slot:top-left>
-          <div class="space-x-3">
-            <span class="text-zinc-600 text-lg">
-              Módulos
-            </span>
-          </div>
-        </template>
-        <template v-slot:top-right>
-          <q-input dense debounce="300" v-model="filter" placeholder="Search">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
+            <div class="space-x-3">
+              <span class="text-zinc-600 text-lg">
+                Módulos
+              </span>
+            </div>
+          </template>
+          <template v-slot:top-right>
+            <q-input dense debounce="300" v-model="filter" placeholder="Search">
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
           <template v-slot:body-cell-actions="scope">
-            <q-td class="flex justify-end">
-                <q-btn id="btn_name" :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
-                  detalhes
-                </q-btn>
-                <q-btn id="btn_icon" :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
-                  <q-icon name="visibility"/>
-                </q-btn>
+            <q-td class="text-right space-x-2">
+              <q-btn @click="openDeleteModuleDialog(scope.row.id)" color="negative" size="sm">
+                <q-icon name="delete" />
+              </q-btn>
+              <q-btn :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
+                <q-icon name="visibility" />
+              </q-btn>
             </q-td>
           </template>
         </q-table>
         <div class="flex justify-center mt-5">
-        <q-btn to="/modules/create" color="primary">
-          Cadastrar um módulo
-        </q-btn>
-      </div>
+          <q-btn to="/modules/create" color="primary">
+            Cadastrar um módulo
+          </q-btn>
+        </div>
       </div>
     </div>
   </main>
+  <q-dialog v-model="deleteDialog">
+    <q-card>
+     <q-card-section class="bg-[#22487b] text-white p-3">
+      Confirmação de exclusão
+     </q-card-section>
+     <q-card-section>
+      <p>Tem certeza que deseja excluir o módulo <b>{{ currentModule.name }}</b>? Atenção, todas as notas de alunos registradas nesse módulo serão apagadas!</p>
+     </q-card-section>
+     <div class="text-right p-3">
+      <q-btn @click="deleteModule" color="negative">
+        Apagar
+      </q-btn>
+     </div>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
 import verifyToken from 'src/boot/VerifyToken';
+import Loading from 'src/components/Loading.vue';
 
 export default {
   data() {
@@ -57,6 +76,9 @@ export default {
       data: undefined,
       filter: ref(''),
       fetchError: '',
+      loading: true,
+      currentModule : undefined,
+      deleteDialog: false,
       columns: [
         {
           name: 'name',
@@ -82,7 +104,7 @@ export default {
 
       try {
         const response = await verifyToken({
-          method : 'get',
+          method: 'get',
           url
         })
         this.data = response.data
@@ -91,8 +113,48 @@ export default {
       } catch (error) {
         this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
       }
+      this.loading = false
+    },
+
+    async openDeleteModuleDialog(id){
+      const url = 'modules/list/' + id
+
+      try {
+        const response = await verifyToken({
+          method: 'get',
+          url
+        })
+        if(Array.isArray(response.data)){
+          this.currentModule = response.data[0].module
+        }else{
+          this.currentModule = response.data
+        }
+        this.fetchError = ''
+        this.deleteDialog = true
+
+      } catch (error) {
+        console.log(error)
+        this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
+      }
+      this.loading = false
+    },
+
+    async deleteModule(){
+
+      try {
+        await verifyToken({
+          method : 'delete',
+          url : 'modules/delete/' + this.currentModule.id
+        })
+
+        location.reload()
+      } catch (error) {
+        this.fetchError = 'Houve um erro ao deletar o módulo'
+        console.log(error)
+      }
 
     }
+
   },
 
   mounted() {
@@ -104,16 +166,16 @@ export default {
 
 
 <style scoped>
-
-#btn_icon{
+#btn_icon {
   display: none;
 }
 
 @media (max-width: 380px) {
-  #btn_name{
+  #btn_name {
     display: none;
   }
-  #btn_icon{
+
+  #btn_icon {
     display: flex;
   }
 }

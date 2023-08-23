@@ -1,8 +1,12 @@
 <script setup>
+import Loading from 'src/components/Loading.vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 
 <template>
+  <main v-if="loading">
+    <Loading />
+  </main>
   <main v-if="student">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{ student.name
     }}</span></h1>
@@ -20,7 +24,6 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         <q-btn @click="$router.back" color="secondary">
           Voltar
         </q-btn>
-
       </div>
     </form>
     <SpanMsg v-if="formError" :error="formError"/>
@@ -38,7 +41,7 @@ export default {
       name_value: '',
       date_value: '',
       cpf_value: '',
-
+      loading: false,
       formError: '',
       formSuccess: '',
     }
@@ -46,7 +49,7 @@ export default {
   methods: {
 
     async fetchData() {
-
+      this.loading = true
       const url = 'students/list/' + this.$route.params.id
 
       const response = await verifyToken({
@@ -60,11 +63,13 @@ export default {
       this.cpf_value = this.student.cpf
       this.date_value = this.student.date.substring(0, 10)
       // this.score_value = this.student.score
+      this.loading = false
     },
 
 
     async handleSubmit(e) {
 
+      this.loading = true
       e.preventDefault()
 
       const url = 'students/update/' + this.$route.params.id
@@ -99,7 +104,7 @@ export default {
           this.formSuccess = ''
         });
 
-      this.textButton = 'Voltar'
+      this.loading = false
     }
   },
   mounted() {

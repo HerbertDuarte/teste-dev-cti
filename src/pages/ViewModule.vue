@@ -2,10 +2,11 @@
 import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 <template>
-  <main class="p-4">
-
-    <Loading v-if="!dataStudents" />
-    <div class="w-full max-w-[700px]" v-if="dataStudents">
+  <main v-if="loading">
+    <Loading />
+  </main>
+  <main v-if="!loading" class="p-4">
+    <div class="w-full max-w-[700px]">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
         Alunos não registrados no módulo {{ dataModule.name }}
       </h1>
@@ -23,7 +24,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           </q-input>
         </template>
         <template v-slot:body-cell-actions="props">
-          <q-td class="flex justify-end gap-2">
+          <q-td class="text-right space-x-2">
             <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
               <q-icon name="person" />
             </q-btn>
@@ -100,26 +101,27 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <q-dialog class="w-full" v-model="editDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <ShowScore :connectionId="currentStudent.idConnection" />
-        <q-card-actions class="flex justify-end p-3">
+        <!-- <q-card-actions class="flex justify-end p-3">
           <q-btn @click="editDialog = false" color="secondary">
             Voltar
           </q-btn>
-          <q-btn :to="'/modules/edit/score/' + currentStudent.idConnection" color="primary">
-            Editar
-          </q-btn>
-        </q-card-actions>
+
+        </q-card-actions> -->
       </q-card>
     </q-dialog>
     <q-dialog v-model="viewStudentDialog">
       <q-card>
         <ViewStudent :idStudent="currentStudent.id" />
-        <q-card-actions class="flex justify-end">
+        <!-- <q-card-actions class="flex justify-end">
           <q-btn @click="closeViewStudentDialog" color="secondary">
             Voltar
           </q-btn>
-        </q-card-actions>
+        </q-card-actions> -->
       </q-card>
     </q-dialog>
+  </main>
+  <main v-if="!dataStudents && !loading" >
+  <SpanMsg error="Erro ao carregar os dados. Verifique sua conexão e tente novamente mais tarde!"/>
   </main>
 </template>
 <script >
@@ -129,7 +131,6 @@ import ViewStudent from './ViewStudent.vue';
 import '../index.css'
 
 import verifyToken from 'src/boot/VerifyToken';
-import ShowScore from './ShowScore.vue';
 import { ref } from 'vue';
 
 export default {
@@ -150,6 +151,7 @@ export default {
       currentStudent: {},
       filter: ref(''),
       moduleFilter: ref(''),
+      loading: true,
       columns: [
         {
           name: 'name',
@@ -201,31 +203,40 @@ export default {
   methods: {
 
     async fetchData() {
+      this.loading = true
       const url = 'modules/list/' + this.$route.params.id
 
       const response = await verifyToken({
           method : 'get',
           url
         })
-      // console.log(response.data)
-      this.dataModule = response.data[0].module
-      const arrayFilted = response.data.filter((e) => e.student !== null)
-      // const newArray = arrayFilted.map((e) => e.student)
-      this.dataStudentsModule = arrayFilted.map((element, index) => {
+        console.log(response.data)
+      const isArray = Array.isArray(response.data)
 
-        return {
-          ...element.student,
-          idConnection: arrayFilted[index].id,
-          status: element.media ? element.media >= 5 ? 'Aprovado(a)' : 'Reprovado(a)' : 'Irregular',
-          media: element.media
-        }
-      })
+      if(isArray){
+
+        this.dataModule = response.data[0].module
+        const arrayFilted = response.data.filter((e) => e.student !== null)
+        // const newArray = arrayFilted.map((e) => e.student)
+        this.dataStudentsModule = arrayFilted.map((element, index) => {
+
+          return {
+            ...element.student,
+            idConnection: arrayFilted[index].id,
+            status: element.media ? element.media >= 5 ? 'Aprovado(a)' : 'Reprovado(a)' : 'Irregular',
+            media: element.media
+          }
+        })
+      }else{
+        this.module = response.data
+      }
 
       // console.log(this.dataStudentsModule)
       this.loading = false
     },
 
     async fetchDataStudentes() {
+      this.loading = true
       const url = 'students/list/'
 
       const response = await verifyToken({
@@ -238,7 +249,7 @@ export default {
       this.loadingStudents = false
     },
     async addStudent(studentId) {
-
+      this.loading = true
       const url = 'modules/register/student/'
 
       const body = {
@@ -249,13 +260,15 @@ export default {
       try {
         await verifyToken({
           method : 'post',
-          body
+          url,
+          data: body
         })
         location.reload()
       } catch (error) {
+        this.loading = false
         this.addStudentsError = 'Erro ao adicionar o aluno. Erro : ' + error
       }
-
+      this.loading = false
     },
     async removeStudent(studentId) {
 
@@ -270,7 +283,8 @@ export default {
       try {
         await verifyToken({
           method : 'post',
-          url
+          url,
+          data : body,
         })
         location.reload()
       } catch (error) {

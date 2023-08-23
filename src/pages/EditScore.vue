@@ -1,9 +1,13 @@
 <script setup>
 import SpanMsg from 'src/components/SpanMsg.vue';
+import Loading from 'src/components/Loading.vue';
 </script>
 
 <template>
-  <main class="p-4">
+  <main v-if="loading">
+    <Loading/>
+  </main>
+  <main v-if="!loading && data" class="p-4">
     <!-- <h1 v-if="data">Edite a pontuação do aluno(a) {{ data.student.name}} no módulo {{ data }}</h1> -->
     <q-card class="w-full max-w-xl rounded-lg overflow-hidden">
       <form>
@@ -62,6 +66,7 @@ export default {
       formSuccess: '',
       scores: [],
       validateFailed: false,
+      loading : true
     }
   },
 
@@ -91,6 +96,7 @@ export default {
   methods: {
 
     async updateData(e) {
+      this.loading = true
       e.preventDefault()
 
         const url = 'modules/update/score/' + this.$route.params.id
@@ -114,10 +120,12 @@ export default {
         } catch (error) {
           this.formError = 'Erro ao atualizar a pontuação do aluno\n' + error.message
         }
+        this.loading = false
       },
 
 
     async fetchData() {
+      this.loading = true
       const url = 'modules/student/list/' + this.$route.params.id
       const response = await verifyToken({
           method : 'get',
@@ -127,6 +135,7 @@ export default {
       this.student = response.data.student.name
       this.module = response.data.module.name
       this.scores = response.data.score
+      this.loading = false
     },
 
     addFloat() {
