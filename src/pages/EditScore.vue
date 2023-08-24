@@ -5,12 +5,12 @@ import Loading from 'src/components/Loading.vue';
 
 <template>
   <main v-if="loading">
-    <Loading/>
+    <Loading />
   </main>
   <main v-if="!loading && data" class="p-4">
     <!-- <h1 v-if="data">Edite a pontuação do aluno(a) {{ data.student.name}} no módulo {{ data }}</h1> -->
     <q-card class="w-full max-w-xl rounded-lg overflow-hidden">
-      <form>
+      <q-form>
         <div class="bg-primary px-2 py-3 text-lg text-white">
           Edite as notas de <span class="font-bold">{{ student }}</span> no módulo <span class="font-bold">{{ module
           }}</span>
@@ -20,14 +20,14 @@ import Loading from 'src/components/Loading.vue';
             Adicione a primeira nota para esse(a) aluno(a)
           </div>
           <div v-for="(score, index) in scores">
-            <q-input :rules="[
-              val => Number(val) <= 10 || 'O valor máximo da nota é 10.',
-              val => val.length <= 3 || 'Defina um nota com no máximo 1 casa decimal.',
-              val => val.length > 0 || 'Preencha a nota ou delete esse campo.',
-              val => Number(val) >= 0 || 'O valor mínimo da nota é 0.',
-            ]" id="numero" step="0.1" resize="no" class="px-1" v-model="scores[index]"
+            <q-input step="0.0" resize="no" class="px-1" v-model="scores[index]"
+            :rules="[
+              val => !!val || 'Preencha esse campo ou remova-o.',
+              val => !(val > 10) || 'O valor máximo é 10.',
+              val => !(val > 10) || 'O valor mínimo é 0.'
+            ]"
               :label="(index + 1) + '° unidade'" type="number">
-              <q-btn flat color="negative" @click="removeFloat(index)">
+              <q-btn flat color="primary" @click="removeFloat(index)">
                 <q-icon size="xs" name="delete" />
               </q-btn>
             </q-input>
@@ -41,12 +41,12 @@ import Loading from 'src/components/Loading.vue';
             <q-btn @click="$router.back" color="secondary">
               Voltar
             </q-btn>
-            <q-btn :disable="validateFailed" @click="updateData" color="primary">
+            <q-btn :disable="!isActive" @click="updateData" color="primary">
               Salvar
             </q-btn>
           </div>
         </div>
-      </form>
+      </q-form>
     </q-card>
     <div class="w-full flex justify-center max-w-xl my-2">
       <SpanMsg v-if="formError" :error="formError" />
@@ -64,8 +64,9 @@ export default {
       module: undefined,
       formError: '',
       scores: [],
-      validateFailed: false,
-      loading : true
+      errorMessage: false,
+      loading: true,
+      isActive: true
     }
   },
 
@@ -73,30 +74,26 @@ export default {
 
     scores: {
       handler(vl) {
-        this.formSuccess = ''
-        vl.map((score) => {
-          if (Number(score) > 10 || Number(score) < 0 || score.length == 0 || score.length > 3) {
-            this.validateFailed = true
-          }
-          else if(Number(score) === 10){
-            this.validateFailed = false
-          }
-          else{
-            this.validateFailed = false
+        vl.map((value)=>{
+          if(String(value).length == 0 || Number(value) > 10 || Number(value) < 0){
+            this.isActive = false
+          }else{
+            this.isActive = true
           }
         })
-
         return vl.map(e => Number(e).toFixed(1))
       },
       deep: true
+      // }
     }
   },
 
   methods: {
 
     async updateData(e) {
-      this.loading = true
-      e.preventDefault()
+
+        this.loading = true
+        e.preventDefault()
 
         const url = 'modules/update/score/' + this.$route.params.id
 
@@ -110,25 +107,26 @@ export default {
 
         try {
           await verifyToken({
-          method : 'put',
-          data: body,
-          url
-        })
-        this.$router.back()
+            method: 'put',
+            data: body,
+            url
+          })
+          this.$router.back()
         } catch (error) {
           this.formError = 'Erro ao atualizar a pontuação do aluno\n' + error.message
         }
         this.loading = false
-      },
+
+    },
 
 
     async fetchData() {
       this.loading = true
       const url = 'modules/student/list/' + this.$route.params.id
       const response = await verifyToken({
-          method : 'get',
-          url
-        })
+        method: 'get',
+        url
+      })
       this.data = response.data
       this.student = response.data.student.name
       this.module = response.data.module.name
@@ -137,7 +135,7 @@ export default {
     },
 
     addFloat() {
-      this.scores.push('');
+      this.scores.push('0');
     },
     removeFloat(index) {
       this.scores.splice(index, 1);

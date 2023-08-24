@@ -1,10 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* app global css */
+
 body::-webkit-scrollbar {
   width: 7px;           /* width of the entire scrollbar */
 }
 
 body::-webkit-scrollbar-track {
-  background: rgb(224, 224, 224);        /* color of the tracking area */    /* roundness of the scroll thumb */
+  background: rgb(224, 224, 224);        /* color of the tracking area */
 }
 
 body::-webkit-scrollbar-thumb {

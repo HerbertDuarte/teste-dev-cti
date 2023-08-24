@@ -9,9 +9,10 @@ import SpanMsg from 'src/components/SpanMsg.vue';
   <main v-if="loading">
     <Loading />
   </main>
-  <section v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
+  <main v-if="!loading" class="flex items-center justify-center p-2 max-w-[600px] 2xs:mx-auto w-full">
     <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Painel de alunos</h1>
     <div class="w-full q-pa-md">
+
       <q-table :filter="filter" :rows="students" :columns="columns" row-key="name">
         <template v-slot:top-left>
           <div class="space-x-3">
@@ -45,11 +46,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <q-dialog v-model="viewStudentDialog">
             <q-card>
               <ViewStudent :idStudent="currentStudent.id" />
-              <!-- <q-card-actions class="flex justify-end">
-                <q-btn @click="closeViewStudentDialog" color="secondary">
-                  Voltar
-                </q-btn>
-              </q-card-actions> -->
+
             </q-card>
           </q-dialog>
 
@@ -65,31 +62,18 @@ import SpanMsg from 'src/components/SpanMsg.vue';
               <div v-if="!deleteFormSuccess && deleteFormError" class="max-w-[600px] w-full flex justify-center ">
                 <SpanMsg :error="deleteFormError" />
               </div>
-              <!-- <q-card-actions v-if="!deleteFormSuccess" class="flex justify-start p-3">
-                <q-btn @click="closedeleteStudentDialog" color="secondary">
-                  Cancelar
-                </q-btn>
-                <q-btn color="negative" @click="deleteStudent">
-                  Excluir
-                </q-btn>
-              </q-card-actions>
-              <q-card-actions class="flex justify-end" v-if="deleteFormSuccess">
-                <q-btn @click="closedeleteStudentDialog" color="primary">
-                  voltar
-                </q-btn>
-              </q-card-actions> -->
             </q-card>
           </q-dialog>
         </template>
       </q-table>
-      <div class="flex justify-end pt-2 gap-2">
+      <div class="flex justify-center pt-3">
         <q-btn to="/register" color="primary">
-          Novo aluno
+          Cadastrar aluno
         </q-btn>
       </div>
     </div>
     <SpanMsg :error="fetchError" />
-  </section>
+  </main>
 </template>
 
 <script>
@@ -147,7 +131,7 @@ export default {
 
       try {
         const response = await verifyToken({
-          method : 'get',
+          method: 'get',
           url
         })
         this.fetchError = ''
@@ -178,7 +162,7 @@ export default {
         location.reload()
       }
     },
-    
+
   },
   mounted() {
     this.fetchData()
