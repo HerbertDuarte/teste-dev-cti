@@ -8,7 +8,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
   <main v-if="!loading" class="p-4">
     <div class="w-full max-w-[700px]">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Alunos não registrados no módulo {{ dataModule.name }}
+        Alunos não registrados no módulo <strong>{{ dataModule.name }}</strong>
       </h1>
       <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name" :filter="filter">
         <template v-slot:top-left>
@@ -41,7 +41,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <Loading v-if="!dataStudentsModule" />
     <div class="border m-2 w-full mx-auto max-w-[700px] rounded" v-if="dataStudentsModule">
       <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Tabela de alunos - {{ dataModule.name }}
+        Tabela de alunos - <strong>{{ dataModule.name }}</strong>
       </h1>
       <q-table :filter="moduleFilter" :rows="dataStudentsModule" :columns="columns2" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
@@ -228,7 +228,7 @@ export default {
           }
         })
       }else{
-        this.module = response.data
+        this.dataModule = response.data
       }
 
       // console.log(this.dataStudentsModule)

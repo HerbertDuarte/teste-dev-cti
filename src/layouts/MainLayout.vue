@@ -61,8 +61,8 @@ import EssentialLink from 'components/EssentialLink.vue'
 const linksList = [
 
   {
-    title: 'Dashboard',
-    caption: 'Painel de Controle',
+    title: 'Painel de Controle',
+    caption: 'Tela inicial do gestor escolar',
     icon: 'dashboard',
     link: '/'
   },

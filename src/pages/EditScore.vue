@@ -63,7 +63,6 @@ export default {
       student: undefined,
       module: undefined,
       formError: '',
-      formSuccess: '',
       scores: [],
       validateFailed: false,
       loading : true
@@ -110,13 +109,12 @@ export default {
         }
 
         try {
-          const res = await verifyToken({
+          await verifyToken({
           method : 'put',
           data: body,
           url
         })
-          this.formSuccess = res.data
-          this.formSuccess = 'Pontuação atualizada com sucesso!'
+        this.$router.back()
         } catch (error) {
           this.formError = 'Erro ao atualizar a pontuação do aluno\n' + error.message
         }

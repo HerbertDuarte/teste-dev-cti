@@ -1,9 +1,13 @@
 <script setup>
 import SpanMsg from 'src/components/SpanMsg.vue';
+import Loading from 'src/components/Loading.vue';
 </script>
 
 <template>
-  <main class="p-6">
+  <main v-if="loading">
+    <Loading/>
+  </main>
+  <main v-if="!loading" class="p-6">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-3">
       Criar um módulo
     </h1>
@@ -16,27 +20,26 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     </form>
 
     <SpanMsg v-if="formError" :error="formError"/>
-    <SpanMsg v-if="formSuccess" :success="formSuccess"/>
 
-    <q-btn @click="$router.back" color="primary">
-      Voltar
-    </q-btn>
   </main>
 </template>
 
 <script>
 import verifyToken from 'src/boot/VerifyToken';
+
 export default {
   data() {
     return{
       module_name : '',
       formError : '',
-      formSuccess: ''
+      loading: ''
     }
   },
 
   methods : {
     handleSubmit(e){
+
+      this.loading = true
       console.log('submit')
       e.preventDefault()
       const newModule = {name : this.module_name}
@@ -48,14 +51,14 @@ export default {
         }).
         then(response =>{
           console.log(response.data)
-          this.formSuccess = 'Módulo criado com sucesso'
           this.module_name = ''
           this.formError = ''
+          this.$router.back()
         })
         .catch(error => {
           console.log(error.message)
           this.formError = error.response.data.message
-          this.formSuccess = ''
+          this.loading = false
         });
 
 

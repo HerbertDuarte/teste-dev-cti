@@ -50,7 +50,7 @@ import Loading from 'src/components/Loading.vue';
     </div>
   </main>
   <q-dialog v-model="deleteDialog">
-    <q-card>
+    <q-card v-if="!loading">
      <q-card-section class="bg-[#22487b] text-white p-3">
       Confirmação de exclusão
      </q-card-section>
@@ -118,7 +118,7 @@ export default {
 
     async openDeleteModuleDialog(id){
       const url = 'modules/list/' + id
-
+      this.loading = true
       try {
         const response = await verifyToken({
           method: 'get',
@@ -141,6 +141,7 @@ export default {
 
     async deleteModule(){
 
+      this.loading = true
       try {
         await verifyToken({
           method : 'delete',
@@ -151,6 +152,7 @@ export default {
       } catch (error) {
         this.fetchError = 'Houve um erro ao deletar o módulo'
         console.log(error)
+        this.loading = false
       }
 
     }

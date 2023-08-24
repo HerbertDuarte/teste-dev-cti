@@ -69,7 +69,6 @@ export default {
           data : this.student,
           url
         })
-        console.log('response: ' + res)
         this.formSuccess = 'Aluno registrado com sucesso.'
         this.formError = ''
 

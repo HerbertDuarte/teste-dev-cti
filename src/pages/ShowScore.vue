@@ -43,12 +43,12 @@ import Loading from 'src/components/Loading.vue';
       </div>
 
       <div :class="{ 'hidden': isMobile }">
-        <q-circular-progress v-if="data.media >= 5" show-value reverse :value="data.media" size="50px" :thickness="0.3"
-          color="green-3" track-color="green-8" class="q-ma-md">
+        <q-circular-progress v-if="data.media >= 5" show-value :value="data.media * 10" size="50px" :thickness="0.3"
+          color="green-8" track-color="green-3" class="q-ma-md">
           <span class="font-extrabold text-lime-900">{{ Number(data.media).toFixed(1) }}</span>
         </q-circular-progress>
-        <q-circular-progress v-if="data.media < 5" show-value reverse :value="data.media" size="50px" :thickness="0.3"
-          color="grey-4" track-color="red-9" class="q-ma-md">
+        <q-circular-progress v-if="data.media < 5" show-value :value="data.media *10" size="50px" :thickness="0.3"
+          color="red-9" track-color="red-2" class="q-ma-md">
           <span class="font-extrabold text-red-950">{{ Number(data.media).toFixed(1) }}</span>
         </q-circular-progress>
       </div>
