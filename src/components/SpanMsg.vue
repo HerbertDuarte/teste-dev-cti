@@ -45,7 +45,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #4fda42;
+  background: #4b8e5b;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
 }
@@ -58,13 +58,13 @@ export default {
 }
 
 .success__icon path {
-  fill: #262626;
+  fill: #ffffff;
 }
 
 .success__title {
   font-weight: 500;
   font-size: 14px;
-  color: #262626;
+  color: #ffffff;
 }
 
 .success__close {
@@ -75,7 +75,7 @@ export default {
 }
 
 .success__close path {
-  fill: #262626;
+  fill: #fff;
 }
 .error {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
