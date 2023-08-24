@@ -8,9 +8,9 @@
 	<circle transform="rotate(-113,100,100)" stroke-linecap="round" stroke-dashoffset="439.82" stroke-dasharray="439.82 439.82" stroke-width="2" stroke="currentColor" fill="none" r="70" class="pencil__stroke"></circle>
 	<g transform="translate(100,100)" class="pencil__rotate">
 		<g fill="none">
-			<circle transform="rotate(-90)" stroke-dashoffset="402" stroke-dasharray="402.12 402.12" stroke-width="30" stroke="#3D71B6" r="64" class="pencil__body1"></circle>
+			<circle transform="rotate(-90)" stroke-dashoffset="402" stroke-dasharray="402.12 402.12" stroke-width="30" stroke="#325F9B" r="64" class="pencil__body1"></circle>
 			<circle transform="rotate(-90)" stroke-dashoffset="465" stroke-dasharray="464.96 464.96" stroke-width="10" stroke="#2B568F" r="74" class="pencil__body2"></circle>
-			<circle transform="rotate(-90)" stroke-dashoffset="339" stroke-dasharray="339.29 339.29" stroke-width="10" stroke="#467BC2" r="54" class="pencil__body3"></circle>
+			<circle transform="rotate(-90)" stroke-dashoffset="339" stroke-dasharray="339.29 339.29" stroke-width="10" stroke="#3B69A6" r="54" class="pencil__body3"></circle>
 		</g>
 		<g transform="rotate(-90) translate(49,0)" class="pencil__eraser">
 			<g class="pencil__eraser-skew">

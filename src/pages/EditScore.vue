@@ -22,7 +22,7 @@ import Loading from 'src/components/Loading.vue';
           <div v-for="(score, index) in scores">
             <q-input step="0.0" resize="no" class="px-1" v-model="scores[index]"
             :rules="[
-              val => !!val || 'Preencha esse campo ou remova-o.',
+              val => !!val || ('Preencha esse campo ou remova-o.'),
               val => !(val > 10) || 'O valor máximo é 10.',
               val => !(val > 10) || 'O valor mínimo é 0.'
             ]"
@@ -74,14 +74,13 @@ export default {
 
     scores: {
       handler(vl) {
-        vl.map((value)=>{
-          if(String(value).length == 0 || Number(value) > 10 || Number(value) < 0){
-            this.isActive = false
-          }else{
-            this.isActive = true
+        let validationArray = vl.find((value)=>{
+          if(String(value) == '' || Number(value) > 10 || Number(value) < 0){
+            return true
           }
         })
-        return vl.map(e => Number(e).toFixed(1))
+
+        this. isActive = (validationArray == undefined)
       },
       deep: true
       // }

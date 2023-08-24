@@ -83,6 +83,9 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <SpanMsg v-if="formError" :error="formError" />
     <q-dialog v-model="deleteDialog">
       <q-card>
+        <div @click="closeDeleteDialog" class="bg-[#22487b5d] p-1">
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+        </div>
         <q-card-section>
           <div class="text-h6">Confirmação de exclusão de registro</div>
         </q-card-section>
@@ -92,36 +95,33 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn label="Cancelar" color="primary" @click="closeDeleteDialog" />
           <q-btn label="Remover" color="negative" @click="removeStudent(currentStudent.id)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
+    <!-- EDIT DIALOG -->
     <q-dialog class="w-full" v-model="editDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
+        <div @click="closeEditDialog" class="bg-[#1e4270] p-1">
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+        </div>
         <ShowScore :connectionId="currentStudent.idConnection" />
-        <!-- <q-card-actions class="flex justify-end p-3">
-          <q-btn @click="editDialog = false" color="secondary">
-            Voltar
-          </q-btn>
-
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
+
+    <!-- VIEW DIALOG -->
     <q-dialog v-model="viewStudentDialog">
       <q-card>
+        <div @click="closeViewStudentDialog" class="bg-[#22487b7a] p-1">
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+        </div>
         <ViewStudent :idStudent="currentStudent.id" />
-        <!-- <q-card-actions class="flex justify-end">
-          <q-btn @click="closeViewStudentDialog" color="secondary">
-            Voltar
-          </q-btn>
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
   </main>
-  <main v-if="!dataStudents && !loading" >
-  <SpanMsg error="Erro ao carregar os dados. Verifique sua conexão e tente novamente mais tarde!"/>
+  <main v-if="!dataStudents && !loading">
+    <SpanMsg error="Erro ao carregar os dados. Verifique sua conexão e tente novamente mais tarde!" />
   </main>
 </template>
 <script >
@@ -207,13 +207,13 @@ export default {
       const url = 'modules/list/' + this.$route.params.id
 
       const response = await verifyToken({
-          method : 'get',
-          url
-        })
-        console.log(response.data)
+        method: 'get',
+        url
+      })
+      console.log(response.data)
       const isArray = Array.isArray(response.data)
 
-      if(isArray){
+      if (isArray) {
 
         this.dataModule = response.data[0].module
         const arrayFilted = response.data.filter((e) => e.student !== null)
@@ -227,7 +227,7 @@ export default {
             media: element.media
           }
         })
-      }else{
+      } else {
         this.dataModule = response.data
       }
 
@@ -240,9 +240,9 @@ export default {
       const url = 'students/list/'
 
       const response = await verifyToken({
-          method : 'get',
-          url
-        })
+        method: 'get',
+        url
+      })
 
       this.dataStudents = response.data
 
@@ -259,7 +259,7 @@ export default {
 
       try {
         await verifyToken({
-          method : 'post',
+          method: 'post',
           url,
           data: body
         })
@@ -282,9 +282,9 @@ export default {
 
       try {
         await verifyToken({
-          method : 'post',
+          method: 'post',
           url,
-          data : body,
+          data: body,
         })
         location.reload()
       } catch (error) {

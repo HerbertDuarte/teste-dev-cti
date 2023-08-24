@@ -3,8 +3,10 @@ import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
 <template>
   <div v-if="student">
+    <div @click="closedeleteStudentDialog" class="bg-[#22487b5d] p-1">
+      <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+    </div>
     <q-card-section class="space-y-3 p-3">
-
       <p class="text-lg font-medium text-zinc-900">
         Confirmação de exlusão de registro global de registro
       </p>
@@ -12,20 +14,11 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         cadastro de <span class="font-bold">{{ student.name }}</span>?
       </p>
     </q-card-section>
-
-    <!-- <q-card-actions class="flex justify-end" v-if="deleteFormSuccess">
-      <q-btn @click="closedeleteStudentDialog" color="primary">
-        voltar
-      </q-btn>
-    </q-card-actions> -->
     <div class="w-[90%]">
       <SpanMsg v-if="fetchError" :error="fetchError" />
       <SpanMsg v-if="deleteFormError" :error="deleteFormError" />
     </div>
     <q-card-actions v-if="!deleteFormError" class="flex justify-end p-3">
-      <!-- <q-btn @click="closedeleteStudentDialog" color="secondary">
-        Cancelar
-      </q-btn> -->
       <q-btn color="negative" @click="deleteStudent">
         Excluir
       </q-btn>

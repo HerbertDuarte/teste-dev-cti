@@ -47,7 +47,7 @@ import Loading from 'src/components/Loading.vue';
           color="green-8" track-color="green-3" class="q-ma-md">
           <span class="font-extrabold text-lime-900">{{ Number(data.media).toFixed(1) }}</span>
         </q-circular-progress>
-        <q-circular-progress v-if="data.media < 5" show-value :value="data.media *10" size="50px" :thickness="0.3"
+        <q-circular-progress v-if="data.media < 5" show-value :value="data.media * 10" size="50px" :thickness="0.3"
           color="red-9" track-color="red-2" class="q-ma-md">
           <span class="font-extrabold text-red-950">{{ Number(data.media).toFixed(1) }}</span>
         </q-circular-progress>

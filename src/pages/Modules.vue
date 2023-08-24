@@ -51,17 +51,21 @@ import Loading from 'src/components/Loading.vue';
   </main>
   <q-dialog v-model="deleteDialog">
     <q-card v-if="!loading">
-     <q-card-section class="bg-[#22487b] text-white p-3">
-      Confirmação de exclusão
-     </q-card-section>
-     <q-card-section>
-      <p>Tem certeza que deseja excluir o módulo <b>{{ currentModule.name }}</b>? Atenção, todas as notas de alunos registradas nesse módulo serão apagadas!</p>
-     </q-card-section>
-     <div class="text-right p-3">
-      <q-btn @click="deleteModule" color="negative">
-        Apagar
-      </q-btn>
-     </div>
+      <div @click="closeDeleteDialog" class="bg-[#1c3d68] p-1">
+        <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+      </div>
+      <q-card-section class="bg-[#22487b] text-white p-3">
+        Confirmação de exclusão
+      </q-card-section>
+      <q-card-section>
+        <p>Tem certeza que deseja excluir o módulo <b>{{ currentModule.name }}</b>? Atenção, todas as notas de alunos
+          registradas nesse módulo serão apagadas!</p>
+      </q-card-section>
+      <div class="text-right p-3">
+        <q-btn @click="deleteModule" color="negative">
+          Apagar
+        </q-btn>
+      </div>
     </q-card>
   </q-dialog>
 </template>
@@ -77,7 +81,7 @@ export default {
       filter: ref(''),
       fetchError: '',
       loading: true,
-      currentModule : undefined,
+      currentModule: undefined,
       deleteDialog: false,
       columns: [
         {
@@ -116,7 +120,7 @@ export default {
       this.loading = false
     },
 
-    async openDeleteModuleDialog(id){
+    async openDeleteModuleDialog(id) {
       const url = 'modules/list/' + id
       this.loading = true
       try {
@@ -124,9 +128,9 @@ export default {
           method: 'get',
           url
         })
-        if(Array.isArray(response.data)){
+        if (Array.isArray(response.data)) {
           this.currentModule = response.data[0].module
-        }else{
+        } else {
           this.currentModule = response.data
         }
         this.fetchError = ''
@@ -138,14 +142,17 @@ export default {
       }
       this.loading = false
     },
+    closeDeleteDialog() {
+      this.deleteDialog = false
+    },
 
-    async deleteModule(){
+    async deleteModule() {
 
       this.loading = true
       try {
         await verifyToken({
-          method : 'delete',
-          url : 'modules/delete/' + this.currentModule.id
+          method: 'delete',
+          url: 'modules/delete/' + this.currentModule.id
         })
 
         location.reload()
