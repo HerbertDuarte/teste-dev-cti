@@ -23,7 +23,6 @@ const store = useTokenStore()
 const {logout} = store
 
 function handleClick() {
-  console.log('exit')
   logout()
 }
 

@@ -210,7 +210,7 @@ export default {
         method: 'get',
         url
       })
-      console.log(response.data)
+
       const isArray = Array.isArray(response.data)
 
       if (isArray) {
@@ -230,8 +230,6 @@ export default {
       } else {
         this.dataModule = response.data
       }
-
-      // console.log(this.dataStudentsModule)
       this.loading = false
     },
 
@@ -324,7 +322,7 @@ export default {
       this.editDialog = false
     },
     openViewStudentDialog(student) {
-      // console.log(student)
+
       this.currentStudent = student
       this.viewStudentDialog = true
     },

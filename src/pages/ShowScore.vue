@@ -128,7 +128,7 @@ export default defineComponent({
         method: 'get',
         url
       })
-      // console.log(response.data)
+
       this.data = response.data
       this.student = response.data.student
       this.module = response.data.module

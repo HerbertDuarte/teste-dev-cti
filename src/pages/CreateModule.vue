@@ -40,7 +40,6 @@ export default {
     handleSubmit(e){
 
       this.loading = true
-      console.log('submit')
       e.preventDefault()
       const newModule = {name : this.module_name}
       const url = 'modules/create'
@@ -50,13 +49,12 @@ export default {
           url
         }).
         then(response =>{
-          console.log(response.data)
+
           this.module_name = ''
           this.formError = ''
           this.$router.back()
         })
         .catch(error => {
-          console.log(error.message)
           this.formError = error.response.data.message
           this.loading = false
         });

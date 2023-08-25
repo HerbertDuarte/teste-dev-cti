@@ -68,7 +68,6 @@ async function handleSubmit(e) {
     setToken(res.data.access_token)
     sessionStorage.setItem('access_token', res.data.access_token)
     reloadPage()
-    console.log(res)
   } catch (err) {
     console.log(err)
     loading.value = false
