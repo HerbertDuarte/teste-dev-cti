@@ -45,7 +45,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: start;
-  background: #4b8e5b;
+  background: #22487b;
   border-radius: 8px;
   box-shadow: 0px 0px 5px -3px #111;
 }

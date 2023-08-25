@@ -24,7 +24,7 @@ import Loading from 'src/components/Loading.vue';
             :rules="[
               val => !!val || ('Preencha esse campo ou remova-o.'),
               val => !(val > 10) || 'O valor máximo é 10.',
-              val => !(val > 10) || 'O valor mínimo é 0.'
+              val => !(val < 0) || 'O valor mínimo é 0.'
             ]"
               :label="(index + 1) + '° unidade'" type="number">
               <q-btn flat color="primary" @click="removeFloat(index)">

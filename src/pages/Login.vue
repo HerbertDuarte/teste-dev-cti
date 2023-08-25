@@ -87,21 +87,4 @@ watch(inputPassword, () => {
 })
 </script>
 
-  // methods: {
-
-  //   cleanError() {
-  //     this.error = ''
-  //   },
-  //   reloadPage() {
-  //     location.reload();
-  //   },
-  //   navigateToRoute() {
-  //     this.$router.push('/')
-  //   }
-  // },
-  // watch: {
-  //   user_value(nv, ov) {
-  //     this.error = ''
-  //   }
-  // }
 
