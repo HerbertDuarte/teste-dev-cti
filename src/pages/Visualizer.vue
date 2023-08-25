@@ -1,6 +1,5 @@
 <script setup>
 import Loading from 'src/components/Loading.vue';
-import ConfirmDelete from './ConfirmDelete.vue';
 import ViewStudent from './ViewStudent.vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
 </script>
@@ -46,7 +45,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <q-dialog v-model="viewStudentDialog">
             <q-card>
               <div @click="closeViewStudentDialog" class="bg-[#20447480] p-1">
-                <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600"/>
+                <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
               </div>
               <ViewStudent :idStudent="currentStudent.id" />
             </q-card>
@@ -55,9 +54,27 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <!-- DELETE DIALOG -->
           <q-dialog v-model="deleteStudentDialog">
             <q-card>
-              <ConfirmDelete :id="currentStudent.id" />
-              <SpanMsg v-if="formError" :error="formError" />
-              <SpanMsg v-if="formSuccess" :succes="formSuccess" />
+              <div @click="closedeleteStudentDialog" class="bg-[#22487b5d] p-1">
+                <div class="cursor-pointer w-4 h-4 rounded-full bg-red-500 hover:bg-red-600" />
+              </div>
+              <q-card-section class="space-y-3 p-3">
+                <p class="text-lg font-medium text-zinc-900">
+                  Confirmação de exlusão de registro global de registro
+                </p>
+                <p class="text-slate-900 max-w-[600px] text-start">Tem certeza que deseja excluir o
+                  cadastro de <span class="font-bold">{{ currentStudent.name }}</span>?
+                </p>
+              </q-card-section>
+              <div class="w-[90%]">
+                <SpanMsg v-if="confirmDeleteFetchError" :error="confirmDeleteFetchError" />
+                <SpanMsg v-if="deleteFormError" :error="deleteFormError" />
+              </div>
+              <q-card-actions v-if="!deleteFormError" class="flex justify-end p-3">
+                <q-btn color="negative" @click="deleteStudent">
+                  Excluir
+                </q-btn>
+              </q-card-actions>
+
               <div v-if="deleteFormSuccess && !deleteFormError" class="max-w-[600px] w-full flex justify-center ">
                 <SpanMsg :succes="formSuccess" />
               </div>
@@ -96,6 +113,9 @@ export default {
       deleteFormError: null,
       deleteFormSuccess: null,
       filter: ref(''),
+      confirmDeleteStudent: null,
+      confirmDeleteFetchError: '',
+      deleteFormError: false,
       columns: [
         {
           name: 'name',
@@ -152,8 +172,10 @@ export default {
       this.viewStudentDialog = false
     },
     openDeleteStudentDialog(student) {
+      this.loading = true
       this.currentStudent = student
       this.deleteStudentDialog = true
+      this.loading = false
     },
     closedeleteStudentDialog() {
       this.currentStudent = null
@@ -164,6 +186,22 @@ export default {
         location.reload()
       }
     },
+
+    deleteStudent() {
+      const url = 'students/delete/' + this.currentStudent.id
+
+      verifyToken({
+        method: 'delete',
+        url
+      })
+        .then(() => {
+          location.reload()
+        })
+        .catch(error => {
+          this.deleteFormError = 'Erro ao excluir o aluno! Verifique sua conexão e tente novamente mais tarde.'
+        });
+    }
+
 
   },
   mounted() {

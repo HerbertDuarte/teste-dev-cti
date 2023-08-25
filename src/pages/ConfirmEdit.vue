@@ -26,8 +26,8 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         </q-btn>
       </div>
     </form>
-    <SpanMsg v-if="formError" :error="formError"/>
-    <SpanMsg v-if="formSuccess" :success="formSuccess"/>
+    <SpanMsg v-if="formError" :error="formError" />
+    <SpanMsg v-if="formSuccess" :success="formSuccess" />
   </main>
 </template>
 
@@ -53,9 +53,9 @@ export default {
       const url = 'students/list/' + this.$route.params.id
 
       const response = await verifyToken({
-          method : 'get',
-          url
-        })
+        method: 'get',
+        url
+      })
 
       this.student = response.data
 
@@ -91,10 +91,10 @@ export default {
 
 
       await verifyToken({
-          method : 'put',
-          data : this.student,
-          url
-        })
+        method: 'put',
+        data: this.student,
+        url
+      })
         .then(response => {
           this.formSuccess = 'Registro atualizado com sucesso'
           this.formError = ''
