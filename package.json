@@ -2,7 +2,7 @@
   "name": "teste-dev-cti",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "Gestor Escolar",
   "author": "Herbert Duarte <herbertduarte.santos@gmail.com>",
   "private": true,
   "scripts": {
