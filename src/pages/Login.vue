@@ -30,7 +30,7 @@ import { useTokenStore } from 'src/stores/token';
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router'
-const process = require('process')
+
 const router = useRouter()
 const inputUser = ref('')
 const inputPassword = ref('')
