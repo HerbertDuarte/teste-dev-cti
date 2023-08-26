@@ -61,16 +61,6 @@ const routes = [
     ],
   },
   {
-    path: "/",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        path: "/delete/confirm/:id",
-        component: () => import("pages/ConfirmDelete.vue"),
-      },
-    ],
-  },
-  {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
   },
