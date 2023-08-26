@@ -30,7 +30,7 @@ import { useTokenStore } from 'src/stores/token';
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router'
-
+const process = require('process')
 const router = useRouter()
 const inputUser = ref('')
 const inputPassword = ref('')
@@ -49,7 +49,7 @@ async function handleSubmit(e) {
   loading.value = true
   error.value = ''
 
-  const url = process.env.DATABASE_URL + 'auth/login'
+  const url = process.env.LOGIN_URL
 
   const user = {
     username: inputUser.value,
