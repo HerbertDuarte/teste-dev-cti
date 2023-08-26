@@ -20,8 +20,7 @@ export default async function verifyToken(config) {
       }
       });
   } catch (error) {
-    console.log('axios error : ' + error)
-    throw error;
+    console.log(error)
   }
 }
 

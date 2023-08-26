@@ -49,7 +49,7 @@ async function handleSubmit(e) {
   loading.value = true
   error.value = ''
 
-  const url = process.env.LOGIN_URL
+  const url = 'https://gestor-escolar-nestjs-backend.onrender.com/auth/login'
 
   const user = {
     username: inputUser.value,
@@ -60,10 +60,7 @@ async function handleSubmit(e) {
     const res = await axios({
       method: 'post',
       url,
-      data: user,
-      // headers: {
-      //   Authorization: undefined
-      // }
+      data: user
     })
     setToken(res.data.access_token)
     sessionStorage.setItem('access_token', res.data.access_token)
@@ -71,7 +68,6 @@ async function handleSubmit(e) {
   } catch (err) {
     console.log(err)
     loading.value = false
-    if (err.response.data.message) error.value = err.response.data.message
 
   }
 }
