@@ -49,7 +49,7 @@ async function handleSubmit(e) {
   loading.value = true
   error.value = ''
 
-  const url = process.env.DATABASE_UTL + '/auth/login'
+  const url = process.env.DATABASE_UTL + 'auth/login'
 
   const user = {
     username: inputUser.value,
