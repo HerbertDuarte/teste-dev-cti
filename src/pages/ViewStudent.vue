@@ -47,7 +47,7 @@ import Loading from 'src/components/Loading.vue';
     <q-dialog class="w-full" v-model="scoreDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <div @click="closeScoreDialog" class="bg-[#1b3c68] p-1">
-        <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+        <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
       </div>
         <ShowScore :connectionId="currentModule.id" />
       </q-card>

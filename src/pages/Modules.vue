@@ -52,7 +52,7 @@ import Loading from 'src/components/Loading.vue';
   <q-dialog v-model="deleteDialog">
     <q-card v-if="!loading">
       <div @click="closeDeleteDialog" class="bg-[#1c3d68] p-1">
-        <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+        <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
       </div>
       <q-card-section class="bg-[#22487b] text-white p-3">
         Confirmação de exclusão

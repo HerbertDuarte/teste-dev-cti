@@ -45,7 +45,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           <q-dialog v-model="viewStudentDialog">
             <q-card>
               <div @click="closeViewStudentDialog" class="bg-[#20447480] p-1">
-                <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+                <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
               </div>
               <ViewStudent :idStudent="currentStudent.id" />
             </q-card>

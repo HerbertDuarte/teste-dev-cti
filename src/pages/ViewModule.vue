@@ -84,7 +84,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <q-dialog v-model="deleteDialog">
       <q-card>
         <div @click="closeDeleteDialog" class="bg-[#22487b5d] p-1">
-          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
         </div>
         <q-card-section>
           <div class="text-h6">Confirmação de exclusão de registro</div>
@@ -104,7 +104,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <q-dialog class="w-full" v-model="editDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <div @click="closeEditDialog" class="bg-[#1e4270] p-1">
-          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
         </div>
         <ShowScore :connectionId="currentStudent.idConnection" />
       </q-card>
@@ -114,7 +114,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <q-dialog v-model="viewStudentDialog">
       <q-card>
         <div @click="closeViewStudentDialog" class="bg-[#22487b7a] p-1">
-          <div class="w-4 h-4 rounded-full bg-red-500 cursor hover:bg-red-600" />
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
         </div>
         <ViewStudent :idStudent="currentStudent.id" />
       </q-card>
