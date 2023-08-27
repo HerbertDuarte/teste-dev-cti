@@ -113,34 +113,16 @@ export default {
         })
         this.data = response.data
         this.fetchError = ''
-
+        console.log(this.data)
       } catch (error) {
         this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
       }
       this.loading = false
     },
 
-    async openDeleteModuleDialog(id) {
-      const url = 'modules/list/' + id
-      this.loading = true
-      try {
-        const response = await verifyToken({
-          method: 'get',
-          url
-        })
-        if (Array.isArray(response.data)) {
-          this.currentModule = response.data[0].module
-        } else {
-          this.currentModule = response.data
-        }
-        this.fetchError = ''
-        this.deleteDialog = true
-
-      } catch (error) {
-        console.log(error)
-        this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
-      }
-      this.loading = false
+    openDeleteModuleDialog(id) {
+      this.currentModule = this.data.find((element) => element.id === id)
+      this.deleteDialog = true
     },
     closeDeleteDialog() {
       this.deleteDialog = false
