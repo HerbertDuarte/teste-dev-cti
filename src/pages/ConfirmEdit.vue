@@ -61,7 +61,10 @@ export default {
 
       this.name_value = this.student.name
       this.cpf_value = this.student.cpf
-      this.date_value = this.student.date.substring(0, 10)
+
+      const date = new Date(this.student.date)
+      date.setDate(date.getDate() - 1)
+      this.date_value = date.substring(0, 10)
       // this.score_value = this.student.score
       this.loading = false
     },
