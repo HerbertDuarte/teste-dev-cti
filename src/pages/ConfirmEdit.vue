@@ -74,10 +74,15 @@ export default {
 
       const url = 'students/update/' + this.$route.params.id
 
+      // fix day value
+      const date = new Date(this.date_value)
+      date.setDate(date.getDate() + 1)
+      //
+
       this.student = {
         name: this.name_value,
         cpf: this.cpf_value.toString(),
-        date: new Date(this.date_value),
+        date
         // score : this.score_value,
       }
 

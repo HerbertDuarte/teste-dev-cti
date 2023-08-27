@@ -11,7 +11,6 @@ import SpanMsg from 'src/components/SpanMsg.vue';
         v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
       <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
       <div class="space-x-2">
-        <!-- <input class="bg-blue-500 text-white rounded-[7px] px-4 py-2 cursor-pointer hover:shadow-lg hover:shadow-blue-500/40 transition-all duration-300" type="submit" value="Cadastrar"> -->
         <q-btn type="submit" color="primary">
           Cadastrar
         </q-btn>
@@ -68,12 +67,16 @@ export default {
       e.preventDefault()
       const url = 'students/create'
 
+      // fix day value
+      const date  = new Date(this.date_value)
+      date.setDate(data.getDate() + 1)
+      //
+      
       this.student = {
         name: this.name_value,
         cpf: this.cpf_value.replace(/[.\-]/g, ""),
-        date: new Date(this.date_value),
+        date
       }
-
 
       verifyToken({
         method: 'post',
