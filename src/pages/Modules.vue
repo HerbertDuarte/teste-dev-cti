@@ -141,7 +141,6 @@ export default {
         })
         this.data = response.data
         this.fetchError = ''
-        console.log(this.data)
       } catch (error) {
         this.fetchError = 'Houve um erro inesperado. Tente novamente mais tarde!'
       }
