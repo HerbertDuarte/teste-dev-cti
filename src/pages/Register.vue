@@ -9,7 +9,7 @@ import Loading from 'src/components/Loading.vue';
   <main v-if="!loading" class="p-4">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1>
     <form v-on:submit="handleSubmit"
-      class="w-full flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] rounded ">
+      class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] rounded ">
       <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
       <q-input class="min-w-full" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value required
         v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
@@ -69,8 +69,8 @@ export default {
   methods: {
     async handleSubmit(e) {
 
-      this.loading = true
       e.preventDefault()
+      this.loading = true
 
       const url = 'students/create'
 
@@ -85,21 +85,22 @@ export default {
         date
       }
 
-      verifyToken({
+      try {
+        await verifyToken({
         method: 'post',
         data: this.student,
         url
-      }).then(() => {
+      })
         this.formSuccess = 'Aluno registrado com sucesso.'
         this.formError = ''
 
         this.name_value = ''
         this.date_value = ''
         this.cpf_value = ''
-      }).catch((error) => {
+      } catch (error) {
         this.formError = error.response.data.message.toString()
         this.formSuccess = ''
-      })
+      }
       this.loading = false
     }
   }
