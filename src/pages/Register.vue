@@ -18,8 +18,11 @@ import Loading from 'src/components/Loading.vue';
         <q-btn type="submit" color="primary">
           Cadastrar
         </q-btn>
-        <q-btn @click="$router.back()" color="secondary">
+        <q-btn v-if="!formSuccess" @click="$router.back()" color="secondary">
           Cancelar
+        </q-btn>
+        <q-btn v-if="formSuccess" @click="$router.back()" color="secondary">
+          Voltar
         </q-btn>
       </div>
     </form>
