@@ -32,10 +32,13 @@ import Loading from 'src/components/Loading.vue';
           </template>
           <template v-slot:body-cell-actions="scope">
             <q-td class="text-right space-x-2">
+              <q-btn @click="openEditModuleDialog(scope.row.id)" color="primary" size="sm">
+                <q-icon name="edit" />
+              </q-btn>
               <q-btn @click="openDeleteModuleDialog(scope.row.id)" color="negative" size="sm">
                 <q-icon name="delete" />
               </q-btn>
-              <q-btn :to="'/modules/view/' + scope.row.id" color="primary" size="sm">
+              <q-btn :to="'/modules/view/' + scope.row.id" color="secondary" size="sm">
                 <q-icon name="visibility" />
               </q-btn>
             </q-td>
@@ -49,6 +52,8 @@ import Loading from 'src/components/Loading.vue';
       </div>
     </div>
   </main>
+
+  <!-- DELETE MODULE DIALOG -->
   <q-dialog v-model="deleteDialog">
     <q-card v-if="!loading">
       <div @click="closeDeleteDialog" class="bg-[#1c3d68] p-1">
@@ -68,6 +73,27 @@ import Loading from 'src/components/Loading.vue';
       </div>
     </q-card>
   </q-dialog>
+
+  <!-- EDIT MODULE DIALOG -->
+  <q-dialog v-model="editDialog">
+    <q-card v-if="!loading">
+      <div @click="closeEditDialog" class="bg-[#1c3d68] p-1">
+        <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
+      </div>
+      <q-card-section class="bg-[#22487b] text-white p-3">
+        Confirmação de edição
+      </q-card-section>
+      <q-card-section>
+        <p>Edite o nome do módulo selecionado:</p>
+        <q-input label="Nome" v-model="currentModuleName"/>
+      </q-card-section>
+      <div class="text-right p-3">
+        <q-btn @click="updateModule" color="primary">
+          Salvar
+        </q-btn>
+      </div>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
@@ -82,7 +108,9 @@ export default {
       fetchError: '',
       loading: true,
       currentModule: undefined,
+      currentModuleName: '',
       deleteDialog: false,
+      editDialog: false,
       columns: [
         {
           name: 'name',
@@ -127,6 +155,14 @@ export default {
     closeDeleteDialog() {
       this.deleteDialog = false
     },
+    openEditModuleDialog(id) {
+      this.currentModule = this.data.find((element) => element.id === id)
+      this.currentModuleName = this.currentModule.name
+      this.editDialog = true
+    },
+    closeEditDialog() {
+      this.editDialog = false
+    },
 
     async deleteModule() {
 
@@ -144,7 +180,27 @@ export default {
         this.loading = false
       }
 
-    }
+    },
+    async updateModule() {
+
+      this.loading = true
+      try {
+        await verifyToken({
+          method: 'put',
+          url: 'modules/update/' + this.currentModule.id,
+          data : {
+            ...this.currentModule,
+            name: this.currentModuleName
+          }
+        })
+        location.reload()
+      } catch (error) {
+        this.fetchError = 'Houve um erro ao editar o módulo'
+        console.log(error)
+        this.loading = false
+      }
+
+    },
 
   },
 
