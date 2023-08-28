@@ -1,8 +1,12 @@
 <script setup>
 import SpanMsg from 'src/components/SpanMsg.vue';
+import Loading from 'src/components/Loading.vue';
 </script>
 <template>
-  <main class="p-4">
+  <main v-if="loading">
+    <Loading/>
+  </main>
+  <main v-if="!loading" class="p-4">
     <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1>
     <form v-on:submit="handleSubmit"
       class="w-full flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] rounded ">
@@ -36,7 +40,8 @@ export default {
       cpf_value: '',
       score_value: {},
       formError: '',
-      formSuccess: ''
+      formSuccess: '',
+      loading : false
     }
   },
   watch: {
@@ -64,7 +69,9 @@ export default {
   methods: {
     async handleSubmit(e) {
 
+      this.loading = true
       e.preventDefault()
+
       const url = 'students/create'
 
       // fix day value
@@ -89,14 +96,11 @@ export default {
         this.name_value = ''
         this.date_value = ''
         this.cpf_value = ''
-        console.log('success')
       }).catch((error) => {
-
         this.formError = error.response.data.message.toString()
         this.formSuccess = ''
-        console.log('error')
       })
-
+      this.loading = false
     }
   }
 }
