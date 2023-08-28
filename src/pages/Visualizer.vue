@@ -188,6 +188,7 @@ export default {
     },
 
     deleteStudent() {
+      this.loading = true
       const url = 'students/delete/' + this.currentStudent.id
 
       verifyToken({
@@ -198,6 +199,7 @@ export default {
           location.reload()
         })
         .catch(error => {
+          this.loading = false
           this.deleteFormError = 'Erro ao excluir o aluno! Verifique sua conexão e tente novamente mais tarde.'
         });
     }
