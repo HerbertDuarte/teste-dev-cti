@@ -3,8 +3,6 @@ import axios from 'axios'
 
 const api = axios.create({ baseURL: String(process.env.API_URL) })
 
-console.log(process.env.API_URL)
-
 api.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('access_token')
 
