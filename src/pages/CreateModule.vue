@@ -1,6 +1,7 @@
 <script setup>
 import SpanMsg from 'src/components/SpanMsg.vue';
 import Loading from 'src/components/Loading.vue';
+import CTICard from 'src/components/CTI-Card.vue';
 </script>
 
 <template>
@@ -8,19 +9,18 @@ import Loading from 'src/components/Loading.vue';
     <Loading/>
   </main>
   <main v-if="!loading" class="p-6">
-    <h1 class="sm:text-4xl text-3xl text-slate-700 py-3">
-      Criar um módulo
-    </h1>
+    <CTICard title="Criar um módulo" icon="create_new_folder">
     <p class="text-zinc-600 max-w-md text-justify">Registre seu módulo aqui e controle as notas e alunos registrados nesse módulo através da página de gestão de módulos.</p>
-    <form @submit="handleSubmit" class="flex gap-2 my-4 w-full max-w-md">
-      <q-input required type="text" v-model="module_name" dense="dense" class="flex-1" label="Nome do módulo" />
-      <q-btn type="submit" color="primary">
+    <form @submit="handleSubmit" >
+      <q-input required type="text" v-model="module_name" class="flex-1" label="Nome do módulo" />
+      <q-btn class="my-3" type="submit" color="primary">
         Criar
       </q-btn>
     </form>
 
     <SpanMsg v-if="formError" :error="formError"/>
 
+  </CTICard>
   </main>
 </template>
 

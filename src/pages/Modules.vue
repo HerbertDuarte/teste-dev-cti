@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import '../index.css'
 import SpanMsg from 'src/components/SpanMsg.vue';
 import Loading from 'src/components/Loading.vue';
+import CTICard from 'src/components/CTI-Card.vue';
 </script>
 
 <template>
@@ -10,17 +11,16 @@ import Loading from 'src/components/Loading.vue';
     <Loading />
   </main>
   <main v-if="data && !loading" class="p-4">
-    <h1 class="sm:text-3xl text-2xl text-slate-700 py-4">Gerenciador de módulos</h1>
-    <div class="space-y-3 flex flex-col w-full max-w-md">
-
+    <CTICard title="Módulos" icon="folder">
       <SpanMsg v-if="fetchError" :error="fetchError" />
-      <div class="q-pa-md" v-if="data">
-        <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat bordered>
+      <div v-if="data">
+        <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat :pagination="{rowsPerPage: rowsPerPage}">
           <template v-slot:top-left>
             <div class="space-x-3">
-              <span class="text-zinc-600 text-lg">
-                Módulos
-              </span>
+              <q-btn to="/modules/create" color="primary">
+                <q-icon v-if="$q.screen.width < 500" name="add"/>
+                <span v-if="$q.screen.width >= 500">Cadastrar módulo</span>
+              </q-btn>
             </div>
           </template>
           <template v-slot:top-right>
@@ -32,25 +32,20 @@ import Loading from 'src/components/Loading.vue';
           </template>
           <template v-slot:body-cell-actions="scope">
             <q-td class="text-right space-x-2">
+              <q-btn :to="'/modules/view/' + scope.row.id" color="secondary" size="sm">
+                <q-icon name="visibility" />
+              </q-btn>
               <q-btn @click="openEditModuleDialog(scope.row.id)" color="primary" size="sm">
                 <q-icon name="edit" />
               </q-btn>
               <q-btn @click="openDeleteModuleDialog(scope.row.id)" color="negative" size="sm">
                 <q-icon name="delete" />
               </q-btn>
-              <q-btn :to="'/modules/view/' + scope.row.id" color="secondary" size="sm">
-                <q-icon name="visibility" />
-              </q-btn>
             </q-td>
           </template>
         </q-table>
-        <div class="flex justify-center mt-5">
-          <q-btn to="/modules/create" color="primary">
-            Cadastrar um módulo
-          </q-btn>
-        </div>
       </div>
-    </div>
+    </CTICard>
   </main>
 
   <!-- DELETE MODULE DIALOG -->
@@ -85,7 +80,7 @@ import Loading from 'src/components/Loading.vue';
       </q-card-section>
       <q-card-section>
         <p>Edite o nome do módulo selecionado:</p>
-        <q-input label="Nome" v-model="currentModuleName"/>
+        <q-input label="Nome" v-model="currentModuleName" />
       </q-card-section>
       <div class="text-right p-3">
         <q-btn @click="updateModule" color="primary">
@@ -99,6 +94,7 @@ import Loading from 'src/components/Loading.vue';
 <script>
 import verifyToken from 'src/boot/VerifyToken';
 import Loading from 'src/components/Loading.vue';
+import { useQuasar } from 'quasar';
 
 export default {
   data() {
@@ -111,6 +107,8 @@ export default {
       currentModuleName: '',
       deleteDialog: false,
       editDialog: false,
+      screenH: ref(useQuasar().screen.height),
+      rowsPerPage: null,
       columns: [
         {
           name: 'name',
@@ -187,7 +185,7 @@ export default {
         await verifyToken({
           method: 'put',
           url: 'modules/update/' + this.currentModule.id,
-          data : {
+          data: {
             ...this.currentModule,
             name: this.currentModuleName
           }
@@ -201,6 +199,18 @@ export default {
 
     },
 
+  },
+  computed: {
+    screenH() {
+      return this.quasar.screen.height
+    },
+    rowsPerPage() {
+      if (this.screenH >= 995) { return 14 }
+      else if (this.screenH > 950) { return 13 }
+      else if (this.screenH > 850) { return 10 }
+      else if (this.screenH > 675) { return 7 }
+      else return 5
+    }
   },
 
   mounted() {

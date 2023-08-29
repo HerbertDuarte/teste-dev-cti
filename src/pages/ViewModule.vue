@@ -6,43 +6,14 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <Loading />
   </main>
   <main v-if="!loading" class="p-4">
-    <div class="w-full max-w-[700px]">
-      <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Alunos não registrados no módulo <strong>{{ dataModule.name }}</strong>
-      </h1>
-      <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name" :filter="filter">
-        <template v-slot:top-left>
-          <p class="text-zinc-600 text-lg">
-            Alunos
-          </p>
-        </template>
-        <template v-slot:top-right>
-          <q-input dense debounce="300" v-model="filter" placeholder="Search">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
-        <template v-slot:body-cell-actions="props">
-          <q-td class="text-right space-x-2">
-            <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
-              <q-icon name="person" />
-            </q-btn>
-            <q-btn @click="addStudent(props.row.id)" color="primary" size="sm">
-              <q-icon name="add" />
-            </q-btn>
-          </q-td>
-        </template>
-      </q-table>
-      <p class="text-red-500 text-lg" v-if="addStudentsError">
-        {{ addStudentsError }}
-      </p>
-    </div>
+
+    <!-- ALUNOS REGISTRADOS -->
     <Loading v-if="!dataStudentsModule" />
-    <div class="border m-2 w-full mx-auto max-w-[700px] rounded" v-if="dataStudentsModule">
-      <h1 class="sm:text-2xl text-xl p-2 bg-[#22487b] text-white">
-        Tabela de alunos - <strong>{{ dataModule.name }}</strong>
-      </h1>
+    <q-card class="w-full" v-if="dataStudentsModule">
+      <q-card-section class="row bg-grey-2 q-py-sm">
+      <q-icon size="md" name="group" />
+      <div class="text-h6 q-ml-sm"> Tabela de alunos - <strong>{{ dataModule.name }}</strong></div>
+    </q-card-section>
       <q-table :filter="moduleFilter" :rows="dataStudentsModule" :columns="columns2" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:top-left>
@@ -78,7 +49,39 @@ import SpanMsg from 'src/components/SpanMsg.vue';
           </q-td>
         </template>
       </q-table>
-    </div>
+    </q-card>
+
+    <!-- ALUNOS NÃO REGISTRADOS -->
+    <q-card class="w-full mt-5">
+      <q-card-section class="row bg-grey-2 q-py-sm">
+      <q-icon size="md" name="person_add" />
+      <div class="text-h6 q-ml-sm">Alunos não registrados no módulo <strong>{{ dataModule.name }}</strong></div>
+    </q-card-section>
+      <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name" :filter="filter">
+        <template v-slot:top-left>
+          <q-input dense debounce="300" v-model="filter" placeholder="Search">
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </template>
+        <template v-slot:body-cell-actions="props">
+          <q-td class="text-right space-x-2">
+            <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
+              <q-icon name="person" />
+            </q-btn>
+            <q-btn @click="addStudent(props.row.id)" color="primary" size="sm">
+              <q-icon name="add" />
+            </q-btn>
+          </q-td>
+        </template>
+      </q-table>
+      <p class="text-red-500 text-lg" v-if="addStudentsError">
+        {{ addStudentsError }}
+      </p>
+    </q-card>
+
+
 
     <SpanMsg v-if="formError" :error="formError" />
     <q-dialog v-model="deleteDialog">

@@ -6,7 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-
+      height : {
+        'view' : 'calc(100vh - 90px)'
+      },
+      minHeight: {
+        'view' : 'calc(100vh - 90px)'
+      }
     },
     screens : {
       '2xs' : '360px',

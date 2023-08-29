@@ -1,6 +1,7 @@
 <script setup>
 import Loading from 'src/components/Loading.vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
+import CTICard from 'src/components/CTI-Card.vue';
 </script>
 
 <template>
@@ -8,11 +9,11 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <Loading />
   </main>
   <main v-if="student">
-    <h1 class="text-2xl text-slate-700 py-4">Atualize os dados de <span class="font-bold">{{ student.name
-    }}</span></h1>
+    <CTICard :title="`Atualize os dados de ${ student.name}`" icon="manage_accounts">
+
     <form v-on:submit="handleSubmit"
-      class="flex flex-col justify-center items-start gap-3 border-2 p-4 w-[90%] max-w-[600px] mx-auto rounded ">
-      <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
+    class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
+    <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
       <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
         label="CPF" />
       <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
@@ -28,6 +29,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     </form>
     <SpanMsg v-if="formError" :error="formError" />
     <SpanMsg v-if="formSuccess" :success="formSuccess" />
+  </CTICard>
   </main>
 </template>
 
