@@ -48,8 +48,8 @@ async function handleSubmit(e) {
   e.preventDefault()
   loading.value = true
   error.value = ''
-
-  const url = 'https://gestor-escolar-nestjs-backend.onrender.com/auth/login'
+  console.log('url : '+ process.env.LOGIN_URL)
+  const url = process.env.LOGIN_URL
 
   const user = {
     username: inputUser.value,
