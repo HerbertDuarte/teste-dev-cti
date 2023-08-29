@@ -48,7 +48,6 @@ async function handleSubmit(e) {
   e.preventDefault()
   loading.value = true
   error.value = ''
-  console.log('url : '+ process.env.LOGIN_URL)
   const url = process.env.LOGIN_URL
 
   const user = {
