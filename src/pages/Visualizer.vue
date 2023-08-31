@@ -9,8 +9,6 @@ import CTICard from 'src/components/CTI-Card.vue';
   <main v-if="loading">
     <Loading />
   </main>
-  {{ screenH }}
-  {{ rowsPerPage }}
   <main v-if="!loading" class="flex items-center justify-center 2xs:mx-auto w-full">
     <CTICard title="Alunos" icon="person">
       <!-- <span v-if="screenH">{{ screenH }}</span> -->
