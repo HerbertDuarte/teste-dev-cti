@@ -45,10 +45,9 @@ export default {
       name_value: '',
       date_value: '',
       cpf_value: '',
-      loading: false,
+      loading: true,
       formError: '',
       formSuccess: '',
-      formActive : false,
     }
   },
   methods: {
@@ -77,17 +76,20 @@ export default {
     async handleSubmit(e) {
       e.preventDefault()
 
+      this.formError = ''
+      this.formSuccess = ''
+
       // verificar se alterou alguma coisa
       let dateTwo = new Date(this.student.date)
+
       dateTwo.setDate(dateTwo.getDate() - 1)
       dateTwo = dateTwo.toISOString().substring(0, 10)
       if(this.student.name == this.name_value && this.student.cpf == this.cpf_value && dateTwo == this.date_value){
         this.formError = 'Você não alterou nenhuma dado no registro do aluno.'
+        this.formSuccess = ''
+      // ####################
+
       }else{
-
-
-
-      this.loading = true
 
       const url = 'students/update/' + this.$route.params.id
 
@@ -111,7 +113,7 @@ export default {
       }
       // validations --end
 
-
+      this.loading = true
       verifyToken({
         method: 'put',
         data: this.student,
@@ -126,13 +128,15 @@ export default {
             this.formSuccess = 'Registro atualizado com sucesso'
             this.formError = ''
           }
+          this.loading = false
         })
         .catch(error => {
           this.formError = error.message
           this.formSuccess = ''
+          this.loading = false
         });
 
-      this.loading = false
+
       }
     }
   },
