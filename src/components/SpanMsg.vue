@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="error" class="error  ">
+    <div v-if="error" class="error flex flex-row justify-center items-center flex-nowrap gap-2 w-fit mx-auto">
       <span class="error__icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none">
           <path fill="#333"
@@ -10,7 +10,7 @@
       </span>
       <span class="error__title">{{ error }}</span>
     </div>
-    <div v-if="success" class="success ">
+    <div v-if="success" class="success flex flex-row justify-center items-center flex-nowrap gap-2 w-fit mx-auto">
       <span class="success__icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none" class="inline">
           <path fill-rule="evenodd" fill="#333"

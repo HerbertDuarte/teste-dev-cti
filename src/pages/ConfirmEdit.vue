@@ -15,7 +15,9 @@ import CTICard from 'src/components/CTI-Card.vue';
     class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
     <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
       <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
-        label="CPF" />
+        label="CPF"  hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value
+     />
+
       <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
       <div class="space-x-2">
         <q-btn color="primary" type="submit">
@@ -46,6 +48,7 @@ export default {
       loading: false,
       formError: '',
       formSuccess: '',
+      formActive : false,
     }
   },
   methods: {
@@ -66,17 +69,25 @@ export default {
 
       this.name_value = this.student.name
       this.cpf_value = this.student.cpf
-
       this.date_value = date.toISOString().substring(0, 10)
 
       this.loading = false
     },
 
-
     async handleSubmit(e) {
+      e.preventDefault()
+
+      // verificar se alterou alguma coisa
+      let dateTwo = new Date(this.student.date)
+      dateTwo.setDate(dateTwo.getDate() - 1)
+      dateTwo = dateTwo.toISOString().substring(0, 10)
+      if(this.student.name == this.name_value && this.student.cpf == this.cpf_value && dateTwo == this.date_value){
+        this.formError = 'Você não alterou nenhuma dado no registro do aluno.'
+      }else{
+
+
 
       this.loading = true
-      e.preventDefault()
 
       const url = 'students/update/' + this.$route.params.id
 
@@ -101,14 +112,20 @@ export default {
       // validations --end
 
 
-      await verifyToken({
+      verifyToken({
         method: 'put',
         data: this.student,
         url
       })
         .then(response => {
-          this.formSuccess = 'Registro atualizado com sucesso'
-          this.formError = ''
+          console.log(response)
+          if(!response.data){
+            this.formSuccess = ''
+            this.formError = 'Esse CPF já está registrado!'
+          }else{
+            this.formSuccess = 'Registro atualizado com sucesso'
+            this.formError = ''
+          }
         })
         .catch(error => {
           this.formError = error.message
@@ -116,6 +133,7 @@ export default {
         });
 
       this.loading = false
+      }
     }
   },
   mounted() {
