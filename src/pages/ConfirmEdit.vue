@@ -120,7 +120,6 @@ export default {
         url
       })
         .then(response => {
-          console.log(response)
           if(!response.data){
             this.formSuccess = ''
             this.formError = 'Esse CPF já está registrado!'
