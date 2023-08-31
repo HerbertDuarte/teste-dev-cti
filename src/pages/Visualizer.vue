@@ -208,20 +208,14 @@ export default {
 
   },
 
-  computed: {
-
-    rowsPerPage() {
-      if (this.screenH >= 995) { return 14 }
-      else if (this.screenH > 950) { return 13 }
-      else if (this.screenH > 850) { return 10 }
-      else if (this.screenH > 675) { return 7 }
-      else return 5
-    }
-  },
-
   mounted() {
     this.fetchData()
     this.screenH = useQuasar().screen.height
+    if (this.screenH >= 995) { this.rowsPerPage = 14 }
+      else if (this.screenH > 950) { this.rowsPerPage = 13 }
+      else if (this.screenH > 850) { this.rowsPerPage = 10 }
+      else if (this.screenH > 675) { this.rowsPerPage = 7 }
+      else this.rowsPerPage = 5
   }
 }
 </script>
