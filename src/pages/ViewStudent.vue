@@ -7,7 +7,7 @@ import Loading from 'src/components/Loading.vue';
 
 <template>
   <q-card class="flex flex-col justify-between w-full max-w-[700px] overflow-hidden rounded-lg">
-    <div v-if="loading" class="h-40 w-40 flex justify-center items-center">
+    <div v-if="loading" class="h-40 w-full flex justify-center items-center">
       <Loading />
     </div>
     <div  v-if="student && !loading">

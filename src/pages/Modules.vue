@@ -14,11 +14,12 @@ import CTICard from 'src/components/CTI-Card.vue';
     <CTICard title="Módulos" icon="folder">
       <SpanMsg v-if="fetchError" :error="fetchError" />
       <div v-if="data">
-        <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat :pagination="{rowsPerPage: rowsPerPage}">
+        <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat
+          :pagination="{rowsPerPage: rowsPerPage}">
           <template v-slot:top-left>
             <div class="space-x-3">
               <q-btn to="/modules/create" color="primary">
-                <q-icon v-if="$q.screen.width < 500" name="add"/>
+                <q-icon v-if="$q.screen.width < 500" name="add" />
                 <span v-if="$q.screen.width >= 500">Cadastrar módulo</span>
               </q-btn>
             </div>
@@ -50,7 +51,7 @@ import CTICard from 'src/components/CTI-Card.vue';
 
   <!-- DELETE MODULE DIALOG -->
   <q-dialog v-model="deleteDialog">
-    <q-card v-if="!loading">
+    <q-card class="w-full" v-if="!loading">
       <div @click="closeDeleteDialog" class="bg-[#1c3d68] p-1">
         <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
       </div>
@@ -71,7 +72,7 @@ import CTICard from 'src/components/CTI-Card.vue';
 
   <!-- EDIT MODULE DIALOG -->
   <q-dialog v-model="editDialog">
-    <q-card v-if="!loading">
+    <q-card class="w-full" v-if="!loading">
       <div @click="closeEditDialog" class="bg-[#1c3d68] p-1">
         <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
       </div>
@@ -89,6 +90,7 @@ import CTICard from 'src/components/CTI-Card.vue';
       </div>
     </q-card>
   </q-dialog>
+  <!-- ##################### -->
 </template>
 
 <script>

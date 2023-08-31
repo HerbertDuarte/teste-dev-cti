@@ -76,15 +76,15 @@ import Loading from 'src/components/Loading.vue';
 
   <!-- DELETE DIALOG -->
   <q-dialog v-model="deleteDialog">
-    <q-card>
+    <q-card class="w-full">
       <q-card-section>
         <div class="text-h6">Confirmação de exclusão de registro</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
         Tem certeza que deseja excluir os registros de <b>{{ student.name }}</b> no módulo {{
-          module.name
-        }}?
+                module.name
+                }}?
       </q-card-section>
 
       <q-card-actions class="p-3">
