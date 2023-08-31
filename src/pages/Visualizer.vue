@@ -11,7 +11,7 @@ import CTICard from 'src/components/CTI-Card.vue';
   </main>
   <main v-if="!loading" class="flex items-center justify-center 2xs:mx-auto w-full">
     <CTICard title="Alunos" icon="person">
-
+      <!-- <span v-if="screenH">{{ screenH }}</span> -->
         <div class="w-full">
           <q-table :filter="filter" :rows="students" :columns="columns" row-key="name" flat :pagination="{rowsPerPage: rowsPerPage}">
             <template v-slot:top-left>
@@ -113,7 +113,7 @@ export default {
       confirmDeleteStudent: null,
       confirmDeleteFetchError: '',
       deleteFormError: false,
-      screenH: ref(useQuasar().screen.height),
+      screenH: null,
       rowsPerPage: null,
       columns: [
         {
@@ -207,9 +207,7 @@ export default {
   },
 
   computed: {
-    screenH() {
-      return this.quasar.screen.height
-    },
+
     rowsPerPage() {
       if (this.screenH >= 995) { return 14 }
       else if (this.screenH > 950) { return 13 }
@@ -221,7 +219,7 @@ export default {
 
   mounted() {
     this.fetchData()
-    console.log()
+    this.screenH = useQuasar().screen.height
   }
 }
 </script>

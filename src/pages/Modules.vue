@@ -107,7 +107,7 @@ export default {
       currentModuleName: '',
       deleteDialog: false,
       editDialog: false,
-      screenH: ref(useQuasar().screen.height),
+      screenH: null,
       rowsPerPage: null,
       columns: [
         {
@@ -201,9 +201,6 @@ export default {
 
   },
   computed: {
-    screenH() {
-      return this.quasar.screen.height
-    },
     rowsPerPage() {
       if (this.screenH >= 995) { return 14 }
       else if (this.screenH > 950) { return 13 }
@@ -215,6 +212,7 @@ export default {
 
   mounted() {
     this.fetchAPi()
+    this.screenH = useQuasar().screen.height
   }
 }
 

@@ -8,8 +8,8 @@ import CTICard from 'src/components/CTI-Card.vue';
   <main v-if="loading">
     <Loading />
   </main>
-  <main v-if="student">
-    <CTICard :title="`Atualize os dados de ${ student.name}`" icon="manage_accounts">
+  <main v-if="!loading && student">
+    <CTICard :title="`Atualize os dados de ${student.name}`" icon="manage_accounts">
 
     <form v-on:submit="handleSubmit"
     class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
@@ -68,7 +68,7 @@ export default {
       this.cpf_value = this.student.cpf
 
       this.date_value = date.toISOString().substring(0, 10)
-      // this.score_value = this.student.score
+
       this.loading = false
     },
 
