@@ -14,7 +14,7 @@ import CTICard from 'src/components/CTI-Card.vue';
       <!-- <span v-if="screenH">{{ screenH }}</span> -->
       <div class="w-full">
         <q-table :filter="filter" :rows="students" :columns="columns" row-key="name" flat
-          :pagination="{rowsPerPage: rowsPerPage}">
+          :pagination="{ rowsPerPage: rowsPerPage }">
           <template v-slot:top-left>
             <q-btn to="/register" color="primary">
               <q-icon v-if="$q.screen.width < 500" name="add" />
@@ -126,7 +126,8 @@ export default {
           field: 'name',
           label: 'Nome',
           align: 'left',
-          sortable: true
+          sortable: true,
+
         },
         {
           name: 'cpf',
@@ -137,7 +138,6 @@ export default {
         },
         {
           name: 'actions',
-          required: true,
           field: 'actions',
           label: 'Ações',
           align: 'right',
@@ -218,6 +218,6 @@ export default {
     else if (this.screenH > 850) { this.rowsPerPage = 10 }
     else if (this.screenH > 675) { this.rowsPerPage = 7 }
     else this.rowsPerPage = 5
-  }
+  },
 }
 </script>
