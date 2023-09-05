@@ -14,6 +14,7 @@ import Loading from 'src/components/Loading.vue';
       <div>
         <p class="text-center text-lg bg-[#22487b5d] font-medium text-[#22487b] py-2 px-5">{{ student.name }}</p>
         <div class="p-3">
+          <p><span class="font-semibold">Usuário: </span>{{ student.username }}</p>
           <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(student.date).toLocaleDateString("pt-BR")
           }}</p>
           <p><span class="font-semibold">CPF :</span> {{ student.cpf.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/,

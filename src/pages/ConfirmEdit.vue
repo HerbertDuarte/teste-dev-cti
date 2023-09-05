@@ -14,6 +14,7 @@ import CTICard from 'src/components/CTI-Card.vue';
       <form v-on:submit="handleSubmit"
         class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
         <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
+
         <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
           label="CPF" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value />
 
@@ -100,7 +101,8 @@ export default {
         this.student = {
           name: this.name_value,
           cpf: this.cpf_value.toString(),
-          date
+          date,
+          username : this.student.username
           // score : this.score_value,
         }
 

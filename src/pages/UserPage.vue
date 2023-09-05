@@ -1,11 +1,16 @@
 <template>
   <main class="justify-start">
+
     <SpanMsg v-if="pageError" :error="pageError" />
 
     <q-card class="w-full" v-if="userData">
 
+      <q-card-section class="row bg-grey-2 q-py-sm">
+        <q-icon size="md" name="group" />
+        <div class="text-h6 q-ml-sm">Meus dados</div>
+      </q-card-section>
+
       <q-card-section>
-        <h2 class="text-xl pb-4">Meus dados</h2>
         <p>
           <span class="font-medium">
             Nome :
@@ -25,6 +30,8 @@
           </span>
         </p>
 
+        <p><span class="font-semibold">Data de nascimento : </span>{{ new Date(userData.date).toLocaleDateString("pt-BR")
+          }}</p>
 
         <p>
           <span class="font-medium">
@@ -36,21 +43,51 @@
         </p>
       </q-card-section>
 
-      <q-separator />
+    </q-card>
 
-      <q-card-section>
-        <h2 class="text-xl pb-4">Minhas notas</h2>
+    <q-card class="w-full mt-5" v-if="userData">
 
-        <div v-if="userDataModule" v-for="mod in userDataModule">
+      <q-card-section class="row bg-grey-2 q-py-sm">
+        <q-icon size="md" name="format_list_numbered" />
+        <div class="text-h6 q-ml-sm">Minhas notas</div>
+      </q-card-section>
 
-          <q-separator></q-separator>
-          <p class="text-lg my-4">{{ mod.module.name }}</p>
-          <p>{{ mod }}</p>
+      <q-card-section class="flex justify-around gap-8">
+        <div class="p-4 " v-if="userDataModule" v-for="mod in userDataModule">
+          <p class="text-xl mb-2 font-medium">{{ mod.module.name }}</p>
+          <p>
+            <span class="font-medium">
+              ID de matrícula :
+            </span>
+            <span>
+              {{ mod.id }}
+            </span>
+          </p>
+          <p>
+            <span class="font-medium">
+              Média :
+            </span>
+            <span :class="mod.media >= 5 ? 'text-green-800' : 'text-red-900'">
+              {{ mod.media }}
+            </span>
+          </p>
 
-          <div class="flex justify-center">
+          <p>
+            <span class="font-medium">
+              Situação :
+            </span>
+            <span class="text-green-800" v-if="mod.media >=5">
+              Aprovado(a)
+            </span>
+            <span class="text-red-900" v-if="mod.media < 5">
+              Reprovado(a)
+            </span>
+          </p>
+
+          <div class="flex justify-center mt-5">
 
             <!-- MAP CIRCLE PROGRESS -->
-            <div class="flex flex-col justify-center items-center" v-for="score, index in mod.score">
+            <div class="flex flex-col justify-center items-center my-4" v-for="score, index in mod.score">
               <p class="text-center font-medium text-zinc-800">{{ index + 1 }}° unidade</p>
               <q-circular-progress show-value font-size="18px" :value="score * 10" size="80px" :thickness="0.25"
                 :color="score >= 5 ? 'primary' : 'orange-9'" :track-color="score >= 5 ? 'blue-2' : 'orange-2'"
@@ -61,13 +98,12 @@
             </div>
 
           </div>
+
         </div>
+
       </q-card-section>
     </q-card>
 
-    <q-btn class="m-4" @click="logout" color="negative">
-      Finalizar sessão
-    </q-btn>
   </main>
 </template>
 
@@ -76,6 +112,7 @@ import { onBeforeMount, ref } from 'vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
 import { api } from 'src/boot/axios';
 import { useTokenStore } from 'src/stores/token';
+
 
 
 const store = useTokenStore()

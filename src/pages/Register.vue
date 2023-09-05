@@ -12,7 +12,7 @@ import Loading from 'src/components/Loading.vue';
       <!-- <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1> -->
       <form v-on:submit="handleSubmit" class="flex flex-col justify-center items-start gap-3 p-4 w-full rounded ">
         <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
-        <q-input class="min-w-full" required v-model="username_value" type='text' label="Login" />
+        <q-input class="min-w-full" required v-model="username_value" type='text' label="Usuário" />
         <q-input class="min-w-full" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value required
           v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
         <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />

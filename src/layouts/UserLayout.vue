@@ -8,12 +8,20 @@
         <q-toolbar-title class="text-[18px] bem-vindo">
           Bem vindo <b>{{ displayName }}</b>
         </q-toolbar-title>
+        <q-toolbar-title class="text-end">
+          <q-btn @click="logout" flat round dense>
+            <q-icon name="logout" />
+            <q-tooltip>
+              Sair
+            </q-tooltip>
+          </q-btn>
+        </q-toolbar-title>
       </q-toolbar>
 
     </q-header>
 
     <q-page-container class="max-h-screen">
-      <slot/>
+      <slot />
     </q-page-container>
   </q-layout>
 </template>
@@ -33,13 +41,17 @@ export default defineComponent({
   name: 'MainLayout',
   data() {
     return {
-      displayName : ''
+      displayName: '',
+      logout : null,
     }
   },
 
-  beforeMount(){
+  beforeMount() {
+
     const store = useTokenStore()
-    const { displayName : name } = storeToRefs(store)
+    const { logout } = store
+    this.logout = logout
+    const { displayName: name } = storeToRefs(store)
     const arrayName = String(name.value).split(' ')
     const firstName = arrayName[0]
     this.displayName = firstName
