@@ -5,7 +5,7 @@ import SpanMsg from 'src/components/SpanMsg.vue';
   <main v-if="loading">
     <Loading />
   </main>
-  <main v-if="!loading" class="p-4">
+  <main v-if="!loading" class="p-4 justify-start">
 
     <!-- ALUNOS REGISTRADOS -->
     <Loading v-if="!dataStudentsModule" />

@@ -16,9 +16,7 @@
 </template>
 <script setup>
 import { RouterLink } from 'vue-router'
-import { useRouter } from 'vue-router';
 import { useTokenStore } from 'src/stores/token';
-const router = useRouter()
 const store = useTokenStore()
 const {logout} = store
 

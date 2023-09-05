@@ -8,3 +8,4 @@
 /router
 /src
 tailwind.config.js
+.env

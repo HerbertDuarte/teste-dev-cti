@@ -5,19 +5,19 @@ import Loading from 'src/components/Loading.vue';
 </script>
 <template>
   <main v-if="loading">
-    <Loading/>
+    <Loading />
   </main>
   <main v-if="!loading">
     <CTICard title="Cadastre um aluno" icon="person_add">
-        <!-- <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1> -->
-      <form v-on:submit="handleSubmit"
-      class="flex flex-col justify-center items-start gap-3 p-4 w-full rounded ">
-      <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
-      <q-input class="min-w-full" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value required
-      v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
-      <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
-      <div class="space-x-2">
-        <q-btn type="submit" color="primary">
+      <!-- <h1 class="sm:text-4xl text-3xl text-slate-700 py-4">Cadastre um aluno</h1> -->
+      <form v-on:submit="handleSubmit" class="flex flex-col justify-center items-start gap-3 p-4 w-full rounded ">
+        <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
+        <q-input class="min-w-full" required v-model="username_value" type='text' label="Login" />
+        <q-input class="min-w-full" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value required
+          v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}" label="CPF" />
+        <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
+        <div class="space-x-2">
+          <q-btn type="submit" color="primary">
             Cadastrar
           </q-btn>
           <q-btn v-if="!formSuccess" @click="$router.back()" color="secondary">
@@ -30,7 +30,7 @@ import Loading from 'src/components/Loading.vue';
       </form>
       <SpanMsg v-if="formError" :error="formError" />
       <SpanMsg v-if="formSuccess" :success="formSuccess" />
-      </CTICard>
+    </CTICard>
   </main>
 </template>
 
@@ -43,11 +43,12 @@ export default {
       student: null,
       name_value: '',
       date_value: null,
+      username_value: null,
       cpf_value: '',
       score_value: {},
       formError: '',
       formSuccess: '',
-      loading : false
+      loading: false
     }
   },
   watch: {
@@ -81,22 +82,23 @@ export default {
       const url = 'students/create'
 
       // fix day value
-      const date  = new Date(this.date_value)
+      const date = new Date(this.date_value)
       date.setDate(date.getDate() + 1)
       //
 
       this.student = {
         name: this.name_value,
+        username: this.username_value,
         cpf: this.cpf_value.replace(/[.\-]/g, ""),
         date
       }
 
       try {
         await verifyToken({
-        method: 'post',
-        data: this.student,
-        url
-      })
+          method: 'post',
+          data: this.student,
+          url
+        })
         this.formSuccess = 'Aluno registrado com sucesso.'
         this.formError = ''
 

@@ -10,7 +10,7 @@ import Loading from 'src/components/Loading.vue';
     <div v-if="loading" class="h-40 w-full flex justify-center items-center">
       <Loading />
     </div>
-    <div  v-if="student && !loading">
+    <div v-if="student && !loading">
       <div>
         <p class="text-center text-lg bg-[#22487b5d] font-medium text-[#22487b] py-2 px-5">{{ student.name }}</p>
         <div class="p-3">
@@ -47,8 +47,8 @@ import Loading from 'src/components/Loading.vue';
     <q-dialog class="w-full" v-model="scoreDialog">
       <q-card bordered class="rounded-lg overflow-hidden w-full max-w-md">
         <div @click="closeScoreDialog" class="bg-[#1b3c68] p-1">
-        <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
-      </div>
+          <div class="w-4 h-4 rounded-full bg-red-500 cursor-pointer hover:bg-red-600" />
+        </div>
         <ShowScore :connectionId="currentModule.id" />
       </q-card>
     </q-dialog>

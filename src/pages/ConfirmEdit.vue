@@ -11,27 +11,26 @@ import CTICard from 'src/components/CTI-Card.vue';
   <main v-if="!loading && student">
     <CTICard :title="`Atualize os dados de ${student.name}`" icon="manage_accounts">
 
-    <form v-on:submit="handleSubmit"
-    class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
-    <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
-      <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
-        label="CPF"  hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value
-     />
+      <form v-on:submit="handleSubmit"
+        class="flex flex-col justify-center items-start gap-3 border-2 p-4  mx-auto rounded ">
+        <q-input class="min-w-full" required v-model="name_value" type='text' label="Nome" />
+        <q-input class="min-w-full" required v-model="cpf_value" type='text' pattern="\d{3}[.\s]?\d{3}[.\s]?\d{3}-?\d{2}"
+          label="CPF" hint="Ex : 123.456.789-10" mask="###.###.###-##" unmasked-value />
 
-      <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
-      <div class="space-x-2">
-        <q-btn color="primary" type="submit">
-          Atualizar
-        </q-btn>
+        <q-input class="min-w-full" required v-model="date_value" type='date' label="Data de nascimento" />
+        <div class="space-x-2">
+          <q-btn color="primary" type="submit">
+            Atualizar
+          </q-btn>
 
-        <q-btn @click="$router.back" color="secondary">
-          Voltar
-        </q-btn>
-      </div>
-    </form>
-    <SpanMsg v-if="formError" :error="formError" />
-    <SpanMsg v-if="formSuccess" :success="formSuccess" />
-  </CTICard>
+          <q-btn @click="$router.back" color="secondary">
+            Voltar
+          </q-btn>
+        </div>
+      </form>
+      <SpanMsg v-if="formError" :error="formError" />
+      <SpanMsg v-if="formSuccess" :success="formSuccess" />
+    </CTICard>
   </main>
 </template>
 
@@ -84,56 +83,56 @@ export default {
 
       dateTwo.setDate(dateTwo.getDate() - 1)
       dateTwo = dateTwo.toISOString().substring(0, 10)
-      if(this.student.name == this.name_value && this.student.cpf == this.cpf_value && dateTwo == this.date_value){
+      if (this.student.name == this.name_value && this.student.cpf == this.cpf_value && dateTwo == this.date_value) {
         this.formError = 'Você não alterou nenhuma dado no registro do aluno.'
         this.formSuccess = ''
-      // ####################
+        // ####################
 
-      }else{
+      } else {
 
-      const url = 'students/update/' + this.$route.params.id
+        const url = 'students/update/' + this.$route.params.id
 
-      // fix day value
-      const date = new Date(this.date_value)
-      date.setDate(date.getDate() + 1)
-      //
+        // fix day value
+        const date = new Date(this.date_value)
+        date.setDate(date.getDate() + 1)
+        //
 
-      this.student = {
-        name: this.name_value,
-        cpf: this.cpf_value.toString(),
-        date
-        // score : this.score_value,
-      }
+        this.student = {
+          name: this.name_value,
+          cpf: this.cpf_value.toString(),
+          date
+          // score : this.score_value,
+        }
 
-      // validations --start
+        // validations --start
 
-      if (this.cpf_value.toString().length !== 11) {
-        this.formError = 'Digite um CPF válido'
-        return
-      }
-      // validations --end
+        if (this.cpf_value.toString().length !== 11) {
+          this.formError = 'Digite um CPF válido'
+          return
+        }
+        // validations --end
 
-      this.loading = true
-      verifyToken({
-        method: 'put',
-        data: this.student,
-        url
-      })
-        .then(response => {
-          if(!response.data){
-            this.formSuccess = ''
-            this.formError = 'Esse CPF já está registrado!'
-          }else{
-            this.formSuccess = 'Registro atualizado com sucesso'
-            this.formError = ''
-          }
-          this.loading = false
+        this.loading = true
+        verifyToken({
+          method: 'put',
+          data: this.student,
+          url
         })
-        .catch(error => {
-          this.formError = error.message
-          this.formSuccess = ''
-          this.loading = false
-        });
+          .then(response => {
+            if (!response.data) {
+              this.formSuccess = ''
+              this.formError = 'Esse CPF já está registrado!'
+            } else {
+              this.formSuccess = 'Registro atualizado com sucesso'
+              this.formError = ''
+            }
+            this.loading = false
+          })
+          .catch(error => {
+            this.formError = error.message
+            this.formSuccess = ''
+            this.loading = false
+          });
 
 
       }

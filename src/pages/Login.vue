@@ -30,6 +30,7 @@ import { useTokenStore } from 'src/stores/token';
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router'
+import { api } from 'src/boot/axios';
 
 const router = useRouter()
 const inputUser = ref('')
@@ -37,7 +38,7 @@ const inputPassword = ref('')
 const error = ref('')
 const loading = ref(false)
 const store = useTokenStore()
-const { setToken } = store
+const { setToken, setRole, setUserName, setDisplayName} = store
 
 function reloadPage() {
   location.reload();
@@ -61,11 +62,23 @@ async function handleSubmit(e) {
       url,
       data: user
     })
-    setToken(res.data.access_token)
-    sessionStorage.setItem('access_token', res.data.access_token)
+
+    console.log(res)
+    setToken(res.data.hash)
+
+    const {username} = res.data
+
+    const userData = await api({
+      method : 'get',
+      url: `user/find/${username}`
+    })
+
+    setRole(userData.data.role)
+    setUserName(userData.data.user)
+    setDisplayName(userData.data.displayName)
     reloadPage()
   } catch (err) {
-    console.log(err)
+
     loading.value = false
 
   }

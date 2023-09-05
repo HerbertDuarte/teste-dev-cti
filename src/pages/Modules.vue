@@ -15,7 +15,7 @@ import CTICard from 'src/components/CTI-Card.vue';
       <SpanMsg v-if="fetchError" :error="fetchError" />
       <div v-if="data">
         <q-table :filter="filter" :rows="data" :columns="columns" row-key="name" flat
-          :pagination="{rowsPerPage: rowsPerPage}">
+          :pagination="{ rowsPerPage: rowsPerPage }">
           <template v-slot:top-left>
             <div class="space-x-3">
               <q-btn to="/modules/create" color="primary">

@@ -83,8 +83,8 @@ import Loading from 'src/components/Loading.vue';
 
       <q-card-section class="q-pt-none">
         Tem certeza que deseja excluir os registros de <b>{{ student.name }}</b> no módulo {{
-                module.name
-                }}?
+          module.name
+        }}?
       </q-card-section>
 
       <q-card-actions class="p-3">

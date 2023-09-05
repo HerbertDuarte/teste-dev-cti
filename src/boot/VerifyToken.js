@@ -1,17 +1,18 @@
+// src/boot/verifyToken.js
 import { api } from "./axios";
 import { useTokenStore } from "src/stores/token";
 
-const store = useTokenStore()
-const {setToken} = store
-
-export default async function verifyToken(config) {
+export default async function (config) {
   try {
-    const token = sessionStorage.getItem('access_token')
-    const oldToken = {"oldToken" : token.value};
-    const response = await api.post('/refresh/token',  oldToken );
-    const newAccessToken = response.data.access_token;
-    sessionStorage.setItem('access_token', newAccessToken)
-    setToken(newAccessToken)
+    const store = await initTokenStore();
+
+    const token = sessionStorage.getItem('access_token');
+    const oldToken = { "oldToken": token };
+    const response = await api.post('/refresh/token', oldToken);
+    const newAccessToken = response.data.hash;
+
+    sessionStorage.setItem('access_token', newAccessToken);
+    await store.setToken(newAccessToken);
 
     return api({
       ...config,
@@ -20,7 +21,13 @@ export default async function verifyToken(config) {
       }
       });
   } catch (error) {
-    console.log(error)
+    console.error(error);
   }
+}
+
+async function initTokenStore() {
+  const store = useTokenStore();
+  await store.$state; // Aguarda a inicialização do store
+  return store;
 }
 

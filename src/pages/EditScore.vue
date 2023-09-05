@@ -11,7 +11,7 @@ import CTICard from 'src/components/CTI-Card.vue';
   <main v-if="!loading && data" class="p-4">
     <CTICard icon="manage_accounts" :title="`Edição de notas`">
       <q-form>
-        <div class="text-xl text-zinc-900">Edite as notas de {{student}} no módulo {{module}}</div>
+        <div class="text-xl text-zinc-900">Edite as notas de {{ student }} no módulo {{ module }}</div>
         <div class="p-2 space-y-2">
           <div v-if="scores.length == 0">
             Adicione a primeira nota para esse(a) aluno(a)
