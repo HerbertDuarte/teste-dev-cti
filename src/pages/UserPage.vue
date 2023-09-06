@@ -53,7 +53,7 @@
       </q-card-section>
 
       <q-card-section class="flex justify-around gap-8">
-        <div class="p-4 " v-if="userDataModule" v-for="mod in userDataModule">
+        <div class="p-4 bg-zinc-100/80 rounded-lg flex-1 min-w-[400px]" v-if="userDataModule" v-for="mod in userDataModule">
           <p class="text-xl mb-2 font-medium">{{ mod.module.name }}</p>
           <p>
             <span class="font-medium">

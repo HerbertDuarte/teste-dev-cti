@@ -5,7 +5,7 @@
         <q-toolbar-title>
           Painel do aluno
         </q-toolbar-title>
-        <q-toolbar-title class="text-[18px] bem-vindo">
+        <q-toolbar-title class="text-[18px] text-center bem-vindo">
           Bem vindo <b>{{ displayName }}</b>
         </q-toolbar-title>
         <q-toolbar-title class="text-end">
