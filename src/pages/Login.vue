@@ -15,13 +15,13 @@
       </h1>
 
       <form v-on:submit="handleSubmit"
-        class="flex flex-col justify-center items-end p-4 bg-white w-[90%] max-w-[600px] mx-auto rounded-xl shadow-lg">
+        class="flex flex-col justify-center items-end px-4 bg-white w-[90%] max-w-[600px] mx-auto rounded-xl shadow-lg py-6">
         <h1 class="sm:text-3xl text-2xl w-full text-center p-0 py-2 text-[#22487b] font-medium">Entre com sua conta</h1>
         <label class="text-start w-full mt-3 text-zinc-600 pl-1" for="user">Usuário</label>
         <input class="min-w-full bg-[#22487b10] text-[#22487b] focus:bg-[#22487be3] focus:text-white font-medium text-md p-3 rounded border-[#22487b]/30" type="text" v-model="inputUser" id="user" required />
         <label class="text-start w-full mt-3 text-zinc-600 pl-1" for="password">Senha</label>
         <input class="min-w-full bg-[#22487b10] text-[#22487b] focus:bg-[#22487be3] focus:text-white  font-medium text-md p-3 rounded border-[#22487b]/30" type="password" v-model="inputPassword" id="password" required />
-          <q-btn class="mt-4" tabindex="2" type="submit" color="primary">
+          <q-btn class="mt-7" tabindex="2" type="submit" color="primary">
             Entrar
           </q-btn>
         <div class="w-full flex justify-center items-center px-2">
