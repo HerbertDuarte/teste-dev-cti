@@ -25,7 +25,7 @@
             Entrar
           </q-btn>
       </form>
-      <div class="w-full flex justify-center items-center px-2">
+      <div class="w-[90%] flex justify-center items-center mx-auto">
           <SpanMsg v-if="error" :error="error" />
         </div>
     </div>
