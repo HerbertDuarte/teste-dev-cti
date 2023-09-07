@@ -110,7 +110,8 @@ async function handleSubmit(e) {
     setDisplayName(userData.data.displayName)
     reloadPage()
   } catch (err) {
-    error.value = err.response.data.message
+    if(err.response.data.message){error.value = err.response.data.message}
+    else{error.value = err}
     loading.value = false
 
   }
