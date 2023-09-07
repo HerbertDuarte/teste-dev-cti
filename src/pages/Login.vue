@@ -2,12 +2,12 @@
 <template>
   <main class="p-0 flex flex-row flex-nowrap min-h-screen bg-[#e4f0ff]" v-if="!loading">
 
-    <img class="absolute w-32 sm:w-40 mx-auto top-0 right-0 float-logo" src="src/assets/logo-pmvc.jpg" alt="logo PMVC">
+    <img class="absolute w-32 sm:w-40 mx-auto top-0 right-0 float-logo" src="https://www.pmvc.ba.gov.br/wp-content/uploads/logo-pmvc.jpg" alt="logo PMVC">
 
     <div class="flex-1 h-screen relative imagem">
-      <img class="absolute w-44 bottom-[50%] right-[50%] translate-x-24 translate-y-10" src="src/assets/logo-pmvc.jpg"
+      <img class="absolute w-44 bottom-[50%] right-[50%] translate-x-24 translate-y-10" src="https://www.pmvc.ba.gov.br/wp-content/uploads/logo-pmvc.jpg"
         alt="logo PMVC">
-      <img class="object-cover h-full" src="src/assets/pan-vitoria-da-conquista.jpg" alt="Vitoria da conquista">
+      <img class="object-cover h-full" src="https://www.pmvc.ba.gov.br/wp-content/uploads/pan-vitoria-da-conquista.jpg" alt="Vitoria da conquista">
     </div>
     <div class="max-w-[600px] w-full mx-auto rounded">
       <h1 class="text-xl xs:text-2xl sm:text-3xl text-center pb-4 text-slate-700">
