@@ -105,6 +105,7 @@ export default {
         this.name_value = ''
         this.date_value = ''
         this.cpf_value = ''
+        this.username_value = ''
       } catch (error) {
         this.formError = error.response.data.message.toString()
         this.formSuccess = ''

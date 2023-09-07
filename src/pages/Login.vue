@@ -113,13 +113,16 @@ async function handleSubmit(e) {
     reloadPage()
     } catch (err) {
       console.log(err)
-      error.value = err.response.data.message || err
+      error.value = err
       loading.value = false
     }
 
+
+
   } catch (err) {
     console.log(err)
-    error.value = err.response.data.message || err
+    if(err.response.data.message){error.value = err.response.data.message}
+    else{error.value = err}
     loading.value = false
 
   }
