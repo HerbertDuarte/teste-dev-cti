@@ -24,10 +24,10 @@
           <q-btn class="mt-7" tabindex="2" type="submit" color="primary">
             Entrar
           </q-btn>
-        <div class="w-full flex justify-center items-center px-2">
+      </form>
+      <div class="w-full flex justify-center items-center px-2">
           <SpanMsg v-if="error" :error="error" />
         </div>
-      </form>
     </div>
 
   </main>
@@ -110,7 +110,7 @@ async function handleSubmit(e) {
     setDisplayName(userData.data.displayName)
     reloadPage()
   } catch (err) {
-
+    error.value = err.response.data.message
     loading.value = false
 
   }
