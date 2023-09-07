@@ -13,6 +13,7 @@ import CTICard from 'src/components/CTI-Card.vue';
     <CTICard title="Alunos" icon="person">
       <!-- <span v-if="screenH">{{ screenH }}</span> -->
       <div class="w-full">
+        <SpanMsg :error="fetchError" />
         <q-table :filter="filter" :rows="students" :columns="columns" row-key="name" flat
           :pagination="{ rowsPerPage: rowsPerPage }">
           <template v-slot:top-left>
@@ -91,7 +92,6 @@ import CTICard from 'src/components/CTI-Card.vue';
         </q-table>
       </div>
     </CTICard>
-    <SpanMsg :error="fetchError" />
   </main>
 </template>
 
