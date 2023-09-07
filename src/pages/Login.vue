@@ -89,7 +89,8 @@ async function handleSubmit(e) {
   }
 
   try {
-    const res = await axios({
+    try {
+      const res = await axios({
       method: 'post',
       url,
       data: user
@@ -109,7 +110,16 @@ async function handleSubmit(e) {
     setUserName(userData.data.user)
     setDisplayName(userData.data.displayName)
     reloadPage()
+    } catch (err) {
+      console.log(err)
+      error.value = err
+      loading.value = false
+    }
+
+
+
   } catch (err) {
+    console.log(err)
     if(err.response.data.message){error.value = err.response.data.message}
     else{error.value = err}
     loading.value = false
