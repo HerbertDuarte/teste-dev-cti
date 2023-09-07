@@ -97,7 +97,7 @@ async function handleSubmit(e) {
       data: user
     })
 
-    console.log(res)
+    // console.log(res)
     setToken(res.data.hash)
 
     const { username } = res.data
@@ -113,16 +113,13 @@ async function handleSubmit(e) {
     reloadPage()
     } catch (err) {
       console.log(err)
-      error.value = err
+      error.value = err.response.data.message || err
       loading.value = false
     }
 
-
-
   } catch (err) {
     console.log(err)
-    if(err.response.data.message){error.value = err.response.data.message}
-    else{error.value = err}
+    error.value = err.response.data.message || err
     loading.value = false
 
   }
