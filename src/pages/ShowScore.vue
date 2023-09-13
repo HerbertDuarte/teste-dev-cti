@@ -42,7 +42,7 @@ import Loading from 'src/components/Loading.vue';
         </p>
       </div>
 
-      <div :class="{ 'hidden': isMobile }">
+      <div :class="{ 'hidden': showCircle }">
         <q-circular-progress v-if="data.media >= 5" show-value :value="data.media * 10" size="50px" :thickness="0.3"
           color="green-8" track-color="green-3" class="q-ma-md">
           <span class="font-extrabold text-lime-900">{{ Number(data.media).toFixed(1) }}</span>
@@ -173,6 +173,10 @@ export default defineComponent({
     },
 
     isMobile() {
+      return this.screenW < 350
+    },
+    showCircle() {
+
       return this.screenW < 450
     }
   },
