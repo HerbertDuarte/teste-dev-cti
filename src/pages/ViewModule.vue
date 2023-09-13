@@ -271,7 +271,7 @@ export default {
       }
     },
     async removeStudent(studentId) {
-
+      this.loading = true
       const url = 'modules/delete/student/'
 
       const body = {
