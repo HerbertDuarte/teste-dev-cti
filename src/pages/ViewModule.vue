@@ -11,8 +11,10 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <Loading v-if="!dataStudentsModule" />
     <q-card class="w-full" v-if="dataStudentsModule">
       <q-card-section class="row bg-grey-2 q-py-sm">
-        <q-icon size="md" name="group" />
-        <div class="text-h6 q-ml-sm"> Tabela de alunos - <strong>{{ dataModule.name }}</strong></div>
+        <div class="text-h6 q-ml-sm">
+          <q-icon class="pb-2" size="md" name="group" />
+          Tabela de alunos - <strong>{{ dataModule.name }}</strong>
+        </div>
       </q-card-section>
       <q-table :filter="moduleFilter" :rows="dataStudentsModule" :columns="columns2" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
@@ -54,8 +56,10 @@ import SpanMsg from 'src/components/SpanMsg.vue';
     <!-- ALUNOS NÃO REGISTRADOS -->
     <q-card class="w-full mt-5">
       <q-card-section class="row bg-grey-2 q-py-sm">
-        <q-icon size="md" name="person_add" />
-        <div class="text-h6 q-ml-sm">Alunos não registrados no módulo <strong>{{ dataModule.name }}</strong></div>
+        <div class="text-h6 q-ml-sm">
+          <q-icon class="pb-2" size="md" name="person_add" />
+          Alunos não registrados no módulo <strong>{{ dataModule.name }}</strong>
+        </div>
       </q-card-section>
       <q-table :rows="studentsWithOutModule" :columns="columns" row-key="name" :filter="filter">
         <template v-slot:top-left>

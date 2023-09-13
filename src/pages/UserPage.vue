@@ -6,8 +6,10 @@
     <q-card class="w-full" v-if="userData">
 
       <q-card-section class="row bg-grey-2 q-py-sm">
-        <q-icon size="md" name="group" />
-        <div class="text-h6 q-ml-sm">Meus dados</div>
+        <div class="text-h6 q-ml-sm">
+          <q-icon class="pb-2" size="md" name="group" />
+          Meus dados
+        </div>
       </q-card-section>
 
       <q-card-section>
@@ -48,8 +50,10 @@
     <q-card class="w-full mt-5" v-if="userData">
 
       <q-card-section class="row bg-grey-2 q-py-sm">
-        <q-icon size="md" name="format_list_numbered" />
-        <div class="text-h6 q-ml-sm">Minhas notas</div>
+        <div class="text-h6 q-ml-sm">
+          <q-icon class="pb-2" size="md" name="format_list_numbered" />
+          Minhas notas
+        </div>
       </q-card-section>
 
       <q-card-section class="flex justify-around gap-8">
