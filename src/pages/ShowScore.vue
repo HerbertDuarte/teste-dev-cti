@@ -173,7 +173,7 @@ export default defineComponent({
     },
 
     isMobile() {
-      return this.screenW < 350
+      return this.screenW < 450
     }
   },
 
