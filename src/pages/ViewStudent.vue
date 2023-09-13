@@ -59,7 +59,7 @@ import Loading from 'src/components/Loading.vue';
 
 <script>
 
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 
 export default {
   name: 'DataList',
@@ -81,7 +81,7 @@ export default {
       const url = 'students/list/' + this.idStudent
       this.loading = true
       try {
-        const response = await verifyToken({
+        const response = await api({
           method: 'get',
           url
         })
@@ -112,7 +112,7 @@ export default {
       }
 
       try {
-        await verifyToken({
+        await api({
           method: 'post',
           data: body,
           url

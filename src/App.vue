@@ -27,10 +27,12 @@ onBeforeMount(() => {
 
   const store = useTokenStore()
   const {token} = storeToRefs(store)
-  const {setRole, setToken, setUserName,setDisplayName} = store
+  const {setRole, setToken, setUserName,setDisplayName, logout} = store
   tokenRef.value = token
 
-  if(sessionStorage.getItem('access_token') && token){
+  if(!token || !(sessionStorage.getItem('access_token')) || (sessionStorage.getItem('access_token')) == 'undefined' || token == 'undefined'){
+    logout()
+  }else{
     setToken(sessionStorage.getItem('access_token'))
     auth.value = sessionStorage.getItem('access_token')
     setRole(sessionStorage.getItem('role'))
@@ -38,13 +40,6 @@ onBeforeMount(() => {
     setUserName(sessionStorage.getItem('username'))
     username.value = sessionStorage.getItem('username')
     setDisplayName(sessionStorage.getItem('display_name'))
-  }
-
-  if(sessionStorage.getItem('access_token') == 'undefined'){
-    sessionStorage.removeItem("access_token")
-    sessionStorage.removeItem("role")
-    sessionStorage.removeItem("username")
-    sessionStorage.removeItem("display_name")
   }
 })
 

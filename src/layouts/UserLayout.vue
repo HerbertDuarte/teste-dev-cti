@@ -9,7 +9,7 @@
           Bem vindo <b>{{ displayName }}</b>
         </q-toolbar-title>
         <q-toolbar-title class="text-end">
-          <q-btn @click="logout" flat round dense>
+          <q-btn @click="exit" flat round dense>
             <q-icon name="logout" />
             <q-tooltip>
               Sair
@@ -33,7 +33,7 @@
 }
 </style>
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useTokenStore } from 'src/stores/token'
 import { storeToRefs } from 'pinia'
 
@@ -42,7 +42,14 @@ export default defineComponent({
   data() {
     return {
       displayName: '',
-      logout : null,
+      logout: null,
+    }
+  },
+
+  methods: {
+    exit() {
+      this.logout()
+      location.reload()
     }
   },
 

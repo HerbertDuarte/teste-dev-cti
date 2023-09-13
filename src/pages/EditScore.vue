@@ -49,7 +49,7 @@ import CTICard from 'src/components/CTI-Card.vue';
   </main>
 </template>
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 export default {
   data() {
     return {
@@ -99,7 +99,7 @@ export default {
       }
 
       try {
-        await verifyToken({
+        await api({
           method: 'put',
           data: body,
           url
@@ -116,7 +116,7 @@ export default {
     async fetchData() {
       this.loading = true
       const url = 'modules/student/list/' + this.$route.params.id
-      const response = await verifyToken({
+      const response = await api({
         method: 'get',
         url
       })

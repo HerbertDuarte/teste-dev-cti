@@ -96,7 +96,7 @@ import Loading from 'src/components/Loading.vue';
 </template>
 
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 import { useQuasar } from 'quasar';
 import { defineComponent } from 'vue';
 
@@ -124,7 +124,7 @@ export default defineComponent({
     async fetchData() {
       this.loading = true
       const url = 'modules/score/' + this.connectionId
-      const response = await verifyToken({
+      const response = await api({
         method: 'get',
         url
       })
@@ -145,7 +145,7 @@ export default defineComponent({
       this.closeDeleteDialog()
 
       try {
-        await verifyToken({
+        await api({
           method: 'post',
           url,
           data: body,

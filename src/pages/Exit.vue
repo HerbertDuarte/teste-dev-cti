@@ -22,6 +22,7 @@ const {logout} = store
 
 function handleClick() {
   logout()
+  location.reload()
 }
 
 </script>

@@ -94,7 +94,7 @@ import CTICard from 'src/components/CTI-Card.vue';
 </template>
 
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 import Loading from 'src/components/Loading.vue';
 import { useQuasar } from 'quasar';
 
@@ -135,7 +135,7 @@ export default {
       const url = 'modules/list'
 
       try {
-        const response = await verifyToken({
+        const response = await api({
           method: 'get',
           url
         })
@@ -167,7 +167,7 @@ export default {
 
       this.loading = true
       try {
-        await verifyToken({
+        await api({
           method: 'delete',
           url: 'modules/delete/' + this.currentModule.id
         })
@@ -184,7 +184,7 @@ export default {
 
       this.loading = true
       try {
-        await verifyToken({
+        await api({
           method: 'put',
           url: 'modules/update/' + this.currentModule.id,
           data: {

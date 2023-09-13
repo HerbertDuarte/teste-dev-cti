@@ -36,7 +36,8 @@ import CTICard from 'src/components/CTI-Card.vue';
 </template>
 
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
+import { api } from 'src/boot/axios';
 
 export default {
   data() {
@@ -56,7 +57,7 @@ export default {
       this.loading = true
       const url = 'students/list/' + this.$route.params.id
 
-      const response = await verifyToken({
+      const response = await api({
         method: 'get',
         url
       })
@@ -115,7 +116,7 @@ export default {
         // validations --end
 
         this.loading = true
-        verifyToken({
+        api({
           method: 'put',
           data: this.student,
           url

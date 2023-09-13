@@ -67,8 +67,8 @@
             <span class="font-medium">
               Média :
             </span>
-            <span :class="mod.media >= 5 ? 'text-green-800' : 'text-red-900'">
-              {{ mod.media }}
+            <span :class="mod.media == 'NaN' ? 'text-purple-800' :(mod.media >= 5 ? 'text-green-800' : 'text-red-900')">
+              {{ mod.media == 'NaN' ? 'Sem notas' : mod.media}}
             </span>
           </p>
 
@@ -81,6 +81,9 @@
             </span>
             <span class="text-red-900" v-if="mod.media < 5">
               Reprovado(a)
+            </span>
+            <span class="text-purple-900" v-if="mod.media == 'NaN'">
+              Irregular
             </span>
           </p>
 
@@ -111,13 +114,6 @@
 import { onBeforeMount, ref } from 'vue';
 import SpanMsg from 'src/components/SpanMsg.vue';
 import { api } from 'src/boot/axios';
-import { useTokenStore } from 'src/stores/token';
-
-
-
-const store = useTokenStore()
-
-const { logout } = store
 
 const props = defineProps(['user'])
 const username = props.user
@@ -128,6 +124,8 @@ const body = ref({
   username,
   hash: sessionStorage.getItem('access_token')
 })
+
+
 
 async function fetchData() {
 

@@ -35,7 +35,7 @@ import Loading from 'src/components/Loading.vue';
 </template>
 
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 
 export default {
   data() {
@@ -94,7 +94,7 @@ export default {
       }
 
       try {
-        await verifyToken({
+        await api({
           method: 'post',
           data: this.student,
           url

@@ -2,10 +2,10 @@ import { defineStore } from 'pinia';
 
 export const useTokenStore = defineStore('token', {
   state: () => ({
-    token: sessionStorage.getItem('access_token') ? sessionStorage.getItem('access_token') : undefined,
-    role: sessionStorage.getItem('role') ? sessionStorage.getItem('role') : undefined,
-    username: sessionStorage.getItem('username') ? sessionStorage.getItem('username') : undefined,
-    displayName: sessionStorage.getItem('display_name') ? sessionStorage.getItem('display_name') : undefined,
+    token:  sessionStorage.getItem('access_token'),
+    role: sessionStorage.getItem('role'),
+    username: sessionStorage.getItem('username'),
+    displayName: sessionStorage.getItem('display_name')
   }),
   getters: {
     doubleCount: (state) => state.counter * 2,
@@ -36,7 +36,6 @@ export const useTokenStore = defineStore('token', {
       this.username = undefined
       sessionStorage.removeItem('display_name')
       this.displayName = undefined
-      location.reload()
     }
   },
 });

@@ -97,7 +97,7 @@ import CTICard from 'src/components/CTI-Card.vue';
 
 <script>
 import { ref } from 'vue';
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 import { useQuasar } from 'quasar';
 
 export default {
@@ -155,7 +155,7 @@ export default {
       this.loading = true
 
       try {
-        const response = await verifyToken({
+        const response = await api({
           method: 'get',
           url
         })
@@ -194,7 +194,7 @@ export default {
       this.loading = true
       const url = 'students/delete/' + this.currentStudent.id
 
-      verifyToken({
+      api({
         method: 'delete',
         url
       })

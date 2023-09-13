@@ -26,7 +26,7 @@ import CTICard from 'src/components/CTI-Card.vue';
 </template>
 
 <script>
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios';
 
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
       e.preventDefault()
       const newModule = { name: this.module_name }
       const url = 'modules/create'
-      verifyToken({
+      api({
         method: 'post',
         data: newModule,
         url

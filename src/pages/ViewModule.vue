@@ -133,7 +133,7 @@ import ShowScore from './ShowScore.vue';
 import ViewStudent from './ViewStudent.vue';
 import '../index.css'
 
-import verifyToken from 'src/boot/VerifyToken';
+import {api} from 'src/boot/axios'
 import { ref } from 'vue';
 
 export default {
@@ -209,7 +209,7 @@ export default {
       this.loading = true
       const url = 'modules/list/' + this.$route.params.id
 
-      const response = await verifyToken({
+      const response = await api({
         method: 'get',
         url
       })
@@ -240,7 +240,7 @@ export default {
       this.loading = true
       const url = 'students/list/'
 
-      const response = await verifyToken({
+      const response = await api({
         method: 'get',
         url
       })
@@ -259,7 +259,7 @@ export default {
       }
 
       try {
-        await verifyToken({
+        await api({
           method: 'post',
           url,
           data: body
@@ -282,7 +282,7 @@ export default {
       this.closeDeleteDialog()
 
       try {
-        await verifyToken({
+        await api({
           method: 'post',
           url,
           data: body,
