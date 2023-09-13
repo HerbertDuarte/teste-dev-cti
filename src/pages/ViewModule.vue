@@ -269,7 +269,6 @@ export default {
         this.loading = false
         this.addStudentsError = 'Erro ao adicionar o aluno. Erro : ' + error
       }
-      this.loading = false
     },
     async removeStudent(studentId) {
 
