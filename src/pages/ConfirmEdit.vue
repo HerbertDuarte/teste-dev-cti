@@ -37,7 +37,6 @@ import CTICard from 'src/components/CTI-Card.vue';
 
 <script>
 import {api} from 'src/boot/axios';
-import { api } from 'src/boot/axios';
 
 export default {
   data() {
