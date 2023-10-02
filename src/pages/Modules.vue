@@ -22,16 +22,19 @@ import CTICard from "src/components/CTI-Card.vue";
           flat
           :pagination="{ rowsPerPage: rowsPerPage }"
         >
-          <template v-slot:top-left>
-            <div class="space-x-3">
-              <q-btn to="/modules/create" color="primary">
-                <q-icon v-if="$q.screen.width < 500" name="add" />
-                <span v-if="$q.screen.width >= 500">Cadastrar módulo</span>
-              </q-btn>
-            </div>
-          </template>
-          <template v-slot:top-right>
-            <q-input dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:top>
+            <q-btn class="mr-3" to="/modules/create" color="primary">
+              <q-icon name="add" />
+              <span class="pl-1" v-if="$q.screen.width >= 500">Cadastrar módulo</span>
+            </q-btn>
+
+            <q-input
+              class="flex-1"
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
               <template v-slot:append>
                 <q-icon name="search" />
               </template>

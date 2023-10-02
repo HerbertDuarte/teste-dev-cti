@@ -23,14 +23,19 @@ import CTICard from 'src/components/CTI-Card.vue';
           flat
 
           :pagination="{ rowsPerPage: rowsPerPage }">
-          <template v-slot:top-left>
-            <q-btn to="/register" color="primary">
-              <q-icon v-if="$q.screen.width < 500" name="add" />
-              <span v-if="$q.screen.width >= 500">Registrar Aluno</span>
+          <template v-slot:top>
+            <q-btn class="mr-3" to="/register" color="primary">
+              <q-icon name="add" />
+              <span class="pl-1" v-if="$q.screen.width >= 500">Registrar aluno</span>
             </q-btn>
-          </template>
-          <template v-slot:top-right>
-            <q-input dense debounce="300" v-model="filter" placeholder="Search">
+
+            <q-input
+              class="flex-1"
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
               <template v-slot:append>
                 <q-icon name="search" />
               </template>

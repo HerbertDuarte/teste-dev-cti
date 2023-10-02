@@ -19,17 +19,18 @@ import SpanMsg from 'src/components/SpanMsg.vue';
       <q-table :filter="moduleFilter" :rows="dataStudentsModule" :columns="columns2" row-key="name"
         no-data-label="Nenhum aluno registrado nesse módulo">
         <template v-slot:top-left>
-          <p class="text-zinc-600 text-lg">
-            Alunos
-          </p>
-        </template>
-        <template v-slot:top-right>
-          <q-input dense debounce="300" v-model="moduleFilter" placeholder="Search">
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </template>
+
+            <q-input
+              dense
+              debounce="300"
+              v-model="moduleFilter"
+              placeholder="Search"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
         <template v-slot:body-cell-actions="props">
           <q-td class="text-right space-x-2">
             <q-btn @click="openViewStudentDialog(props.row)" color="secondary" size="sm">
