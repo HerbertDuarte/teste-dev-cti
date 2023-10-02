@@ -14,7 +14,14 @@ import CTICard from 'src/components/CTI-Card.vue';
       <!-- <span v-if="screenH">{{ screenH }}</span> -->
       <div class="w-full">
         <SpanMsg :error="fetchError" />
-        <q-table :filter="filter" :rows="students" :columns="columns" row-key="name" flat
+
+        <q-table
+          :filter="filter"
+          :rows="students"
+          :columns="columns"
+          row-key="name"
+          flat
+
           :pagination="{ rowsPerPage: rowsPerPage }">
           <template v-slot:top-left>
             <q-btn to="/register" color="primary">

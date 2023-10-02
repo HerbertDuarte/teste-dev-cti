@@ -100,6 +100,7 @@ async function handleSubmit(e) {
 
     const { user : username} = res.data.user
     const token = res.data.access_token
+
     const userData = await api({
       method: 'get',
       url: `user/find/${username}`,
@@ -108,7 +109,7 @@ async function handleSubmit(e) {
       }
     })
 
-    
+
 
     setToken(token)
     setRole(userData.data.role)

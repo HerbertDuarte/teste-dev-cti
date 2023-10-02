@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers'
 import axios from 'axios'
-  
+
 const api = axios.create({ baseURL: String(process.env.API_URL) })
 
 api.interceptors.request.use((config) => {
