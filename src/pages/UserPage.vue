@@ -126,7 +126,7 @@
       </q-card-section>
 
       <q-card-section>
-        <span>Não há registros de módulos para esse aluno!</span>
+        <span v-if="userDataModule.length == 0">Não há registros de módulos para esse aluno!</span>
       </q-card-section>
     </q-card>
   </main>

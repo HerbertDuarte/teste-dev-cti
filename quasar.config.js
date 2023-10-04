@@ -53,13 +53,13 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16'
       },
       env:
-      // require('dotenv').config().parsed,
-      {
-        // You have to manually define all the variables you want to pass in
-        API_URL: process.env.API_URL,
-        LOGIN_URL : process.env.LOGIN_URL,
-        // ...
-      },
+      require('dotenv').config().parsed,
+      // {
+      //   // You have to manually define all the variables you want to pass in
+      //   API_URL: process.env.API_URL,
+      //   LOGIN_URL : process.env.LOGIN_URL,
+      //   // ...
+      // },
       vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
