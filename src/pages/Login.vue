@@ -81,7 +81,7 @@ async function handleSubmit(e) {
   e.preventDefault()
   loading.value = true
   error.value = ''
-  const url = process.env.LOGIN_URL
+  const url = 'https://ge-pmvc-api.onrender.com/auth/login'
 
   const user = {
     username: inputUser.value,
